@@ -10,14 +10,19 @@ const TAPE_ITEMS = [
   "42 Beirut", "CMA CGM", "Workflow Design", "Digital Transformation", "Enterprise Tools",
 ];
 
-function MarqueeTape() {
+function MarqueeTape({ reversed = false }: { reversed?: boolean }) {
   const doubled = [...TAPE_ITEMS, ...TAPE_ITEMS];
+  const anim = reversed ? "tape-scroll-rev 32s linear infinite" : "tape-scroll 30s linear infinite";
+  const rowColors = reversed
+    ? [(ci: number) => ci % 4 === 0 ? "var(--cyan-arc)" : ci % 4 === 1 ? "rgba(173,201,255,.28)" : ci % 4 === 2 ? "var(--automate-purple-bright)" : "rgba(173,201,255,.18)"]
+    : [(ci: number) => ci % 4 === 0 ? "var(--power-blue-bright)" : ci % 4 === 1 ? "var(--text-muted)" : ci % 4 === 2 ? "var(--cyan-arc)" : "rgba(173,201,255,.3)"];
+  const colorFn = rowColors[0];
+
   return (
-    <div style={{ overflow: "hidden", borderTop: "1px solid rgba(173,201,255,.06)", borderBottom: "1px solid rgba(173,201,255,.06)", background: "rgba(71,164,255,.015)", position: "relative" }}>
-      {/* Fade masks */}
+    <div style={{ overflow: "hidden", borderTop: "1px solid rgba(173,201,255,.06)", borderBottom: reversed ? "none" : "1px solid rgba(173,201,255,.06)", background: reversed ? "rgba(67,214,201,.008)" : "rgba(71,164,255,.015)", position: "relative" }}>
       <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: "8rem", background: "linear-gradient(90deg,rgba(7,17,28,1),transparent)", zIndex: 1, pointerEvents: "none" }} />
       <div style={{ position: "absolute", right: 0, top: 0, bottom: 0, width: "8rem", background: "linear-gradient(270deg,rgba(7,17,28,1),transparent)", zIndex: 1, pointerEvents: "none" }} />
-      <div style={{ display: "flex", width: "max-content", animation: "tape-scroll 30s linear infinite", padding: "13px 0" }}>
+      <div style={{ display: "flex", width: "max-content", animation: anim, padding: "11px 0" }}>
         {doubled.map((item, i) => (
           <div key={i} style={{ display: "flex", alignItems: "center", padding: "0 1.75rem", whiteSpace: "nowrap" }}>
             <span style={{
@@ -25,10 +30,7 @@ function MarqueeTape() {
               fontSize: "10.5px",
               letterSpacing: "0.13em",
               textTransform: "uppercase",
-              color: i % 4 === 0 ? "var(--power-blue-bright)"
-                : i % 4 === 1 ? "var(--text-muted)"
-                : i % 4 === 2 ? "var(--cyan-arc)"
-                : "rgba(173,201,255,.3)",
+              color: colorFn(i),
             }}>
               {item}
             </span>
@@ -85,8 +87,9 @@ export default function Footer() {
         }
       `}</style>
 
-      {/* Marquee tape */}
+      {/* Dual marquee tape — forward + reverse */}
       <MarqueeTape />
+      <MarqueeTape reversed />
 
       {/* Main content */}
       <div style={{ background: "linear-gradient(180deg,rgba(10,22,36,.98),rgba(7,17,28,1))", borderTop: "1px solid rgba(173,201,255,.05)", position: "relative" }}>

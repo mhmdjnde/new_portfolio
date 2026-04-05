@@ -403,3 +403,200 @@ p { text-wrap: pretty; }
     html, body, a, button, [role="button"], input, textarea, select { cursor: auto; }
   }
 }
+
+/* ══════════════════════════════════════════════════════════
+   ✦  CREATIVE LAYER — Advanced Animations & Visual FX
+   ══════════════════════════════════════════════════════════ */
+
+@keyframes shimmer-slide {
+  0%   { transform: translateX(-100%) skewX(-20deg); opacity: 0; }
+  8%   { opacity: 0.85; }
+  100% { transform: translateX(230%)  skewX(-20deg); opacity: 0; }
+}
+@keyframes particle-rise {
+  0%   { transform: translateY(0)      translateX(0)                     scale(1);    opacity: 0; }
+  12%  { opacity: 0.9; }
+  88%  { opacity: 0.35; }
+  100% { transform: translateY(-170px) translateX(var(--drift, 16px))    scale(0.18); opacity: 0; }
+}
+@keyframes spin-orbit {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes spin-orbit-rev {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(-360deg); }
+}
+@keyframes scan-sweep {
+  0%   { top: -3px;            opacity: 0; }
+  4%   { opacity: 1; }
+  96%  { opacity: 0.65; }
+  100% { top: calc(100% + 3px); opacity: 0; }
+}
+@keyframes grad-border-spin {
+  from { background-position: 0% 50%; }
+  to   { background-position: 200% 50%; }
+}
+@keyframes scale-pop {
+  0%   { transform: scale(0.86); opacity: 0; }
+  65%  { transform: scale(1.04); }
+  100% { transform: scale(1);    opacity: 1; }
+}
+@keyframes morph-blob {
+  0%,100% { border-radius: 55% 45% 35% 65% / 60% 40% 65% 40%; }
+  33%     { border-radius: 40% 60% 65% 35% / 45% 55% 40% 60%; }
+  66%     { border-radius: 65% 35% 40% 60% / 35% 60% 55% 45%; }
+}
+@keyframes glow-breathe {
+  0%,100% { box-shadow: 0 0 18px rgba(71,164,255,0.18); }
+  50%     { box-shadow: 0 0 44px rgba(71,164,255,0.42), 0 0 82px rgba(71,164,255,0.12); }
+}
+@keyframes tape-scroll-rev {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0); }
+}
+@keyframes progress-bar-fill {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+@keyframes connector-dash {
+  0%   { stroke-dashoffset: 200; opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 0.7; }
+  100% { stroke-dashoffset: 0;   opacity: 0; }
+}
+
+/* ─── Floating particle ─── */
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  will-change: transform, opacity;
+  animation: particle-rise var(--dur, 7s) var(--delay, 0s) ease-in infinite;
+}
+
+/* ─── Card shimmer on hover ─── */
+.shimmer-card {
+  position: relative;
+  overflow: hidden;
+}
+.shimmer-card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 50%; height: 100%;
+  background: linear-gradient(
+    105deg,
+    transparent 35%,
+    rgba(255,255,255,0.06) 50%,
+    transparent 65%
+  );
+  pointer-events: none;
+  z-index: 2;
+  transform: skewX(-18deg);
+}
+.shimmer-card:hover::after {
+  animation: shimmer-slide 0.85s ease forwards;
+}
+
+/* ─── Vertical scanner line ─── */
+.scanner-wrap {
+  position: relative;
+  overflow: hidden;
+}
+.scanner-line {
+  position: absolute;
+  left: 0; right: 0;
+  height: 1.5px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(71,164,255,0.0)  6%,
+    rgba(71,164,255,0.60) 40%,
+    rgba(67,214,201,0.55) 60%,
+    rgba(71,164,255,0.0)  94%,
+    transparent 100%
+  );
+  animation: scan-sweep 9s ease-in-out 1.5s infinite;
+  pointer-events: none;
+  z-index: 4;
+  filter: blur(0.5px);
+}
+
+/* ─── Mastery progress bar ─── */
+.mastery-track {
+  height: 3px;
+  border-radius: 2px;
+  background: rgba(255,255,255,0.07);
+  overflow: hidden;
+}
+.mastery-fill {
+  height: 100%;
+  border-radius: 2px;
+  position: relative;
+  overflow: hidden;
+}
+.mastery-fill::after {
+  content: '';
+  position: absolute;
+  right: -1px; top: 0; bottom: 0;
+  width: 8px;
+  background: rgba(255,255,255,0.55);
+  filter: blur(2.5px);
+  animation: glow-pulse 2.2s ease-in-out infinite;
+}
+
+/* ─── Animated gradient border on hover ─── */
+.grad-border-hover {
+  position: relative;
+  isolation: isolate;
+}
+.grad-border-hover::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: linear-gradient(
+    90deg,
+    var(--power-blue),
+    var(--cyan-arc),
+    var(--automate-purple),
+    var(--power-blue)
+  );
+  background-size: 300% 100%;
+  animation: grad-border-spin 3s linear infinite paused;
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: -1;
+}
+.grad-border-hover:hover::before {
+  opacity: 0.5;
+  animation-play-state: running;
+}
+
+/* ─── Tilt perspective wrapper ─── */
+.tilt-perspective { perspective: 900px; }
+
+/* ─── Strong glow utilities ─── */
+.glow-lg-blue   { box-shadow: 0 0 50px rgba(71,164,255,0.36),  0 0 88px rgba(71,164,255,0.12); }
+.glow-lg-purple { box-shadow: 0 0 50px rgba(126,124,255,0.36), 0 0 88px rgba(126,124,255,0.12); }
+.glow-lg-cyan   { box-shadow: 0 0 50px rgba(67,214,201,0.36),  0 0 88px rgba(67,214,201,0.12); }
+
+/* ─── Animated utilities ─── */
+.animate-glow-breathe { animation: glow-breathe 3.5s ease-in-out infinite; }
+.animate-morph        { animation: morph-blob 14s ease-in-out infinite; }
+.animate-scale-pop    { animation: scale-pop 0.55s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.animate-spin-orbit   { animation: spin-orbit 8s linear infinite; }
+.animate-spin-rev     { animation: spin-orbit-rev 12s linear infinite; }
+
+/* ─── Scroll progress bar ─── */
+.scroll-progress {
+  position: fixed;
+  top: 0; left: 0;
+  height: 2px;
+  z-index: 200;
+  background: linear-gradient(90deg, var(--power-blue), var(--cyan-arc), var(--automate-purple));
+  box-shadow: 0 0 8px rgba(71,164,255,0.6), 0 0 16px rgba(67,214,201,0.3);
+  pointer-events: none;
+  transform-origin: left;
+}

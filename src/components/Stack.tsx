@@ -177,34 +177,37 @@ export default function Stack() {
               </span>
             </div>
 
-            {/* Scrolling connectors */}
-            <div className="relative overflow-hidden flex items-center" style={{ height: 52 }}>
-              {/* Fade masks */}
-              <div className="absolute left-0 top-0 bottom-0 w-14 z-10 pointer-events-none" style={{ background: "linear-gradient(90deg, rgba(0,10,25,0.9), transparent)" }} />
-              <div className="absolute right-0 top-0 bottom-0 w-14 z-10 pointer-events-none" style={{ background: "linear-gradient(270deg, rgba(0,10,25,0.9), transparent)" }} />
-
-              <motion.div
-                animate={{ x: [0, -1680] }}
-                transition={{ duration: 34, repeat: Infinity, ease: "linear" }}
-                className="flex items-center gap-2.5 absolute whitespace-nowrap pl-6"
-              >
-                {CONNECTORS.map((name, i) => (
-                  <span
-                    key={i}
-                    className="rounded-full px-3.5 py-1.5 text-[11px]"
-                    style={{
-                      fontFamily: "var(--font-mono)",
-                      color: "rgba(71,164,255,0.85)",
-                      background: "rgba(71,164,255,0.07)",
-                      border: "1px solid rgba(71,164,255,0.18)",
-                      flexShrink: 0,
-                    }}
-                  >
-                    {name}
-                  </span>
-                ))}
-              </motion.div>
-            </div>
+            {/* Scrolling connectors — dual rows, opposite directions */}
+            {[
+              { x: [0, -1680], delay: 0,  colors: { text: "rgba(71,164,255,0.85)",  bg: "rgba(71,164,255,0.07)",  border: "rgba(71,164,255,0.18)" } },
+              { x: [-1680, 0], delay: -8, colors: { text: "rgba(67,214,201,0.75)", bg: "rgba(67,214,201,0.06)", border: "rgba(67,214,201,0.16)" } },
+            ].map((row, ri) => (
+              <div key={ri} className="relative overflow-hidden flex items-center" style={{ height: 46 }}>
+                <div className="absolute left-0 top-0 bottom-0 w-14 z-10 pointer-events-none" style={{ background: "linear-gradient(90deg, rgba(0,10,25,0.92), transparent)" }} />
+                <div className="absolute right-0 top-0 bottom-0 w-14 z-10 pointer-events-none" style={{ background: "linear-gradient(270deg, rgba(0,10,25,0.92), transparent)" }} />
+                <motion.div
+                  animate={{ x: row.x }}
+                  transition={{ duration: 34, repeat: Infinity, ease: "linear", delay: row.delay }}
+                  className="flex items-center gap-2.5 absolute whitespace-nowrap pl-6"
+                >
+                  {CONNECTORS.map((name, i) => (
+                    <span
+                      key={i}
+                      className="rounded-full px-3.5 py-1.5 text-[11px]"
+                      style={{
+                        fontFamily: "var(--font-mono)",
+                        color:      row.colors.text,
+                        background: row.colors.bg,
+                        border:     `1px solid ${row.colors.border}`,
+                        flexShrink: 0,
+                      }}
+                    >
+                      {name}
+                    </span>
+                  ))}
+                </motion.div>
+              </div>
+            ))}
           </div>
         </motion.div>
       </div>

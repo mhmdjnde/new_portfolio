@@ -96,6 +96,32 @@ export default function Hero() {
         style={{ background: "rgba(126, 124, 255, 0.1)" }}
       />
 
+      {/* ── Particle field ── */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {Array.from({ length: 24 }).map((_, i) => {
+          const colors = ["#47A4FF", "#7E7CFF", "#43D6C9", "#4FD29F"];
+          const glows  = ["rgba(71,164,255,0.9)", "rgba(126,124,255,0.9)", "rgba(67,214,201,0.9)", "rgba(79,210,159,0.9)"];
+          const ci = i % 4;
+          return (
+            <div
+              key={i}
+              className="particle"
+              style={{
+                left:   `${((i * 47 + 11) % 100).toFixed(0)}%`,
+                top:    `${((i * 31 + 7)  % 80 + 5).toFixed(0)}%`,
+                width:  i % 4 === 0 ? "3px" : "2px",
+                height: i % 4 === 0 ? "3px" : "2px",
+                background: colors[ci],
+                boxShadow:  `0 0 7px ${glows[ci]}`,
+                "--dur":   `${(5 + ((i * 1.3) % 7)).toFixed(1)}s`,
+                "--delay": `${((i * 0.73) % 5).toFixed(1)}s`,
+                "--drift": `${(i % 2 === 0 ? 1 : -1) * (6 + (i * 3) % 22)}px`,
+              } as React.CSSProperties}
+            />
+          );
+        })}
+      </div>
+
       <div className="section-container relative z-10 w-full pt-32 pb-20 md:pt-40 md:pb-28">
         <div className="grid items-center gap-16 lg:grid-cols-[minmax(0,1fr)_28rem] lg:gap-20 xl:grid-cols-[minmax(0,1fr)_30rem]">
           <div className="max-w-3xl">
@@ -142,9 +168,10 @@ export default function Hero() {
                 transition={{ duration: 0.65, delay: 0.36 }}
                 className="flex flex-wrap gap-3"
               >
-                <a href="#projects" className="btn-primary">
-                  <Layers size={15} />
-                  View projects
+                <a href="#projects" className="btn-primary relative overflow-hidden group/btn">
+                  <span className="absolute inset-0 rounded-[14px] animate-ping opacity-[0.15]" style={{ background: "rgba(71,164,255,0.5)", animationDuration: "1.8s" }} />
+                  <Layers size={15} className="relative z-10" />
+                  <span className="relative z-10">View projects</span>
                 </a>
                 <a href="#contact" className="btn-ghost">
                   <Sparkles size={15} />
@@ -221,7 +248,9 @@ export default function Hero() {
             transition={{ duration: 0.9, delay: 0.24, ease: [0.16, 1, 0.3, 1] }}
             className="relative mx-auto w-full max-w-[30rem]"
           >
-            <div className="card-elevated noise-overlay relative overflow-hidden rounded-[2rem] p-8 sm:p-9">
+            <div className="card-elevated noise-overlay scanner-wrap shimmer-card relative overflow-hidden rounded-[2rem] p-8 sm:p-9">
+              {/* Scanner sweep */}
+              <div className="scanner-line" />
               <div className="absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-[rgba(143,213,255,0.8)] to-transparent" />
 
               <div className="mb-10 flex items-start justify-between gap-4">
