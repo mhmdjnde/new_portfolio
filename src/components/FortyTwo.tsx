@@ -2,34 +2,40 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Code2, Cpu, Network, Box, Layers, CheckCircle2 } from "lucide-react";
+import { Code2, Cpu, Network, Box, Layers, CheckCircle2, Globe, Smartphone, ArrowUpRight } from "lucide-react";
 import { FORTY_TWO_PROJECTS } from "@/lib/data";
 import { GithubIcon } from "@/components/ui/SocialIcons";
 
 const categoryConfig = {
   Core: { icon: Box, color: "#0078D4" },
   Systems: { icon: Cpu, color: "#742774" },
-  Algorithms: { icon: Code2, color: "#0099BC" },
   Graphics: { icon: Layers, color: "#CA3CCA" },
   Concurrency: { icon: Cpu, color: "#038387" },
   OOP: { icon: Code2, color: "#C4960E" },
   Network: { icon: Network, color: "#0078D4" },
+  Web: { icon: Globe, color: "#43D6C9" },
+  Mobile: { icon: Smartphone, color: "#7F52FF" },
 };
 
-const CATEGORIES = ["All", ...Object.keys(categoryConfig)];
+const CATEGORY_ORDER = ["Core", "Systems", "Graphics", "Concurrency", "OOP", "Network", "Web", "Mobile"];
+const CATEGORIES = ["All", ...CATEGORY_ORDER.filter((category) => FORTY_TWO_PROJECTS.some((project) => project.category === category))];
 
 export default function FortyTwo() {
   const [activeCategory, setActiveCategory] = useState("All");
   const filtered = activeCategory === "All" ? FORTY_TWO_PROJECTS : FORTY_TWO_PROJECTS.filter((p) => p.category === activeCategory);
 
   return (
-    <section id="forty-two" className="relative py-32">
+    <section
+      id="forty-two"
+      className="relative py-32"
+      style={{ marginTop: "clamp(4.5rem, 8vw, 7rem)" }}
+    >
       <div className="absolute inset-0 dot-bg opacity-50" />
       <div className="absolute inset-x-0 top-0 section-line" />
 
-      <div className="relative max-w-7xl mx-auto px-8">
+      <div className="relative section-container">
         {/* Header */}
-        <div className="grid lg:grid-cols-2 gap-12 items-end mb-14">
+        <div className="mb-20 grid items-end gap-16 lg:grid-cols-[minmax(0,1.1fr)_minmax(18rem,0.9fr)] xl:gap-20">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -44,9 +50,9 @@ export default function FortyTwo() {
               Original Curriculum
               <span className="text-gradient-purple block">Completed 2025</span>
             </h2>
-            <p className="text-[var(--text-secondary)] text-[17px] leading-relaxed" style={{ fontFamily: "var(--font-body)" }}>
+            <p className="max-w-2xl text-[17px] leading-relaxed text-[var(--text-secondary)]" style={{ fontFamily: "var(--font-body)" }}>
               42 Beirut trains through radical peer learning — no teachers, no lectures, only project-based challenges.
-              I completed the <strong>original curriculum track</strong> in July 2025 (not the 2026 restructured version).
+              I completed the <strong>original curriculum track</strong> in July 2025, and the grid below now shows only repositories from my repo list that are actually tied to 42 Beirut work.
             </p>
           </motion.div>
 
@@ -56,14 +62,14 @@ export default function FortyTwo() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="grid grid-cols-3 gap-4"
+            className="grid grid-cols-3 gap-5"
           >
             {[
               { value: "Jun 2024", label: "Joined", color: "#0078D4" },
               { value: "Jul 2025", label: "Graduated", color: "#742774" },
-              { value: `${FORTY_TWO_PROJECTS.length}+`, label: "Projects", color: "#0099BC" },
+              { value: `${FORTY_TWO_PROJECTS.length}`, label: "Repos Shown", color: "#0099BC" },
             ].map((s) => (
-              <div key={s.label} className="card-elevated rounded-xl p-5 text-center">
+              <div key={s.label} className="card-elevated rounded-[1.35rem] p-7 text-center">
                 <div className="text-xl font-extrabold mb-1.5 leading-tight" style={{ fontFamily: "var(--font-display)", color: s.color }}>
                   {s.value}
                 </div>
@@ -79,17 +85,17 @@ export default function FortyTwo() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="rounded-2xl p-5 mb-10"
+          className="mb-14 rounded-[1.9rem] p-7 md:p-8"
           style={{ background: "linear-gradient(135deg, var(--automate-purple-light), var(--power-blue-light))", border: "1px solid rgba(116,39,116,0.12)" }}
         >
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 gap-5 md:grid-cols-4">
             {[
               { label: "Low-level C Programming", icon: Code2 },
               { label: "Unix Systems & Processes", icon: Cpu },
               { label: "Network Protocols (IRC)", icon: Network },
               { label: "Peer Code Review", icon: CheckCircle2 },
             ].map((item) => (
-              <div key={item.label} className="flex items-center gap-2.5">
+              <div key={item.label} className="flex items-center gap-3">
                 <item.icon size={13} className="text-[var(--automate-purple-bright)] flex-shrink-0" />
                 <span className="text-[14px] text-[var(--text-secondary)]" style={{ fontFamily: "var(--font-body)" }}>{item.label}</span>
               </div>
@@ -98,7 +104,7 @@ export default function FortyTwo() {
         </motion.div>
 
         {/* Category filters */}
-        <div className="flex flex-wrap gap-2 mb-8">
+        <div className="mb-12 flex flex-wrap gap-3.5">
           {CATEGORIES.map((cat) => (
             <button
               key={cat}
@@ -118,7 +124,7 @@ export default function FortyTwo() {
         </div>
 
         {/* Projects grid */}
-        <motion.div layout className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <motion.div layout className="grid gap-6 md:gap-7 sm:grid-cols-2 xl:grid-cols-3">
           <AnimatePresence>
             {filtered.map((project, i) => {
               const catCfg = categoryConfig[project.category as keyof typeof categoryConfig];
@@ -133,45 +139,79 @@ export default function FortyTwo() {
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.92 }}
                   transition={{ duration: 0.3, delay: i * 0.04 }}
-                  className="card-elevated rounded-xl p-5 group hover:shadow-md transition-all"
+                  className="card-elevated flex h-full flex-col rounded-[1.6rem] p-8 md:p-9 group hover:shadow-md transition-all"
                 >
-                  <div className="flex items-start justify-between mb-4">
-                    <div className="w-9 h-9 rounded-lg flex items-center justify-center" style={{ background: color }}>
-                      <CatIcon size={15} className="text-white" />
+                  <div className="mb-7 flex items-start justify-between gap-4">
+                    <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-[1rem]" style={{ background: color }}>
+                      <CatIcon size={18} className="text-white" />
                     </div>
-                    <div className="flex items-center gap-2">
+                    <div className="flex flex-wrap items-center justify-end gap-2">
+                      <span
+                        className="inline-flex items-center rounded-full px-3 py-1.5 text-[10px] uppercase tracking-[0.12em]"
+                        style={{ fontFamily: "var(--font-mono)", background: `${color}12`, border: `1px solid ${color}22`, color }}
+                      >
+                        {project.lang}
+                      </span>
                       {project.github && (
                         <a
                           href={project.github}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="w-7 h-7 flex items-center justify-center rounded-lg bg-[var(--surface-2)] hover:bg-[var(--surface-3)] transition-colors text-[var(--text-muted)] hover:text-[var(--text-primary)]"
+                          className="flex h-9 w-9 items-center justify-center rounded-xl bg-[var(--surface-2)] text-[var(--text-muted)] transition-colors hover:bg-[var(--surface-3)] hover:text-[var(--text-primary)]"
+                          aria-label={`Open ${project.name} repository`}
                         >
-                          <GithubIcon size={13} />
+                          <GithubIcon size={14} />
                         </a>
                       )}
-                      <span
-                        className="text-[9px] px-2.5 py-1 rounded-lg"
-                        style={{ fontFamily: "var(--font-mono)", background: `${color}12`, border: `1px solid ${color}18`, color }}
-                      >
-                        {project.lang}
-                      </span>
                     </div>
                   </div>
 
-                  <h3
-                    className="font-bold text-[var(--text-primary)] mb-2"
-                    style={{ fontFamily: "var(--font-display)", fontSize: "15px" }}
-                  >
-                    {project.name}
-                  </h3>
-                  <p className="text-[13px] text-[var(--text-secondary)] leading-relaxed" style={{ fontFamily: "var(--font-body)" }}>
-                    {project.description}
-                  </p>
+                  <div className="flex flex-1 flex-col">
+                    <div className="mb-4">
+                      <div className="mb-3 flex items-center gap-2.5">
+                        <span className="text-[10px] uppercase tracking-[0.16em]" style={{ fontFamily: "var(--font-mono)", color }}>
+                          {project.category}
+                        </span>
+                        <div className="h-px flex-1 opacity-35" style={{ background: color }} />
+                      </div>
 
-                  <div className="mt-3.5 flex items-center gap-1.5">
-                    <CheckCircle2 size={10} style={{ color }} />
-                    <span className="text-[10px]" style={{ fontFamily: "var(--font-mono)", color: `${color}99` }}>{project.category}</span>
+                      <h3
+                        className="text-[1.15rem] font-bold leading-tight text-[var(--text-primary)]"
+                        style={{ fontFamily: "var(--font-display)" }}
+                      >
+                        {project.name}
+                      </h3>
+                    </div>
+
+                    <p className="flex-1 pr-1 text-[15px] leading-7 text-[var(--text-secondary)]" style={{ fontFamily: "var(--font-body)" }}>
+                      {project.description}
+                    </p>
+
+                    <div className="mt-6 flex items-center justify-between gap-4 pt-5">
+                      <div className="flex items-center gap-2">
+                        <CheckCircle2 size={12} style={{ color }} />
+                        <span className="text-[11px]" style={{ fontFamily: "var(--font-mono)", color: `${color}bb` }}>
+                          42 Beirut repo
+                        </span>
+                      </div>
+
+                      {project.github ? (
+                        <a
+                          href={project.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1.5 text-[11px] transition-colors hover:text-[var(--text-primary)]"
+                          style={{ fontFamily: "var(--font-mono)", color }}
+                        >
+                          View repo
+                          <ArrowUpRight size={12} />
+                        </a>
+                      ) : (
+                        <span className="text-[11px]" style={{ fontFamily: "var(--font-mono)", color: `${color}99` }}>
+                          Archive only
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </motion.div>
               );
@@ -183,10 +223,10 @@ export default function FortyTwo() {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          className="text-center text-[11px] text-[var(--text-muted)] mt-8"
+          className="mt-12 text-center text-[11px] text-[var(--text-muted)]"
           style={{ fontFamily: "var(--font-mono)" }}
         >
-          42 Beirut · Original curriculum track · Not the 2026 restructured curriculum
+          Only repositories tied to 42 Beirut work are shown in this section.
         </motion.p>
       </div>
     </section>

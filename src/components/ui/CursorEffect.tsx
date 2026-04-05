@@ -7,6 +7,7 @@ export default function CursorEffect() {
   const [visible, setVisible] = useState(false);
   const [clicking, setClicking] = useState(false);
   const [hovering, setHovering] = useState(false);
+  const [isTouch, setIsTouch] = useState(false);
   const isTouchRef = useRef(false);
 
   const mouseX = useMotionValue(0);
@@ -22,6 +23,7 @@ export default function CursorEffect() {
 
   useEffect(() => {
     isTouchRef.current = window.matchMedia("(pointer: coarse)").matches;
+    setIsTouch(isTouchRef.current);
     if (isTouchRef.current) return;
 
     const onMove = (e: MouseEvent) => {
@@ -58,7 +60,7 @@ export default function CursorEffect() {
     };
   }, [mouseX, mouseY, visible]);
 
-  if (isTouchRef.current) return null;
+  if (isTouch) return null;
 
   return (
     <>

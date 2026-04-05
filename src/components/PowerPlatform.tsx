@@ -41,9 +41,9 @@ function FlowDiagram() {
   ];
 
   return (
-    <div className="rounded-2xl border border-[var(--border-mid)] overflow-hidden shadow-xl" style={{ background: "var(--surface-0)" }}>
+    <div className="overflow-hidden rounded-[2rem] border border-[var(--border-mid)] shadow-xl" style={{ background: "var(--surface-0)" }}>
       {/* Editor title bar */}
-      <div className="border-b border-[var(--border-subtle)] px-5 py-3 flex items-center justify-between" style={{ background: "var(--surface-1)" }}>
+      <div className="flex items-center justify-between border-b border-[var(--border-subtle)] px-6 py-4" style={{ background: "var(--surface-1)" }}>
         <div className="flex items-center gap-3">
           <span
             className="text-xs font-semibold text-[var(--text-secondary)]"
@@ -61,18 +61,18 @@ function FlowDiagram() {
       </div>
 
       {/* Flow canvas */}
-      <div className="p-6 flex items-start gap-5 overflow-x-auto">
+      <div className="flex items-start gap-6 overflow-x-auto p-7 md:p-8">
         {steps.map((step, i) => {
           const Icon = step.icon;
           return (
-            <div key={step.label} className="flex items-center gap-3 flex-shrink-0">
+            <div key={step.label} className="flex flex-shrink-0 items-center gap-4">
               {/* Card */}
               <motion.div
                 initial={{ opacity: 0, y: 12 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1, duration: 0.5 }}
-                className="pa-card flex items-center gap-3 px-4 py-3 w-52"
+                className="pa-card flex w-56 items-center gap-3 px-5 py-4"
               >
                 <div
                   className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
@@ -113,7 +113,7 @@ function FlowDiagram() {
       </div>
 
       {/* Footer stats */}
-      <div className="border-t border-[var(--border-subtle)] px-5 py-2.5 flex items-center gap-5" style={{ background: "var(--surface-1)" }}>
+      <div className="flex items-center gap-6 border-t border-[var(--border-subtle)] px-6 py-3" style={{ background: "var(--surface-1)" }}>
         {["Duration: 1.8s", "5 actions", "0 errors", "Connections: 6"].map((s, i) => (
           <span key={i} className="text-[10px] text-[var(--text-muted)]" style={{ fontFamily: "var(--font-mono)" }}>
             {s}
@@ -130,14 +130,15 @@ export default function PowerPlatform() {
       <div className="absolute inset-0 grid-bg opacity-50" />
       <div className="absolute inset-x-0 top-0 section-line" />
 
-      <div className="relative max-w-7xl mx-auto px-8">
+      <div className="relative section-container">
         {/* Centered header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-left mb-6"
+          className="section-heading text-left"
+          style={{ marginBottom: "3.75rem" }}
         >
           <span className="tag tag-blue mb-5 inline-block">Expertise</span>
           <h2
@@ -147,7 +148,7 @@ export default function PowerPlatform() {
             Power Platform
             <span className="text-gradient-blue"> Ecosystem</span>
           </h2>
-          <p className="text-[var(--text-secondary)] text-lg max-w-2xl mb-10 leading-relaxed" style={{ fontFamily: "var(--font-body)" }}>
+          <p className="max-w-2xl text-lg leading-relaxed text-[var(--text-secondary)]" style={{ fontFamily: "var(--font-body)" }}>
             Deep expertise across the full Microsoft Power Platform stack —
             from canvas apps to complex cloud flows and enterprise data architecture.
           </p>
@@ -159,7 +160,7 @@ export default function PowerPlatform() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="max-w-2xl mx-auto mb-10 rounded-2xl p-6 text-center"
+          className="mx-auto mb-12 max-w-2xl rounded-2xl p-7 text-center md:p-8"
           style={{
             background: "linear-gradient(135deg, var(--power-blue-light), var(--cyan-light))",
             border: "1px solid rgba(0,120,212,0.16)",
@@ -187,13 +188,13 @@ export default function PowerPlatform() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="mb-14"
+          className="mb-16"
         >
           <FlowDiagram />
         </motion.div>
 
         {/* Skills grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {POWER_PLATFORM_SKILLS.map((skill, i) => {
             const Icon = iconMap[skill.icon] ?? Zap;
             return (
@@ -203,35 +204,35 @@ export default function PowerPlatform() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: i * 0.07 }}
-                className="card-elevated rounded-xl p-5 group hover:shadow-md transition-all"
+                className="card-elevated rounded-[1.5rem] p-7 group hover:shadow-md transition-all"
               >
-                <div className="flex items-start gap-3 mb-4">
+                <div className="flex items-start gap-4 mb-5">
                   <div
-                    className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+                    className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0"
                     style={{ background: skill.color }}
                   >
-                    <Icon size={18} className="text-white" />
+                    <Icon size={19} className="text-white" />
                   </div>
                   <div className="flex-1">
-                    <div className="flex items-center justify-between mb-1.5">
-                      <h3 className="font-bold text-[var(--text-primary)] text-sm" style={{ fontFamily: "var(--font-display)" }}>
+                    <div className="flex items-center justify-between mb-2">
+                      <h3 className="font-bold text-[var(--text-primary)] text-[16px]" style={{ fontFamily: "var(--font-display)" }}>
                         {skill.name}
                       </h3>
-                      <span className="text-xs font-semibold" style={{ fontFamily: "var(--font-mono)", color: skill.color }}>
+                      <span className="text-[13px] font-semibold" style={{ fontFamily: "var(--font-mono)", color: skill.color }}>
                         {skill.level}%
                       </span>
                     </div>
                     <SkillBar level={skill.level} color={skill.color} delay={i * 0.1 + 0.3} />
                   </div>
                 </div>
-                <p className="text-[13px] text-[var(--text-secondary)] leading-relaxed mb-3" style={{ fontFamily: "var(--font-body)" }}>
+                <p className="mb-5 text-[15px] leading-relaxed text-[var(--text-secondary)]" style={{ fontFamily: "var(--font-body)" }}>
                   {skill.description}
                 </p>
-                <div className="flex flex-wrap gap-1">
+                <div className="flex flex-wrap gap-2">
                   {skill.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="text-[9px] px-2 py-0.5 rounded-md"
+                      className="text-[11px] px-2.5 py-1 rounded-md"
                       style={{ fontFamily: "var(--font-mono)", background: `${skill.color}10`, border: `1px solid ${skill.color}18`, color: skill.color }}
                     >
                       {tag}

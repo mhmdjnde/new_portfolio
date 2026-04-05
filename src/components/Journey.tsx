@@ -29,45 +29,62 @@ function TimelineItem({ item, index, total }: { item: (typeof JOURNEY)[0]; index
     >
       {/* Content panel */}
       <div className={`flex-1 ${isEven ? "md:pr-10" : "md:pl-10"}`}>
-        <div className="card-elevated rounded-2xl p-7 hover:shadow-md transition-all group">
-          <div className={`flex items-start gap-3 mb-4 ${isEven ? "md:flex-row-reverse md:text-right" : ""}`}>
-            <span
-              className="tag flex-shrink-0"
-              style={{ background: cfg.bg, border: `1px solid ${cfg.color}22`, color: cfg.color, fontFamily: "var(--font-mono)" }}
-            >
-              {cfg.label}
-            </span>
-            <span
-              className="text-xl font-bold flex-shrink-0"
-              style={{ fontFamily: "var(--font-mono)", color: cfg.color }}
-            >
-              {item.year}
-            </span>
-          </div>
-
-          <h3
-            className={`text-xl font-bold text-[var(--text-primary)] mb-3 ${isEven ? "md:text-right" : ""}`}
-            style={{ fontFamily: "var(--font-display)" }}
-          >
-            {item.title}
-          </h3>
-          <p
-            className={`text-[15px] text-[var(--text-secondary)] leading-relaxed mb-4 ${isEven ? "md:text-right" : ""}`}
-            style={{ fontFamily: "var(--font-body)" }}
-          >
-            {item.description}
-          </p>
-
-          <div className={`flex flex-wrap gap-1.5 ${isEven ? "md:justify-end" : ""}`}>
-            {item.tags.map((tag) => (
+        <div
+          className="card-elevated rounded-2xl px-7 pt-7 pb-9 md:px-8 md:pt-8 md:pb-10 hover:shadow-md transition-all group"
+          style={{ paddingBottom: "0.12rem" }}
+        >
+          <div className="flex min-h-full flex-col gap-4 md:gap-5">
+            <div className={`flex items-start gap-3 ${isEven ? "md:flex-row-reverse md:text-right" : ""}`}>
               <span
-                key={tag}
-                className="text-[10px] px-2.5 py-1 rounded-lg"
-                style={{ fontFamily: "var(--font-mono)", background: cfg.bg, border: `1px solid ${cfg.color}18`, color: cfg.color }}
+                className="tag flex-shrink-0"
+                style={{ background: cfg.bg, border: `1px solid ${cfg.color}22`, color: cfg.color, fontFamily: "var(--font-mono)" }}
               >
-                {tag}
+                {cfg.label}
               </span>
-            ))}
+              <span
+                className="text-xl font-bold flex-shrink-0"
+                style={{ fontFamily: "var(--font-mono)", color: cfg.color }}
+              >
+                {item.year}
+              </span>
+            </div>
+
+            <div className={`flex flex-col gap-3 md:gap-4 ${isEven ? "md:items-end" : ""}`}>
+              <h3
+                className={`text-xl font-bold leading-tight text-[var(--text-primary)] ${isEven ? "md:text-right" : ""}`}
+                style={{ fontFamily: "var(--font-display)" }}
+              >
+                {item.title}
+              </h3>
+              <p
+                className={`text-[15.5px] leading-7 text-[var(--text-secondary)] ${isEven ? "md:text-right" : ""}`}
+                style={{ fontFamily: "var(--font-body)" }}
+              >
+                {item.description}
+              </p>
+            </div>
+
+            <div
+              className={`mt-auto flex flex-wrap gap-1.5 pt-2 ${isEven ? "md:justify-end" : ""}`}
+              style={{ marginBottom: "0.03rem" }}
+            >
+              {item.tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="inline-flex items-center rounded-md px-3 py-1.5 text-[12px] leading-none font-medium tracking-wide"
+                  style={{
+                    fontFamily: "var(--font-mono)",
+                    background: `${cfg.color}14`,
+                    border: `1px solid ${cfg.color}32`,
+                    color: `${cfg.color}cc`,
+                  }}
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+
+            <div aria-hidden="true" style={{ height: "0.01rem" }} />
           </div>
         </div>
       </div>
@@ -113,18 +130,23 @@ function TimelineItem({ item, index, total }: { item: (typeof JOURNEY)[0]; index
 
 export default function Journey() {
   return (
-    <section id="journey" className="relative py-32">
+    <section
+      id="journey"
+      className="relative pt-44 pb-40 md:pt-52 md:pb-48"
+      style={{ marginTop: "clamp(3rem, 6vw, 5rem)" }}
+    >
       <div className="absolute inset-0 grid-bg opacity-40" />
       <div className="absolute inset-x-0 top-0 section-line" />
 
-      <div className="relative max-w-5xl mx-auto px-8">
+      <div className="relative section-container-narrow">
         {/* Centered header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-left mb-18"
+          className="section-heading text-left"
+          style={{ marginBottom: "4.5rem" }}
         >
           <span className="tag tag-purple mb-5 inline-block">Timeline</span>
           <h2

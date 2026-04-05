@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Send, Mail, CheckCircle2, Loader2 } from "lucide-react";
-import { LinkedinIcon, GithubIcon } from "@/components/ui/SocialIcons";
+import { CheckCircle2, Loader2, Mail, Send } from "lucide-react";
+import { GithubIcon, LinkedinIcon } from "@/components/ui/SocialIcons";
 import { PERSONAL } from "@/lib/data";
 
 export default function Contact() {
@@ -11,100 +11,81 @@ export default function Contact() {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
+    setForm((current) => ({ ...current, [e.target.name]: e.target.value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus("sending");
-    // TODO: Connect to form provider (Formspree, Resend, etc.)
-    await new Promise((r) => setTimeout(r, 1500));
+    await new Promise((resolve) => setTimeout(resolve, 1500));
     setStatus("sent");
   };
 
   return (
-    <section id="contact" className="relative py-32">
-      <div className="absolute inset-0 grid-bg opacity-40" />
-      <div className="absolute inset-x-0 top-0 section-line" />
+    <section id="contact" className="relative py-24 md:py-32">
+      <div className="grid-bg absolute inset-0 opacity-35" />
+      <div className="section-line absolute inset-x-0 top-0" />
 
-      <div className="relative max-w-5xl mx-auto px-8">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-left mb-14"
-        >
-          <span className="tag tag-blue mb-5 inline-block">Contact</span>
-          <h2
-            className="text-5xl md:text-6xl font-extrabold text-[var(--text-primary)] mb-4"
-            style={{ fontFamily: "var(--font-display)" }}
-          >
-            Let&apos;s
-            <span className="text-gradient-blue"> Connect</span>
+      <div className="section-container-narrow relative">
+        <div className="section-heading max-w-3xl">
+          <span className="section-eyebrow">Contact</span>
+          <h2>
+            Let&apos;s build something
+            <span className="text-gradient-blue"> thoughtful</span>
           </h2>
-          <p className="text-[var(--text-secondary)] text-lg max-w-2xl leading-relaxed" style={{ fontFamily: "var(--font-body)" }}>
-            Interested in working together or just want to talk automation? Happy to hear from you.
+          <p>
+            If you need better automation, cleaner internal tooling, or a second brain on a workflow problem, I&apos;m happy
+            to talk.
           </p>
-        </motion.div>
+        </div>
 
-        <div className="grid lg:grid-cols-5 gap-8">
-          {/* Form */}
+        <div className="grid gap-6 lg:grid-cols-[minmax(0,1.1fr)_22rem]">
           <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
-            className="lg:col-span-3"
+            transition={{ duration: 0.6 }}
           >
             {status === "sent" ? (
-              <div className="card-elevated rounded-2xl p-10 text-center flex flex-col items-center gap-4">
-                <div
-                  className="w-14 h-14 rounded-2xl flex items-center justify-center"
-                  style={{ background: "var(--green-light)", border: "1px solid rgba(16,124,16,0.18)" }}
-                >
-                  <CheckCircle2 size={26} className="text-[var(--green-success)]" />
+              <div className="card-elevated flex min-h-[24rem] flex-col items-center justify-center rounded-[2rem] p-10 text-center">
+                <div className="flex h-16 w-16 items-center justify-center rounded-3xl border border-[rgba(79,210,159,0.24)] bg-[var(--green-light)]">
+                  <CheckCircle2 size={28} className="text-[var(--green-success)]" />
                 </div>
-                <h3 className="text-xl font-bold text-[var(--text-primary)]" style={{ fontFamily: "var(--font-display)" }}>
-                  Message sent!
-                </h3>
-                <p className="text-[var(--text-secondary)]" style={{ fontFamily: "var(--font-body)" }}>
-                  Thanks for reaching out. I&apos;ll get back to you soon.
+                <h3 className="mt-6 text-2xl font-bold text-[var(--text-primary)]">Message ready</h3>
+                <p className="mt-3 max-w-md text-[15.5px] leading-8 text-[var(--text-secondary)]">
+                  Thanks for reaching out. This placeholder flow worked, and the real contact integration can be plugged in next.
                 </p>
                 <button
-                  onClick={() => { setStatus("idle"); setForm({ name: "", email: "", message: "" }); }}
-                  className="btn-ghost mt-2"
+                  onClick={() => {
+                    setStatus("idle");
+                    setForm({ name: "", email: "", message: "" });
+                  }}
+                  className="btn-ghost mt-8"
                 >
-                  Send another
+                  Send another one
                 </button>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="card-elevated rounded-2xl p-7 space-y-4">
-                {/* Form chrome */}
-                <div className="flex items-center gap-2 mb-5">
-                  <div className="flex gap-1.5">
-                    <div className="w-2.5 h-2.5 rounded-full bg-[#FF5F57]" />
-                    <div className="w-2.5 h-2.5 rounded-full bg-[#FFBD2E]" />
-                    <div className="w-2.5 h-2.5 rounded-full bg-[#28CA41]" />
+              <form onSubmit={handleSubmit} className="card-elevated rounded-[2rem] p-7 md:p-8">
+                <div className="mb-8 flex items-center justify-between gap-4">
+                  <div>
+                    <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--text-muted)]" style={{ fontFamily: "var(--font-mono)" }}>
+                      New message
+                    </p>
+                    <h3 className="mt-2 text-2xl font-bold text-[var(--text-primary)]">Tell me what you&apos;re solving</h3>
                   </div>
-                  <span className="text-[10px] text-[var(--text-muted)] ml-1" style={{ fontFamily: "var(--font-mono)" }}>
-                    new_message.flow
-                  </span>
+                  <span className="tag tag-cyan">Reply-friendly</span>
                 </div>
 
-                <div className="grid sm:grid-cols-2 gap-4">
+                <div className="grid gap-5 sm:grid-cols-2">
                   {[
-                    { name: "name", label: "NAME", placeholder: "Jane Doe", type: "text" },
-                    { name: "email", label: "EMAIL", placeholder: "jane@example.com", type: "email" },
+                    { name: "name", label: "Name", placeholder: "Jane Doe", type: "text" },
+                    { name: "email", label: "Email", placeholder: "jane@example.com", type: "email" },
                   ].map((field) => (
-                    <div key={field.name}>
-                      <label
-                        className="block text-[11px] text-[var(--text-muted)] mb-2"
-                        style={{ fontFamily: "var(--font-mono)" }}
-                      >
+                    <label key={field.name} className="block">
+                      <span className="mb-2 block text-[11px] uppercase tracking-[0.16em] text-[var(--text-muted)]" style={{ fontFamily: "var(--font-mono)" }}>
                         {field.label}
-                      </label>
+                      </span>
                       <input
                         type={field.type}
                         name={field.name}
@@ -112,127 +93,107 @@ export default function Contact() {
                         onChange={handleChange}
                         required
                         placeholder={field.placeholder}
-                        className="w-full px-4 py-3 rounded-xl text-[15px] text-[var(--text-primary)] placeholder-[var(--text-muted)] outline-none transition-all bg-[var(--surface-2)] border border-[var(--border-subtle)] focus:border-[var(--power-blue)] focus:bg-[var(--surface-2)] focus:shadow-sm"
-                        style={{ fontFamily: "var(--font-body)" }}
+                        className="w-full rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-2)] px-4 py-3.5 text-[15px] text-[var(--text-primary)] outline-none transition-all placeholder:text-[var(--text-muted)] focus:border-[var(--power-blue)]"
                       />
-                    </div>
+                    </label>
                   ))}
                 </div>
 
-                <div>
-                  <label
-                    className="block text-[11px] text-[var(--text-muted)] mb-2"
-                    style={{ fontFamily: "var(--font-mono)" }}
-                  >
-                    MESSAGE
-                  </label>
+                <label className="mt-5 block">
+                  <span className="mb-2 block text-[11px] uppercase tracking-[0.16em] text-[var(--text-muted)]" style={{ fontFamily: "var(--font-mono)" }}>
+                    Message
+                  </span>
                   <textarea
                     name="message"
                     value={form.message}
                     onChange={handleChange}
                     required
-                    rows={5}
-                    placeholder="Tell me about your project, challenge, or just say hello..."
-                    className="w-full px-4 py-3 rounded-xl text-[15px] text-[var(--text-primary)] placeholder-[var(--text-muted)] outline-none transition-all resize-none bg-[var(--surface-2)] border border-[var(--border-subtle)] focus:border-[var(--power-blue)] focus:bg-[var(--surface-2)] focus:shadow-sm"
-                    style={{ fontFamily: "var(--font-body)" }}
+                    rows={6}
+                    placeholder="A project, a process problem, a collaboration idea, or just a hello."
+                    className="w-full resize-none rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-2)] px-4 py-3.5 text-[15px] text-[var(--text-primary)] outline-none transition-all placeholder:text-[var(--text-muted)] focus:border-[var(--power-blue)]"
                   />
-                </div>
+                </label>
 
-                <button type="submit" disabled={status === "sending"} className="btn-primary w-full justify-center">
-                  {status === "sending"
-                    ? <><Loader2 size={14} className="animate-spin" />Sending...</>
-                    : <><Send size={14} />Send message</>
-                  }
-                </button>
+                <div className="mt-6 flex flex-col gap-4 border-t border-[var(--border-subtle)] pt-6 sm:flex-row sm:items-center sm:justify-between">
+                  <p className="max-w-sm text-sm leading-6 text-[var(--text-secondary)]">
+                    Short briefs are totally fine. A rough outline is enough to start a useful conversation.
+                  </p>
+                  <button type="submit" disabled={status === "sending"} className="btn-primary justify-center sm:min-w-[12rem]">
+                    {status === "sending" ? (
+                      <>
+                        <Loader2 size={15} className="animate-spin" />
+                        Sending
+                      </>
+                    ) : (
+                      <>
+                        <Send size={15} />
+                        Send message
+                      </>
+                    )}
+                  </button>
+                </div>
               </form>
             )}
           </motion.div>
 
-          {/* Contact info */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
+          <motion.aside
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: 0.12 }}
-            className="lg:col-span-2 space-y-4"
+            transition={{ duration: 0.6, delay: 0.08 }}
+            className="space-y-4"
           >
-            {/* Direct email */}
-            <div className="card-elevated rounded-2xl p-5">
-              <span
-                className="block text-[11px] text-[var(--text-muted)] mb-4 tracking-widest uppercase"
-                style={{ fontFamily: "var(--font-mono)" }}
-              >
-                Direct
-              </span>
-              <a
-                href={`mailto:${PERSONAL.email}`}
-                className="flex items-center gap-3 p-3 rounded-xl hover:bg-[var(--surface-2)] transition-all group"
-              >
-                <div className="w-9 h-9 rounded-lg flex items-center justify-center bg-[var(--power-blue-light)] border border-[rgba(0,120,212,0.18)]">
-                  <Mail size={14} className="text-[var(--power-blue)]" />
+            <div className="card-elevated rounded-[2rem] p-6">
+              <p className="text-[11px] uppercase tracking-[0.16em] text-[var(--text-muted)]" style={{ fontFamily: "var(--font-mono)" }}>
+                Direct line
+              </p>
+              <a href={`mailto:${PERSONAL.email}`} className="mt-4 flex items-center gap-4 rounded-2xl border border-[var(--border-subtle)] bg-[rgba(255,255,255,0.02)] px-4 py-4 transition-all hover:border-[var(--border-mid)]">
+                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[var(--power-blue-light)] text-[var(--power-blue)]">
+                  <Mail size={18} />
                 </div>
                 <div>
-                  <span className="block text-[11px] text-[var(--text-muted)]" style={{ fontFamily: "var(--font-mono)" }}>Email</span>
-                  <span
-                    className="text-[14px] text-[var(--text-secondary)] group-hover:text-[var(--text-primary)] transition-colors"
-                    style={{ fontFamily: "var(--font-body)" }}
-                  >
-                    {PERSONAL.email}
-                  </span>
+                  <p className="text-[11px] uppercase tracking-[0.16em] text-[var(--text-muted)]" style={{ fontFamily: "var(--font-mono)" }}>
+                    Email
+                  </p>
+                  <p className="mt-1 text-sm text-[var(--text-primary)]">{PERSONAL.email}</p>
                 </div>
               </a>
             </div>
 
-            {/* Social */}
-            <div className="card-elevated rounded-2xl p-5">
-              <span
-                className="block text-[11px] text-[var(--text-muted)] mb-4 tracking-widest uppercase"
-                style={{ fontFamily: "var(--font-mono)" }}
-              >
-                Social
-              </span>
-              <div className="space-y-2">
+            <div className="card-elevated rounded-[2rem] p-6">
+              <p className="text-[11px] uppercase tracking-[0.16em] text-[var(--text-muted)]" style={{ fontFamily: "var(--font-mono)" }}>
+                Elsewhere
+              </p>
+              <div className="mt-4 space-y-3">
                 {[
-                  { icon: LinkedinIcon, label: "LinkedIn", sub: "mohammad-joundi", href: PERSONAL.linkedin, color: "#0A66C2" },
-                  { icon: GithubIcon, label: "GitHub", sub: "mhmdjnde", href: PERSONAL.github, color: "#24292E" },
-                ].map((social) => (
-                  <a
-                    key={social.label}
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-3 p-3 rounded-xl hover:bg-[var(--surface-2)] transition-all group"
-                  >
-                    <div
-                      className="w-9 h-9 rounded-lg flex items-center justify-center"
-                      style={{ background: `${social.color}10`, border: `1px solid ${social.color}18` }}
-                    >
-                      <social.icon size={15} style={{ color: social.color }} />
-                    </div>
-                    <div>
-                      <span
-                        className="block text-[14px] font-medium text-[var(--text-primary)] group-hover:text-[var(--power-blue)] transition-colors"
-                        style={{ fontFamily: "var(--font-body)" }}
-                      >
-                        {social.label}
-                      </span>
-                      <span className="text-[11px] text-[var(--text-muted)]" style={{ fontFamily: "var(--font-mono)" }}>{social.sub}</span>
-                    </div>
-                  </a>
-                ))}
+                  { href: PERSONAL.linkedin, label: "LinkedIn", sub: "Professional updates", icon: LinkedinIcon },
+                  { href: PERSONAL.github, label: "GitHub", sub: "Code and repositories", icon: GithubIcon },
+                ].map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <a key={item.label} href={item.href} target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 rounded-2xl border border-[var(--border-subtle)] bg-[rgba(255,255,255,0.02)] px-4 py-4 transition-all hover:border-[var(--border-mid)]">
+                      <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[rgba(255,255,255,0.04)] text-[var(--text-primary)]">
+                        <Icon size={18} />
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium text-[var(--text-primary)]">{item.label}</p>
+                        <p className="text-sm text-[var(--text-secondary)]">{item.sub}</p>
+                      </div>
+                    </a>
+                  );
+                })}
               </div>
             </div>
 
-            {/* Note */}
-            <div
-              className="rounded-2xl p-5"
-              style={{ background: "var(--power-blue-light)", border: "1px solid rgba(0,120,212,0.14)" }}
-            >
-              <p className="text-[14px] text-[var(--text-secondary)] leading-relaxed" style={{ fontFamily: "var(--font-body)" }}>
-                I read every message and respond thoughtfully. Whether it&apos;s a project, a question, or a collaboration — feel free to reach out.
+            <div className="rounded-[2rem] border border-[rgba(71,164,255,0.16)] bg-[linear-gradient(135deg,rgba(71,164,255,0.1),rgba(67,214,201,0.08))] p-6">
+              <p className="text-[11px] uppercase tracking-[0.16em] text-[var(--power-blue-bright)]" style={{ fontFamily: "var(--font-mono)" }}>
+                Working Style
+              </p>
+              <p className="mt-3 text-[15px] leading-7 text-[var(--text-secondary)]">
+                I like practical conversations, clear scope, and systems that make the end-user&apos;s life easier.
               </p>
             </div>
-          </motion.div>
+          </motion.aside>
         </div>
       </div>
     </section>

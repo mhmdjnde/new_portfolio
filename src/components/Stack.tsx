@@ -23,13 +23,13 @@ export default function Stack() {
       <div className="absolute inset-0 grid-bg opacity-40" />
       <div className="absolute inset-x-0 top-0 section-line" />
 
-      <div className="relative max-w-7xl mx-auto px-8">
+      <div className="relative section-container">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-left mb-14"
+          className="section-heading text-left"
         >
           <span className="tag tag-purple mb-5 inline-block">Stack</span>
           <h2
@@ -44,7 +44,7 @@ export default function Stack() {
           </p>
         </motion.div>
 
-        <div className="space-y-8">
+        <div className="space-y-10 md:space-y-12">
           {categories.map((cat, ci) => {
             const items = TECH_STACK.filter((t) => t.category === cat);
             const catColor = CATEGORY_COLORS[cat] ?? "#0078D4";
@@ -56,7 +56,7 @@ export default function Stack() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: ci * 0.06 }}
               >
-                <div className="flex items-center gap-3 mb-3">
+                <div className="mb-4 flex items-center gap-3">
                   <span
                     className="text-[11px] font-semibold tracking-widest uppercase"
                     style={{ fontFamily: "var(--font-mono)", color: catColor }}
@@ -65,7 +65,7 @@ export default function Stack() {
                   </span>
                   <div className="h-px flex-1 opacity-18" style={{ background: catColor, maxWidth: 80 }} />
                 </div>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-2.5 md:gap-3">
                   {items.map((tech, ti) => (
                     <motion.div
                       key={tech.name}
@@ -77,7 +77,7 @@ export default function Stack() {
                       className="relative group cursor-default"
                     >
                       <div
-                        className="px-4 py-2 rounded-xl text-[14px] font-medium transition-all card"
+                        className="card rounded-xl px-4 py-2.5 text-[14px] font-medium transition-all"
                         style={{
                           fontFamily: "var(--font-body)",
                           color: tech.color,
@@ -101,9 +101,9 @@ export default function Stack() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="mt-14 rounded-2xl overflow-hidden card"
+          className="card mt-16 overflow-hidden rounded-[2rem]"
         >
-          <div className="p-4 border-b border-[var(--border-subtle)]">
+          <div className="border-b border-[var(--border-subtle)] p-5">
             <span
               className="text-[11px] text-[var(--text-muted)] tracking-widest uppercase font-semibold"
               style={{ fontFamily: "var(--font-mono)" }}
@@ -111,7 +111,7 @@ export default function Stack() {
               Power Automate · Connector Library
             </span>
           </div>
-          <div className="p-4 relative overflow-hidden" style={{ height: 52 }}>
+          <div className="relative overflow-hidden p-5" style={{ height: 60 }}>
             <motion.div
               animate={{ x: [0, -1600] }}
               transition={{ duration: 32, repeat: Infinity, ease: "linear" }}
