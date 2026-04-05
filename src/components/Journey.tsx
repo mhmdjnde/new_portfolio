@@ -6,10 +6,10 @@ import { Briefcase, GraduationCap, Star, ArrowRight } from "lucide-react";
 import { JOURNEY } from "@/lib/data";
 
 const typeConfig = {
-  education: { icon: GraduationCap, color: "#742774", bg: "#F5EAF5", label: "Education" },
-  work: { icon: Briefcase, color: "#0078D4", bg: "#EEF6FC", label: "Work" },
-  milestone: { icon: Star, color: "#0099BC", bg: "#EAF7FB", label: "Milestone" },
-  current: { icon: ArrowRight, color: "#107C10", bg: "#ECF7EC", label: "Present" },
+  education: { icon: GraduationCap, color: "#9A7AFF", bg: "rgba(154,122,255,0.13)", label: "Education" },
+  work: { icon: Briefcase, color: "#47A4FF", bg: "rgba(71,164,255,0.13)", label: "Work" },
+  milestone: { icon: Star, color: "#43D6C9", bg: "rgba(67,214,201,0.13)", label: "Milestone" },
+  current: { icon: ArrowRight, color: "#4FD29F", bg: "rgba(79,210,159,0.13)", label: "Present" },
 };
 
 function TimelineItem({ item, index, total }: { item: (typeof JOURNEY)[0]; index: number; total: number }) {
@@ -30,10 +30,15 @@ function TimelineItem({ item, index, total }: { item: (typeof JOURNEY)[0]; index
       {/* Content panel */}
       <div className={`flex-1 ${isEven ? "md:pr-10" : "md:pl-10"}`}>
         <div
-          className="card-elevated rounded-2xl px-7 pt-7 pb-9 md:px-8 md:pt-8 md:pb-10 hover:shadow-md transition-all group"
-          style={{ paddingBottom: "0.12rem" }}
+          className="card-elevated rounded-2xl hover:shadow-md transition-all group"
+          style={{
+            paddingTop: "0.75rem",
+            paddingBottom: "0.12rem",
+            paddingLeft: isEven ? "0.75rem" : "0.9rem",
+            paddingRight: isEven ? "0.9rem" : "0.75rem",
+          }}
         >
-          <div className="flex min-h-full flex-col gap-4 md:gap-5">
+          <div className="flex min-h-full flex-col gap-5 md:gap-6">
             <div className={`flex items-start gap-3 ${isEven ? "md:flex-row-reverse md:text-right" : ""}`}>
               <span
                 className="tag flex-shrink-0"
@@ -65,7 +70,7 @@ function TimelineItem({ item, index, total }: { item: (typeof JOURNEY)[0]; index
             </div>
 
             <div
-              className={`mt-auto flex flex-wrap gap-1.5 pt-2 ${isEven ? "md:justify-end" : ""}`}
+              className={`mt-auto flex flex-wrap gap-2 pt-4 ${isEven ? "md:justify-end" : ""}`}
               style={{ marginBottom: "0.03rem" }}
             >
               {item.tags.map((tag) => (
@@ -146,7 +151,7 @@ export default function Journey() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
           className="section-heading text-left"
-          style={{ marginBottom: "4.5rem" }}
+          style={{ marginBottom: "2.5rem" }}
         >
           <span className="tag tag-purple mb-5 inline-block">Timeline</span>
           <h2
@@ -160,7 +165,7 @@ export default function Journey() {
           </p>
         </motion.div>
 
-        <div className="space-y-12 md:space-y-16">
+        <div className="space-y-16 md:space-y-20">
           {JOURNEY.map((item, i) => (
             <TimelineItem key={i} item={item} index={i} total={JOURNEY.length} />
           ))}

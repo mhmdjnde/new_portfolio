@@ -64,7 +64,7 @@ export default function About() {
           <p>Where rigorous CS thinking meets enterprise automation craft.</p>
         </motion.div>
 
-        <div className="grid gap-12 lg:grid-cols-2 lg:items-start xl:gap-14">
+        <div className="grid gap-16 lg:grid-cols-2 lg:items-start xl:gap-20">
           {/* ── Left: narrative + quick facts ── */}
           <div className="flex h-full flex-col gap-5">
             <motion.div
@@ -73,9 +73,9 @@ export default function About() {
               whileInView="visible"
               viewport={{ once: true }}
               variants={fadeUp}
-              className="card-elevated min-h-[15.25rem] rounded-2xl p-7"
+              className="card-elevated rounded-2xl p-8 md:p-9"
             >
-              <p className="text-[17px] leading-relaxed text-[var(--text-secondary)] mb-5">
+              <p className="text-[17px] leading-relaxed text-[var(--text-secondary)] mb-7">
                 I&apos;m a Computer Science graduate from{" "}
                 <span className="font-semibold text-[var(--automate-purple-bright)]">Lebanese University</span>{" "}
                 and{" "}
@@ -92,7 +92,7 @@ export default function About() {
             </motion.div>
 
             {/* Quick facts */}
-            <div className="grid gap-3 content-start">
+            <div className="grid gap-4 content-start">
               {[
                 { icon: Briefcase, label: "Current Role", value: "Power Platform Developer · CMA CGM", color: "var(--power-blue)" },
                 { icon: GraduationCap, label: "Education", value: "Lebanese University — CS · 42 Beirut (Original Curriculum)", color: "var(--automate-purple-bright)" },
@@ -105,7 +105,7 @@ export default function About() {
                   whileInView="visible"
                   viewport={{ once: true }}
                   variants={fadeUp}
-                  className="flex items-center gap-4 rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-1)] p-5 transition-all hover:border-[var(--border-mid)]"
+                  className="flex items-center gap-4 rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-1)] p-6 transition-all hover:border-[var(--border-mid)]"
                 >
                   <div
                     className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl"
@@ -132,7 +132,7 @@ export default function About() {
           {/* ── Right: summary + philosophy + approach ── */}
           <div
             className="flex flex-col"
-            style={{ gap: "clamp(0.5rem, 0.75vw, 0.7rem)" }}
+            style={{ gap: "1.25rem" }}
           >
             <motion.div
               custom={2}
@@ -140,7 +140,7 @@ export default function About() {
               whileInView="visible"
               viewport={{ once: true }}
               variants={fadeUp}
-              className="relative w-full overflow-hidden rounded-[2rem] border border-[var(--border-mid)] bg-[linear-gradient(160deg,rgba(16,28,43,0.96),rgba(8,15,24,0.98))] p-7 md:p-8 shadow-[0_24px_60px_rgba(0,0,0,0.26)]"
+              className="relative w-full overflow-hidden rounded-[2rem] border border-[var(--border-mid)] bg-[linear-gradient(160deg,rgba(16,28,43,0.96),rgba(8,15,24,0.98))] p-8 md:p-9 shadow-[0_24px_60px_rgba(0,0,0,0.26)]"
             >
               <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[rgba(143,213,255,0.7)] to-transparent" />
               <div className="absolute -right-16 top-8 h-36 w-36 rounded-full blur-3xl bg-[rgba(71,164,255,0.12)]" />
@@ -149,7 +149,7 @@ export default function About() {
               <div className="relative">
                 <div className="content-inset">
                   <span
-                    className="mb-8 inline-flex items-center gap-3 text-[11px] uppercase tracking-[0.16em] text-[var(--text-muted)]"
+                    className="mb-10 inline-flex items-center gap-3 text-[11px] uppercase tracking-[0.16em] text-[var(--text-muted)]"
                     style={{ fontFamily: "var(--font-mono)" }}
                   >
                     <span className="h-px w-10 bg-gradient-to-r from-[var(--power-blue)] to-transparent" />
@@ -169,7 +169,7 @@ export default function About() {
                       whileInView="visible"
                       viewport={{ once: true }}
                       variants={fadeUp}
-                      className="group relative overflow-hidden rounded-[1.45rem] border border-[var(--border-subtle)] bg-[rgba(255,255,255,0.025)] px-6 py-6 transition-all hover:border-[var(--border-mid)]"
+                      className="group relative overflow-hidden rounded-[1.45rem] border border-[var(--border-subtle)] bg-[rgba(255,255,255,0.025)] px-7 py-7 transition-all hover:border-[var(--border-mid)]"
                     >
                       <div
                         className="absolute inset-y-3.5 left-0 w-[3px] rounded-full"
@@ -216,7 +216,7 @@ export default function About() {
 
             <div
               className="flex flex-col"
-              style={{ gap: "clamp(0.5rem, 0.75vw, 0.7rem)" }}
+              style={{ gap: "1.25rem" }}
             >
               {/* Philosophy */}
               <motion.div
@@ -263,7 +263,7 @@ export default function About() {
                   >
                     Approach
                   </span>
-                  <div className="space-y-4">
+                  <div className="space-y-5">
                     {[
                       "Map the human process before touching any tool",
                       "Choose the right automation level for the problem",

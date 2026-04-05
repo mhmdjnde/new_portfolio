@@ -128,13 +128,6 @@ export const FORTY_TWO_PROJECTS = [
     github: "https://github.com/mhmdjnde/cub3D",
   },
   {
-    name: "camagru",
-    description: "Photo-sharing web application with authentication, uploads, filters, comments, likes, and email-driven interactions.",
-    lang: "PHP",
-    category: "Web",
-    github: null,
-  },
-  {
     name: "Swifty_Companion",
     description: "42 mobile project centered on API integration, profile retrieval, and a cleaner iOS experience around the 42 ecosystem.",
     lang: "Swift",
@@ -190,49 +183,34 @@ export const POWER_PLATFORM_SKILLS = [
     description: "Document management and list-based data integration across workflows",
     tags: ["Lists", "Libraries", "Integration", "Permissions"],
   },
-  {
-    name: "Microsoft Teams",
-    icon: "teams",
-    color: "#6264A7",
-    level: 72,
-    description: "Notification delivery, approval flows, and adaptive card interfaces",
-    tags: ["Notifications", "Approvals", "Adaptive Cards", "Bot Framework"],
-  },
-  {
-    name: "Custom Connectors",
-    icon: "connector",
-    color: "#CA3CCA",
-    level: 70,
-    description: "REST API integration and custom connector development for Power Platform",
-    tags: ["REST APIs", "OpenAPI", "OAuth 2.0", "HTTP Requests"],
-  },
 ];
 
 export const TECH_STACK = [
-  { name: "Power Apps", category: "Platform", color: "#742774" },
-  { name: "Power Automate", category: "Platform", color: "#0078D4" },
-  { name: "Dataverse", category: "Platform", color: "#0099BC" },
-  { name: "SharePoint", category: "Microsoft 365", color: "#038387" },
+  { name: "Power Apps",    category: "Platform",      color: "#742774" },
+  { name: "Power Automate",category: "Platform",      color: "#0078D4" },
+  { name: "Dataverse",     category: "Platform",      color: "#0099BC" },
+  { name: "SharePoint",    category: "Microsoft 365", color: "#038387" },
   { name: "Microsoft Teams", category: "Microsoft 365", color: "#6264A7" },
-  { name: "C / C++", category: "Systems", color: "#4A5568" },
-  { name: "Linux / Unix", category: "Systems", color: "#718096" },
-  { name: "Kotlin", category: "Mobile", color: "#7F52FF" },
-  { name: "JavaScript", category: "Web", color: "#C4960E" },
-  { name: "Python", category: "Scripting", color: "#2B6CB0" },
-  { name: "Git", category: "DevOps", color: "#C53030" },
-  { name: "REST APIs", category: "Integration", color: "#742774" },
-  { name: "SQL", category: "Data", color: "#0099BC" },
+  { name: "C / C++",       category: "Systems",       color: "#8A9FBA" },
+  { name: "Linux / Unix",  category: "Systems",       color: "#8A9FBA" },
+  { name: "Kotlin",        category: "Mobile",        color: "#7F52FF" },
+  { name: "JavaScript",    category: "Web",           color: "#C4960E" },
+  { name: "TypeScript",    category: "Web",           color: "#3178C6" },
+  { name: "Tailwind CSS",  category: "Web",           color: "#38BDF8" },
+  { name: "Python",        category: "Scripting",     color: "#5EA8E8" },
+  { name: "Git",           category: "DevOps",        color: "#F07070" },
+  { name: "SQL",           category: "Data",          color: "#0099BC" },
 ];
 
 // Ordered: most impressive first. Selected Projects = first 4.
 export const PROJECTS = [
   {
-    title: "Internal Request Management",
-    subtitle: "CMA CGM — Power Platform",
+    title: "Power Platform @ CMA CGM",
+    subtitle: "CMA CGM · Enterprise NDA",
     description:
-      "End-to-end automated request management system built with Power Apps and Power Automate. Handles employee requests with multi-level approval workflows, email notifications, and real-time status tracking — replacing a fully manual, paper-based process.",
-    impact: ["70%+ reduction in processing time", "Multi-department rollout", "SharePoint & Teams integrated"],
-    tags: ["Power Apps", "Power Automate", "SharePoint", "Approvals"],
+      "5+ automation solutions delivered across departments at one of the world's top-3 global shipping conglomerates. Projects spanned critical internal tooling, multi-stage approval workflows, real-time operational systems, and Dataverse-backed data architecture. All work is under enterprise NDA — no project details can be disclosed.",
+    impact: ["5+ projects shipped", "Critical systems built", "Multi-department reach", "Enterprise NDA"],
+    tags: ["Power Apps", "Power Automate", "Dataverse", "SharePoint"],
     color: "blue",
   },
   {
@@ -316,8 +294,8 @@ export const SERVICES = [
     icon: "chart",
     title: "Data & Integration",
     description:
-      "Connect your business systems through automated data pipelines — aggregating, transforming, and routing operational data across Dataverse, SharePoint, SQL, and external APIs.",
-    points: ["Dataverse architecture", "Automated pipelines", "SharePoint & SQL connectors", "Custom API integration"],
+      "Connect your business systems through automated data pipelines — aggregating, transforming, and routing operational data across Dataverse, SharePoint, and SQL.",
+    points: ["Dataverse architecture", "Automated pipelines", "SharePoint & SQL connectors"],
   },
   {
     icon: "architecture",

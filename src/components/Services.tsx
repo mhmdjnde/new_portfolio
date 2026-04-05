@@ -20,7 +20,7 @@ const serviceColors = [
 
 export default function Services() {
   return (
-    <section id="services" className="relative py-24 md:py-32">
+    <section id="services" className="relative py-28 md:py-36">
       <div className="dot-bg absolute inset-0 opacity-40" />
       <div className="section-line absolute inset-x-0 top-0" />
 
@@ -37,7 +37,7 @@ export default function Services() {
           </p>
         </div>
 
-        <div className="grid gap-5 lg:grid-cols-2">
+        <div className="grid gap-6 lg:grid-cols-2">
           {SERVICES.map((service, index) => {
             const Icon = iconMap[service.icon] ?? Zap;
             const color = serviceColors[index % serviceColors.length];
@@ -49,12 +49,12 @@ export default function Services() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.55, delay: index * 0.08 }}
-                className="card-elevated relative overflow-hidden rounded-[1.9rem] p-7 md:p-8"
+                className="card-elevated relative overflow-hidden rounded-[1.9rem] p-8 md:p-9"
               >
                 <div className="absolute inset-x-0 top-0 h-px" style={{ background: `linear-gradient(90deg, transparent, ${color.accent}, transparent)` }} />
 
-                <div className="relative flex h-full flex-col">
-                  <div className="mb-6 flex items-start justify-between gap-4">
+                <div className="relative flex h-full flex-col" style={{ padding: "0.42rem" }}>
+                  <div className="mb-8 flex items-start justify-between gap-4">
                     <div className="flex items-center gap-4">
                       <div className="flex h-12 w-12 items-center justify-center rounded-2xl" style={{ background: color.wash, border: `1px solid ${color.accent}30` }}>
                         <Icon size={20} style={{ color: color.accent }} />
@@ -66,14 +66,11 @@ export default function Services() {
                         <h3 className="mt-2 text-2xl font-bold text-[var(--text-primary)]">{service.title}</h3>
                       </div>
                     </div>
-                    <span className="rounded-full px-3 py-1.5 text-[10px] uppercase tracking-[0.16em]" style={{ fontFamily: "var(--font-mono)", background: color.wash, color: color.accent, border: `1px solid ${color.accent}24` }}>
-                      Built to fit the process
-                    </span>
                   </div>
 
-                  <p className="mb-6 max-w-xl text-[15.5px] leading-8 text-[var(--text-secondary)]">{service.description}</p>
+                  <p className="mb-8 max-w-xl text-[15.5px] leading-9 text-[var(--text-secondary)]">{service.description}</p>
 
-                  <div className="space-y-3">
+                  <div className="space-y-3.5">
                     {service.points.map((point) => (
                       <div key={point} className="flex items-start gap-3 rounded-2xl border border-[var(--border-subtle)] bg-[rgba(255,255,255,0.02)] px-4 py-3.5">
                         <CheckCircle2 size={15} style={{ color: color.accent, flexShrink: 0, marginTop: 2 }} />
@@ -82,7 +79,7 @@ export default function Services() {
                     ))}
                   </div>
 
-                  <div className="mt-6 inline-flex items-center gap-2 text-sm font-medium" style={{ color: color.accent }}>
+                  <div className="mt-8 inline-flex items-center gap-2 text-sm font-medium" style={{ color: color.accent }}>
                     Solution design, delivery, and iteration
                     <ArrowRight size={14} />
                   </div>
@@ -92,22 +89,6 @@ export default function Services() {
           })}
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.18 }}
-          className="card-elevated mt-10 rounded-[2rem] px-7 py-8 text-center md:px-10"
-        >
-          <p className="section-eyebrow mx-auto w-fit">Workflow Fit</p>
-          <h3 className="mt-4 text-2xl font-bold text-[var(--text-primary)] md:text-3xl">
-            Good automation feels lighter, not louder.
-          </h3>
-          <p className="mx-auto mt-4 max-w-2xl text-[15.5px] leading-8 text-[var(--text-secondary)]">
-            The goal is not to add more screens or more steps. It&apos;s to reduce friction, make decisions clearer, and let
-            teams move with confidence.
-          </p>
-        </motion.div>
       </div>
     </section>
   );

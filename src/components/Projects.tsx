@@ -1,144 +1,210 @@
 "use client";
 
-import { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import { ArrowUpRight, CheckCircle2, ChevronRight } from "lucide-react";
+import { motion } from "framer-motion";
+import { CheckCircle2, Lock } from "lucide-react";
 import { GithubIcon } from "@/components/ui/SocialIcons";
 import { PROJECTS } from "@/lib/data";
 
 const colorMap = {
-  blue: { accent: "#47A4FF", bg: "rgba(71,164,255,0.1)", border: "rgba(71,164,255,0.22)", text: "#8FD5FF" },
-  purple: { accent: "#9A97FF", bg: "rgba(126,124,255,0.1)", border: "rgba(126,124,255,0.22)", text: "#C8C5FF" },
-  cyan: { accent: "#43D6C9", bg: "rgba(67,214,201,0.1)", border: "rgba(67,214,201,0.22)", text: "#8DF1E8" },
+  blue:   { accent: "#47A4FF", bg: "rgba(71,164,255,0.08)",   border: "rgba(71,164,255,0.18)",  text: "#8FD5FF" },
+  purple: { accent: "#9A97FF", bg: "rgba(126,124,255,0.08)",  border: "rgba(126,124,255,0.18)", text: "#C8C5FF" },
+  cyan:   { accent: "#43D6C9", bg: "rgba(67,214,201,0.08)",   border: "rgba(67,214,201,0.18)",  text: "#8DF1E8" },
 };
+
+const SELECTED_COUNT = 3;
 
 function FeaturedCard({ project, index }: { project: (typeof PROJECTS)[0]; index: number }) {
   const colors = colorMap[project.color as keyof typeof colorMap] ?? colorMap.blue;
+  const num = String(index + 1).padStart(2, "0");
+  const isConfidential = index === 0;
+
+  const scopeItems = [
+    { label: "Projects shipped", value: "5+" },
+    { label: "Departments", value: "Multi" },
+    { label: "Criticality", value: "High" },
+    { label: "Disclosure", value: "Restricted" },
+  ];
 
   return (
     <motion.article
-      initial={{ opacity: 0, y: 26 }}
+      initial={{ opacity: 0, y: 28 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.65, delay: index * 0.08, ease: [0.16, 1, 0.3, 1] }}
-      className="card-elevated relative overflow-hidden rounded-[2rem] p-7 md:p-8"
+      transition={{ duration: 0.65, delay: index * 0.09, ease: [0.16, 1, 0.3, 1] }}
+      className="group relative overflow-hidden rounded-[2rem]"
+      style={{
+        background: "linear-gradient(155deg, rgba(11,21,36,0.98), rgba(5,11,22,0.99))",
+        border: `1px solid ${colors.accent}22`,
+      }}
     >
+      {/* Top gradient line */}
       <div
-        className="absolute right-0 top-0 h-32 w-32 rounded-full blur-3xl"
-        style={{ background: `${colors.accent}18`, transform: "translate(35%, -35%)" }}
+        className="absolute inset-x-0 top-0 h-[1.5px]"
+        style={{ background: `linear-gradient(90deg, ${colors.accent}, ${colors.accent}50, transparent)` }}
+      />
+      {/* Left edge accent */}
+      <div
+        className="absolute left-0 top-6 bottom-6 w-[2.5px] rounded-full"
+        style={{ background: `linear-gradient(180deg, ${colors.accent}90, transparent)` }}
+      />
+      {/* Corner ambient glow */}
+      <div
+        className="absolute -right-16 -top-16 h-56 w-56 rounded-full blur-3xl opacity-[0.07] transition-opacity duration-700 group-hover:opacity-[0.13]"
+        style={{ background: colors.accent }}
       />
 
-      <div className="relative flex flex-col gap-6">
-        <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
-          <div className="max-w-xl">
-            <div className="mb-3 flex items-center gap-3">
-              <span className="tag tag-blue">Featured</span>
-              <span className="text-[11px] uppercase tracking-[0.16em] text-[var(--text-muted)]" style={{ fontFamily: "var(--font-mono)" }}>
-                {project.subtitle}
-              </span>
-            </div>
-            <h3 className="text-2xl font-bold text-[var(--text-primary)] md:text-[2rem]">{project.title}</h3>
-          </div>
-
-          {project.github ? (
+      <div className="relative" style={{ padding: "0.51rem" }}>
+        {/* Eyebrow row */}
+        <div className="mb-7 flex items-center gap-4">
+          <span
+            className="text-[2.8rem] font-extrabold leading-none"
+            style={{ fontFamily: "var(--font-display)", color: colors.accent, opacity: 0.14 }}
+          >
+            {num}
+          </span>
+          <div className="h-px flex-1 opacity-20" style={{ background: colors.accent }} />
+          <span
+            className="text-[10px] uppercase tracking-[0.2em] text-[var(--text-muted)]"
+            style={{ fontFamily: "var(--font-mono)" }}
+          >
+            {project.subtitle}
+          </span>
+          {isConfidential && (
+            <span
+              className="flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[9px] font-bold uppercase tracking-[0.12em]"
+              style={{
+                fontFamily: "var(--font-mono)",
+                background: "rgba(255,110,100,0.1)",
+                border: "1px solid rgba(255,120,110,0.28)",
+                color: "rgba(255,155,145,0.95)",
+              }}
+            >
+              <Lock size={8} />
+              NDA
+            </span>
+          )}
+          {project.github && (
             <a
               href={project.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex h-11 w-11 items-center justify-center rounded-2xl border border-[var(--border-mid)] bg-[rgba(255,255,255,0.03)] text-[var(--text-secondary)] transition-all hover:border-[var(--border-bright)] hover:text-[var(--text-primary)]"
+              className="flex h-9 w-9 items-center justify-center rounded-xl border border-[var(--border-mid)] bg-[rgba(255,255,255,0.03)] text-[var(--text-muted)] transition-all hover:border-[var(--border-bright)] hover:text-[var(--text-primary)]"
             >
-              <GithubIcon size={16} />
+              <GithubIcon size={14} />
             </a>
-          ) : null}
+          )}
         </div>
 
-        <p className="max-w-2xl text-[15.5px] leading-8 text-[var(--text-secondary)] md:text-[1rem]">{project.description}</p>
-
-        <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
-          {project.impact.map((item) => (
-            <div key={item} className="rounded-2xl border border-[var(--border-subtle)] bg-[rgba(255,255,255,0.02)] px-4 py-3.5">
-              <div className="flex items-start gap-3">
-                <CheckCircle2 size={15} style={{ color: colors.text, flexShrink: 0, marginTop: 2 }} />
-                <span className="text-sm leading-6 text-[var(--text-secondary)]">{item}</span>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div className="flex flex-wrap gap-2.5">
-          {project.tags.map((tag) => (
-            <span
-              key={tag}
-              className="rounded-full px-3.5 py-2 text-[11px]"
-              style={{ fontFamily: "var(--font-mono)", background: colors.bg, border: `1px solid ${colors.border}`, color: colors.text }}
+        {/* Body grid */}
+        <div className="grid gap-8 lg:grid-cols-[1fr_260px]">
+          {/* Left: title + description + tags */}
+          <div className="flex flex-col gap-5">
+            <h3
+              className="text-[1.7rem] font-extrabold leading-tight text-[var(--text-primary)] md:text-[1.9rem]"
+              style={{ fontFamily: "var(--font-display)" }}
             >
-              {tag}
+              {project.title}
+            </h3>
+            <p
+              className="text-[15.5px] leading-[1.85] text-[var(--text-secondary)]"
+              style={{ fontFamily: "var(--font-body)" }}
+            >
+              {project.description}
+            </p>
+            <div className="mt-auto flex flex-wrap gap-2 pt-1">
+              {project.tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="rounded-full px-3.5 py-1.5 text-[11px]"
+                  style={{
+                    fontFamily: "var(--font-mono)",
+                    background: colors.bg,
+                    border: `1px solid ${colors.border}`,
+                    color: colors.text,
+                  }}
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {/* Right: scope / impact panel */}
+          <div
+            className="flex flex-col rounded-[1.4rem] p-5"
+            style={{
+              background: `${colors.accent}07`,
+              border: `1px solid ${colors.accent}1a`,
+            }}
+          >
+            <span
+              className="mb-3 block text-[10px] uppercase tracking-[0.2em] text-[var(--text-muted)]"
+              style={{ fontFamily: "var(--font-mono)" }}
+            >
+              {isConfidential ? "Scope" : "Impact"}
             </span>
-          ))}
+
+            {isConfidential ? (
+              <div className="flex flex-col gap-0">
+                {scopeItems.map((s, i) => (
+                  <div
+                    key={s.label}
+                    className="flex items-center justify-between py-3"
+                    style={{
+                      borderBottom: i < scopeItems.length - 1 ? `1px solid ${colors.accent}14` : "none",
+                    }}
+                  >
+                    <span
+                      className="text-[11.5px] text-[var(--text-muted)]"
+                      style={{ fontFamily: "var(--font-mono)" }}
+                    >
+                      {s.label}
+                    </span>
+                    <span
+                      className="text-[12px] font-bold"
+                      style={{ fontFamily: "var(--font-mono)", color: colors.text }}
+                    >
+                      {s.value}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="flex flex-col gap-0">
+                {project.impact.map((item, i) => (
+                  <div
+                    key={item}
+                    className="flex items-start gap-3 py-3"
+                    style={{
+                      borderBottom: i < project.impact.length - 1 ? `1px solid ${colors.accent}14` : "none",
+                    }}
+                  >
+                    <CheckCircle2
+                      size={13}
+                      style={{ color: colors.text, flexShrink: 0, marginTop: 2 }}
+                    />
+                    <span
+                      className="text-[13px] leading-5 text-[var(--text-secondary)]"
+                      style={{ fontFamily: "var(--font-body)" }}
+                    >
+                      {item}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </motion.article>
   );
 }
-
-function ProjectCard({ project, index }: { project: (typeof PROJECTS)[0]; index: number }) {
-  const colors = colorMap[project.color as keyof typeof colorMap] ?? colorMap.blue;
-
-  return (
-    <motion.article
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.55, delay: index * 0.06, ease: [0.16, 1, 0.3, 1] }}
-      className="card relative overflow-hidden rounded-[1.75rem] p-6"
-    >
-      <div className="mb-4 flex items-start justify-between gap-4">
-        <div>
-          <p className="text-[11px] uppercase tracking-[0.16em] text-[var(--text-muted)]" style={{ fontFamily: "var(--font-mono)" }}>
-            {project.subtitle}
-          </p>
-          <h3 className="mt-3 text-xl font-bold text-[var(--text-primary)]">{project.title}</h3>
-        </div>
-
-        {project.github ? (
-          <a
-            href={project.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex h-10 w-10 items-center justify-center rounded-2xl border border-[var(--border-subtle)] bg-[rgba(255,255,255,0.03)] text-[var(--text-secondary)] transition-all hover:text-[var(--text-primary)]"
-          >
-            <GithubIcon size={15} />
-          </a>
-        ) : null}
-      </div>
-
-      <p className="text-[15px] leading-7 text-[var(--text-secondary)]">{project.description}</p>
-
-      <div className="mt-6 flex flex-wrap gap-2">
-        {project.tags.map((tag) => (
-          <span
-            key={tag}
-            className="rounded-full px-3 py-1.5 text-[11px]"
-            style={{ fontFamily: "var(--font-mono)", background: colors.bg, border: `1px solid ${colors.border}`, color: colors.text }}
-          >
-            {tag}
-          </span>
-        ))}
-      </div>
-    </motion.article>
-  );
-}
-
-const SELECTED_COUNT = 3;
 
 export default function Projects() {
-  const [showAll, setShowAll] = useState(false);
   const selected = PROJECTS.slice(0, SELECTED_COUNT);
-  const remaining = PROJECTS.slice(SELECTED_COUNT);
-  const displayedRemaining = showAll ? remaining : remaining.slice(0, 3);
 
   return (
-    <section id="projects" className="relative py-24 md:py-32">
+    <section id="projects" className="relative py-28 md:py-36">
       <div className="dot-bg absolute inset-0 opacity-40" />
       <div className="section-line absolute inset-x-0 top-0" />
 
@@ -155,49 +221,11 @@ export default function Projects() {
           </p>
         </div>
 
-        <div className="space-y-6">
+        <div className="space-y-7">
           {selected.map((project, index) => (
             <FeaturedCard key={project.title} project={project} index={index} />
           ))}
         </div>
-
-        {remaining.length > 0 && (
-          <div className="mt-16 md:mt-20">
-            <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
-              <div>
-                <p className="section-eyebrow">Archive</p>
-                <h3 className="mt-3 text-2xl font-bold text-[var(--text-primary)] md:text-3xl">More builds, experiments, and 42 projects</h3>
-              </div>
-              <a
-                href="https://github.com/mhmdjnde"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-full border border-[var(--border-mid)] px-4 py-2 text-[13px] text-[var(--text-secondary)] transition-all hover:border-[var(--border-bright)] hover:text-[var(--text-primary)]"
-                style={{ fontFamily: "var(--font-mono)" }}
-              >
-                github.com/mhmdjnde
-                <ArrowUpRight size={13} />
-              </a>
-            </div>
-
-            <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-              <AnimatePresence>
-                {displayedRemaining.map((project, index) => (
-                  <ProjectCard key={project.title} project={project} index={index} />
-                ))}
-              </AnimatePresence>
-            </div>
-
-            {remaining.length > 3 && (
-              <div className="mt-8 flex justify-center">
-                <button onClick={() => setShowAll((v) => !v)} className="btn-ghost">
-                  {showAll ? "Show less" : `Show ${remaining.length - 3} more`}
-                  <ChevronRight size={14} className={`transition-transform ${showAll ? "rotate-90" : ""}`} />
-                </button>
-              </div>
-            )}
-          </div>
-        )}
       </div>
     </section>
   );

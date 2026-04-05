@@ -4,68 +4,148 @@ import { ArrowUp, Mail, Zap } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/components/ui/SocialIcons";
 import { PERSONAL } from "@/lib/data";
 
+const TAPE_ITEMS = [
+  "Power Apps", "Power Automate", "Dataverse", "SharePoint", "Process Automation",
+  "Canvas Apps", "Model-Driven", "TypeScript", "C / C++", "Systems Engineering",
+  "42 Beirut", "CMA CGM", "Workflow Design", "Digital Transformation", "Enterprise Tools",
+];
+
+function MarqueeTape() {
+  const doubled = [...TAPE_ITEMS, ...TAPE_ITEMS];
+  return (
+    <div style={{ overflow: "hidden", borderTop: "1px solid rgba(173,201,255,.06)", borderBottom: "1px solid rgba(173,201,255,.06)", background: "rgba(71,164,255,.015)", position: "relative" }}>
+      {/* Fade masks */}
+      <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: "8rem", background: "linear-gradient(90deg,rgba(7,17,28,1),transparent)", zIndex: 1, pointerEvents: "none" }} />
+      <div style={{ position: "absolute", right: 0, top: 0, bottom: 0, width: "8rem", background: "linear-gradient(270deg,rgba(7,17,28,1),transparent)", zIndex: 1, pointerEvents: "none" }} />
+      <div style={{ display: "flex", width: "max-content", animation: "tape-scroll 30s linear infinite", padding: "13px 0" }}>
+        {doubled.map((item, i) => (
+          <div key={i} style={{ display: "flex", alignItems: "center", padding: "0 1.75rem", whiteSpace: "nowrap" }}>
+            <span style={{
+              fontFamily: "var(--font-mono)",
+              fontSize: "10.5px",
+              letterSpacing: "0.13em",
+              textTransform: "uppercase",
+              color: i % 4 === 0 ? "var(--power-blue-bright)"
+                : i % 4 === 1 ? "var(--text-muted)"
+                : i % 4 === 2 ? "var(--cyan-arc)"
+                : "rgba(173,201,255,.3)",
+            }}>
+              {item}
+            </span>
+            <span style={{ color: "rgba(173,201,255,.15)", marginLeft: "1.75rem", fontSize: "18px", lineHeight: "1" }}>·</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function Footer() {
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
   return (
-    <footer className="relative overflow-hidden border-t border-[var(--border-subtle)] bg-[rgba(10,22,36,0.72)]">
-      <div className="section-line absolute inset-x-0 top-0" />
-      <div className="section-container relative py-12 md:py-16">
-        <div className="card-elevated rounded-[2rem] px-6 py-8 md:px-8">
-          <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
-            <div className="max-w-xl">
-              <div className="flex items-center gap-3">
-                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[linear-gradient(135deg,var(--power-blue),var(--automate-purple))] shadow-[0_14px_34px_rgba(71,164,255,0.2)]">
-                  <Zap size={18} className="text-white" strokeWidth={2.4} />
+    <footer style={{ position: "relative", overflow: "hidden" }}>
+      <style>{`
+        @keyframes tape-scroll {
+          from { transform: translateX(0); }
+          to   { transform: translateX(-50%); }
+        }
+        .ftr-icon {
+          width: 40px; height: 40px; border-radius: 11px;
+          border: 1px solid rgba(173,201,255,.1);
+          background: rgba(255,255,255,.03);
+          display: flex; align-items: center; justify-content: center;
+          color: var(--text-secondary);
+          transition: all .2s; text-decoration: none;
+        }
+        .ftr-icon:hover {
+          border-color: rgba(71,164,255,.28); color: var(--text-primary);
+          background: rgba(71,164,255,.07); transform: translateY(-2px);
+        }
+        .ftr-top {
+          display: flex; align-items: center; gap: 8px;
+          background: transparent; border: 1px solid rgba(173,201,255,.1);
+          border-radius: 10px; color: var(--text-muted);
+          font-family: var(--font-mono); font-size: 10.5px;
+          letter-spacing: 0.12em; text-transform: uppercase;
+          padding: 8px 14px; cursor: pointer; transition: all .2s;
+        }
+        .ftr-top:hover {
+          border-color: rgba(71,164,255,.22); color: var(--text-secondary);
+          transform: translateY(-2px);
+        }
+        .footer-main-grid {
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-start;
+          gap: 2rem;
+        }
+        @media (max-width: 640px) {
+          .footer-main-grid { flex-direction: column; }
+        }
+      `}</style>
+
+      {/* Marquee tape */}
+      <MarqueeTape />
+
+      {/* Main content */}
+      <div style={{ background: "linear-gradient(180deg,rgba(10,22,36,.98),rgba(7,17,28,1))", borderTop: "1px solid rgba(173,201,255,.05)", position: "relative" }}>
+
+        {/* Ambient glow */}
+        <div style={{ position: "absolute", top: 0, left: "50%", transform: "translateX(-50%)", width: "500px", height: "1px", background: "linear-gradient(90deg,transparent,rgba(71,164,255,.28),rgba(67,214,201,.18),transparent)", filter: "blur(1px)" }} />
+
+        <div className="section-container" style={{ paddingTop: "3.5rem", paddingBottom: "2.5rem" }}>
+          <div className="footer-main-grid">
+
+            {/* Brand */}
+            <div style={{ maxWidth: "26rem" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "1.25rem" }}>
+                <div style={{ width: "40px", height: "40px", borderRadius: "13px", background: "linear-gradient(135deg,var(--power-blue),var(--automate-purple))", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 8px 22px rgba(71,164,255,.2)" }}>
+                  <Zap size={16} style={{ color: "white" }} strokeWidth={2.4} />
                 </div>
                 <div>
-                  <p className="text-lg font-semibold text-[var(--text-primary)]" style={{ fontFamily: "var(--font-display)" }}>
+                  <p style={{ fontFamily: "var(--font-display)", fontSize: "17px", fontWeight: 600, color: "var(--text-primary)" }}>
                     {PERSONAL.siteTitle}
                   </p>
-                  <p className="text-[11px] uppercase tracking-[0.16em] text-[var(--text-muted)]" style={{ fontFamily: "var(--font-mono)" }}>
+                  <p style={{ fontFamily: "var(--font-mono)", fontSize: "9.5px", letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--text-muted)" }}>
                     Power Platform Developer
                   </p>
                 </div>
               </div>
-
-              <h3 className="mt-6 text-2xl font-bold text-[var(--text-primary)] md:text-3xl">
-                Designing useful digital systems with restraint, clarity, and technical depth.
-              </h3>
-              <p className="mt-4 max-w-xl text-[15.5px] leading-8 text-[var(--text-secondary)]">
-                Built around enterprise automation, systems thinking, and cleaner user experiences for real teams.
+              <p style={{ fontSize: "13.5px", lineHeight: 1.8, color: "var(--text-secondary)", maxWidth: "22rem" }}>
+                Building enterprise automation with clarity, technical depth, and systems that real teams actually adopt.
               </p>
             </div>
 
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-center lg:flex-col lg:items-end">
-              <div className="flex flex-wrap gap-2">
-                {[
-                  { href: PERSONAL.github, icon: GithubIcon, label: "GitHub" },
-                  { href: PERSONAL.linkedin, icon: LinkedinIcon, label: "LinkedIn" },
-                  { href: `mailto:${PERSONAL.email}`, icon: Mail, label: "Email" },
-                ].map(({ href, icon: Icon, label }) => (
-                  <a
-                    key={label}
-                    href={href}
-                    target={href.startsWith("mailto:") ? undefined : "_blank"}
-                    rel={href.startsWith("mailto:") ? undefined : "noopener noreferrer"}
-                    className="flex items-center gap-2 rounded-full border border-[var(--border-mid)] px-4 py-3 text-sm text-[var(--text-secondary)] transition-all hover:border-[var(--border-bright)] hover:text-[var(--text-primary)]"
-                  >
-                    <Icon size={15} />
-                    {label}
-                  </a>
-                ))}
+            {/* Social + back to top */}
+            <div style={{ display: "flex", flexDirection: "column", gap: "1rem", alignItems: "flex-end" }}>
+              <div style={{ display: "flex", gap: "0.6rem" }}>
+                <a href={PERSONAL.github} target="_blank" rel="noopener noreferrer" title="GitHub" className="ftr-icon">
+                  <GithubIcon size={16} />
+                </a>
+                <a href={PERSONAL.linkedin} target="_blank" rel="noopener noreferrer" title="LinkedIn" className="ftr-icon">
+                  <LinkedinIcon size={16} />
+                </a>
+                <a href={`mailto:${PERSONAL.email}`} title="Email" className="ftr-icon">
+                  <Mail size={16} />
+                </a>
               </div>
-
-              <button onClick={scrollToTop} className="inline-flex items-center gap-2 rounded-full border border-[var(--border-mid)] px-4 py-3 text-sm text-[var(--text-secondary)] transition-all hover:border-[var(--border-bright)] hover:text-[var(--text-primary)]">
+              <button onClick={scrollToTop} className="ftr-top">
+                <ArrowUp size={12} />
                 Back to top
-                <ArrowUp size={14} />
               </button>
             </div>
+
           </div>
 
-          <div className="mt-8 flex flex-col gap-4 border-t border-[var(--border-subtle)] pt-6 text-sm text-[var(--text-secondary)] md:flex-row md:items-center md:justify-between">
-            <p>Mohammad Joundi · Beirut · CMA CGM · 42 Beirut · Lebanese University</p>
-            <p style={{ fontFamily: "var(--font-mono)" }}>© {new Date().getFullYear()} {PERSONAL.siteTitle}</p>
+          {/* Bottom bar */}
+          <div style={{ borderTop: "1px solid rgba(173,201,255,.05)", marginTop: "2.5rem", paddingTop: "1.25rem", display: "flex", justifyContent: "space-between", alignItems: "center", gap: "1rem", flexWrap: "wrap" }}>
+            <p style={{ fontSize: "11.5px", color: "var(--text-muted)" }}>
+              Mohammad Joundi · Beirut · CMA CGM · 42 Beirut · Lebanese University
+            </p>
+            <p style={{ fontFamily: "var(--font-mono)", fontSize: "10.5px", color: "var(--text-muted)", letterSpacing: "0.06em", whiteSpace: "nowrap" }}>
+              © {new Date().getFullYear()} {PERSONAL.siteTitle}
+            </p>
           </div>
         </div>
       </div>

@@ -96,14 +96,14 @@ export default function Hero() {
         style={{ background: "rgba(126, 124, 255, 0.1)" }}
       />
 
-      <div className="section-container relative z-10 w-full pt-28 pb-16 md:pt-36 md:pb-24">
-        <div className="grid items-center gap-14 lg:grid-cols-[minmax(0,1fr)_28rem] lg:gap-16 xl:grid-cols-[minmax(0,1fr)_30rem]">
+      <div className="section-container relative z-10 w-full pt-32 pb-20 md:pt-40 md:pb-28">
+        <div className="grid items-center gap-16 lg:grid-cols-[minmax(0,1fr)_28rem] lg:gap-20 xl:grid-cols-[minmax(0,1fr)_30rem]">
           <div className="max-w-3xl">
             <motion.div
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-              className="mb-6 flex flex-wrap items-center gap-3"
+              className="mb-9 flex flex-wrap items-center gap-3"
             >
               <span className="tag tag-blue">Available for selected work</span>
               <span className="tag tag-cyan">Enterprise automation</span>
@@ -115,7 +115,7 @@ export default function Hero() {
               transition={{ duration: 0.8, delay: 0.12, ease: [0.16, 1, 0.3, 1] }}
             >
               <p className="section-eyebrow">Mohammad Joundi · Power Platform Developer</p>
-              <h1 className="mt-5 max-w-3xl text-[2.6rem] font-extrabold leading-[1.06] sm:text-5xl lg:text-[3rem] xl:text-[3.6rem]">
+              <h1 className="mt-7 max-w-3xl text-[2.6rem] font-extrabold leading-[1.08] sm:text-5xl lg:text-[3rem] xl:text-[3.6rem]">
                 Turning chaos into
                 <br />
                 <span className="text-gradient-full">enterprise-grade systems</span>
@@ -128,84 +128,91 @@ export default function Hero() {
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.26 }}
-              className="mt-7 max-w-2xl text-lg leading-8 text-[var(--text-secondary)] md:text-[1.18rem]"
+              className="mt-9 max-w-2xl text-lg leading-9 text-[var(--text-secondary)] md:text-[1.18rem]"
             >
               CS graduate from <span className="font-semibold text-[var(--text-primary)]">Lebanese University</span> and
               <span className="font-semibold text-[var(--text-primary)]"> 42 Beirut</span>, currently designing internal
               tools, flows, and process architecture at <span className="font-semibold text-[var(--power-blue-bright)]">CMA CGM</span>.
             </motion.p>
 
-            <motion.div
-              initial={{ opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.65, delay: 0.36 }}
-              className="mt-10 flex flex-wrap gap-3"
-            >
-              <a href="#projects" className="btn-primary">
-                <Layers size={15} />
-                View projects
-              </a>
-              <a href="#contact" className="btn-ghost">
-                <Sparkles size={15} />
-                Let&apos;s work together
-              </a>
-              <a href={PERSONAL.cvUrl} download className="btn-ghost">
-                <FileDown size={15} />
-                Download CV
-              </a>
-            </motion.div>
+            <div className="mt-12 flex flex-col" style={{ gap: "1rem" }}>
+              <motion.div
+                initial={{ opacity: 0, y: 18 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.65, delay: 0.36 }}
+                className="flex flex-wrap gap-3"
+              >
+                <a href="#projects" className="btn-primary">
+                  <Layers size={15} />
+                  View projects
+                </a>
+                <a href="#contact" className="btn-ghost">
+                  <Sparkles size={15} />
+                  Let&apos;s work together
+                </a>
+                <a href={PERSONAL.cvUrl} download className="btn-ghost">
+                  <FileDown size={15} />
+                  Download CV
+                </a>
+              </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.65, delay: 0.48 }}
-              className="mt-10 grid gap-3 sm:grid-cols-3"
-            >
-              {[
-                ["Focus", "Power Apps, cloud flows, practical automation"],
-                ["Style", "Systems thinking with clean user-facing execution"],
-                ["Base", "Beirut, shipping tech, enterprise constraints"],
-              ].map(([label, value]) => (
-                <div key={label} className="card rounded-2xl px-6 py-5">
-                  <div className="content-inset-sm">
-                    <p className="text-[11px] uppercase tracking-[0.16em] text-[var(--text-muted)]" style={{ fontFamily: "var(--font-mono)" }}>
-                      {label}
-                    </p>
-                    <p className="mt-2.5 text-[14px] leading-6 text-[var(--text-secondary)]">{value}</p>
+              <motion.div
+                initial={{ opacity: 0, y: 18 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.65, delay: 0.48 }}
+                className="grid gap-4 sm:grid-cols-3"
+                style={{ paddingLeft: "0.35rem" }}
+              >
+                {[
+                  ["Focus", "Power Apps, cloud flows, practical automation", "#47A4FF"],
+                  ["Style", "Systems thinking with clean user-facing execution", "#9A7AFF"],
+                  ["Base", "Beirut, shipping tech, enterprise constraints", "#43D6C9"],
+                ].map(([label, value, accent]) => (
+                  <div key={label} className="card rounded-2xl px-6 py-5 relative overflow-hidden">
+                    <div
+                      className="absolute left-0 top-4 bottom-4 w-[2.5px] rounded-full"
+                      style={{ background: `linear-gradient(180deg, ${accent}, ${accent}55)` }}
+                    />
+                    <div className="content-inset-sm">
+                      <p className="text-[11px] uppercase tracking-[0.16em] text-[var(--text-muted)]" style={{ fontFamily: "var(--font-mono)" }}>
+                        {label}
+                      </p>
+                      <p className="mt-2.5 text-[14px] leading-6 text-[var(--text-secondary)]">{value}</p>
+                    </div>
                   </div>
-                </div>
-              ))}
-            </motion.div>
+                ))}
+              </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.6 }}
-              className="mt-10 flex flex-wrap items-center gap-4"
-            >
-              <span className="text-[10px] uppercase tracking-[0.2em] text-[var(--text-muted)]" style={{ fontFamily: "var(--font-mono)" }}>
-                Find me on
-              </span>
-              <div className="h-px w-10 bg-[var(--border-mid)]" />
-              <div className="flex gap-2">
-                <a
-                  href={PERSONAL.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex h-10 w-10 items-center justify-center rounded-2xl border border-[var(--border-mid)] bg-[rgba(255,255,255,0.03)] text-[var(--text-secondary)] transition-all hover:border-[var(--border-bright)] hover:text-[var(--text-primary)]"
-                >
-                  <GithubIcon size={16} />
-                </a>
-                <a
-                  href={PERSONAL.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex h-10 w-10 items-center justify-center rounded-2xl border border-[var(--border-mid)] bg-[rgba(255,255,255,0.03)] text-[var(--text-secondary)] transition-all hover:border-[var(--power-blue)] hover:text-[var(--power-blue-bright)]"
-                >
-                  <LinkedinIcon size={16} />
-                </a>
-              </div>
-            </motion.div>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.6 }}
+                className="flex flex-wrap items-center gap-4"
+              >
+                <span className="text-[10px] uppercase tracking-[0.2em] text-[var(--text-muted)]" style={{ fontFamily: "var(--font-mono)" }}>
+                  Find me on
+                </span>
+                <div className="h-px w-10 bg-[var(--border-mid)]" />
+                <div className="flex gap-2">
+                  <a
+                    href={PERSONAL.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex h-10 w-10 items-center justify-center rounded-2xl border border-[var(--border-mid)] bg-[rgba(255,255,255,0.03)] text-[var(--text-secondary)] transition-all hover:border-[var(--border-bright)] hover:text-[var(--text-primary)]"
+                  >
+                    <GithubIcon size={16} />
+                  </a>
+                  <a
+                    href={PERSONAL.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex h-10 w-10 items-center justify-center rounded-2xl border border-[var(--border-mid)] bg-[rgba(255,255,255,0.03)] text-[var(--text-secondary)] transition-all hover:border-[var(--power-blue)] hover:text-[var(--power-blue-bright)]"
+                  >
+                    <LinkedinIcon size={16} />
+                  </a>
+                </div>
+              </motion.div>
+            </div>
           </div>
 
           <motion.div
@@ -214,10 +221,10 @@ export default function Hero() {
             transition={{ duration: 0.9, delay: 0.24, ease: [0.16, 1, 0.3, 1] }}
             className="relative mx-auto w-full max-w-[30rem]"
           >
-            <div className="card-elevated noise-overlay relative overflow-hidden rounded-[2rem] p-7 sm:p-8">
+            <div className="card-elevated noise-overlay relative overflow-hidden rounded-[2rem] p-8 sm:p-9">
               <div className="absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-[rgba(143,213,255,0.8)] to-transparent" />
 
-              <div className="mb-8 flex items-start justify-between gap-4">
+              <div className="mb-10 flex items-start justify-between gap-4">
                 <div className="content-inset">
                   <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--text-muted)]" style={{ fontFamily: "var(--font-mono)" }}>
                     Current Workflow Snapshot
@@ -230,7 +237,7 @@ export default function Hero() {
                 </span>
               </div>
 
-              <div className="mb-8 flex flex-col items-center">
+              <div className="mb-10 flex flex-col items-center">
                 <PAActionCard
                   icon={Zap}
                   iconBg="linear-gradient(135deg, #47A4FF, #43D6C9)"

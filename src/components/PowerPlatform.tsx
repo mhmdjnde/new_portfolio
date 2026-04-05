@@ -1,7 +1,6 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { motion } from "framer-motion";
 import { POWER_PLATFORM_SKILLS } from "@/lib/data";
 import { Zap, GitBranch, Database, FolderOpen, Users, Link2 } from "lucide-react";
 
@@ -14,114 +13,12 @@ const iconMap: Record<string, React.ElementType> = {
   connector: Link2,
 };
 
-function SkillBar({ level, color, delay = 0 }: { level: number; color: string; delay?: number }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true });
-  return (
-    <div ref={ref} className="h-1.5 rounded-full bg-[var(--surface-3)] overflow-hidden">
-      <motion.div
-        initial={{ width: 0 }}
-        animate={inView ? { width: `${level}%` } : {}}
-        transition={{ duration: 1.2, delay, ease: [0.16, 1, 0.3, 1] }}
-        className="h-full rounded-full"
-        style={{ background: color }}
-      />
-    </div>
-  );
-}
-
-// Power Automate–style flow diagram (light mode)
-function FlowDiagram() {
-  const steps = [
-    { label: "Trigger", sub: "Manual · HTTP · Schedule", color: "#0078D4", icon: Zap },
-    { label: "Condition", sub: "Apply to each · Switch", color: "#742774", icon: GitBranch },
-    { label: "Action A", sub: "SharePoint · Teams · Email", color: "#0099BC", icon: FolderOpen },
-    { label: "Action B", sub: "Dataverse · SQL · HTTP", color: "#038387", icon: Database },
-    { label: "Respond", sub: "Output · Notification", color: "#107C10", icon: Zap },
-  ];
-
-  return (
-    <div className="overflow-hidden rounded-[2rem] border border-[var(--border-mid)] shadow-xl" style={{ background: "var(--surface-0)" }}>
-      {/* Editor title bar */}
-      <div className="flex items-center justify-between border-b border-[var(--border-subtle)] px-6 py-4" style={{ background: "var(--surface-1)" }}>
-        <div className="flex items-center gap-3">
-          <span
-            className="text-xs font-semibold text-[var(--text-secondary)]"
-            style={{ fontFamily: "var(--font-mono)" }}
-          >
-            enterprise_automation.flow
-          </span>
-        </div>
-        <div className="flex items-center gap-2">
-          <span className="tag tag-green" style={{ padding: "2px 8px", fontSize: "9px" }}>
-            <span className="w-1 h-1 rounded-full bg-[var(--green-success)] animate-pulse inline-block" />
-            Running
-          </span>
-        </div>
-      </div>
-
-      {/* Flow canvas */}
-      <div className="flex items-start gap-6 overflow-x-auto p-7 md:p-8">
-        {steps.map((step, i) => {
-          const Icon = step.icon;
-          return (
-            <div key={step.label} className="flex flex-shrink-0 items-center gap-4">
-              {/* Card */}
-              <motion.div
-                initial={{ opacity: 0, y: 12 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1, duration: 0.5 }}
-                className="pa-card flex w-56 items-center gap-3 px-5 py-4"
-              >
-                <div
-                  className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
-                  style={{ background: step.color }}
-                >
-                  <Icon size={14} className="text-white" />
-                </div>
-                <div>
-                  <div
-                    className="text-sm font-semibold text-[var(--text-primary)] leading-tight"
-                    style={{ fontFamily: "var(--font-body)" }}
-                  >
-                    {step.label}
-                  </div>
-                  <div className="text-[10px] text-[var(--text-muted)] mt-0.5" style={{ fontFamily: "var(--font-mono)" }}>
-                    {step.sub}
-                  </div>
-                </div>
-              </motion.div>
-
-              {/* Horizontal connector */}
-              {i < steps.length - 1 && (
-                <div className="flex items-center gap-0 flex-shrink-0">
-                  <div className="w-5 h-0.5 bg-[var(--pa-connector-line)]" />
-                  <div
-                    className="w-0 h-0"
-                    style={{
-                      borderTop: "4px solid transparent",
-                      borderBottom: "4px solid transparent",
-                      borderLeft: `6px solid var(--pa-connector-line)`,
-                    }}
-                  />
-                </div>
-              )}
-            </div>
-          );
-        })}
-      </div>
-
-      {/* Footer stats */}
-      <div className="flex items-center gap-6 border-t border-[var(--border-subtle)] px-6 py-3" style={{ background: "var(--surface-1)" }}>
-        {["Duration: 1.8s", "5 actions", "0 errors", "Connections: 6"].map((s, i) => (
-          <span key={i} className="text-[10px] text-[var(--text-muted)]" style={{ fontFamily: "var(--font-mono)" }}>
-            {s}
-          </span>
-        ))}
-      </div>
-    </div>
-  );
+function masteryDots(level: number) {
+  if (level >= 85) return 5;
+  if (level >= 75) return 4;
+  if (level >= 65) return 3;
+  if (level >= 55) return 2;
+  return 1;
 }
 
 export default function PowerPlatform() {
@@ -138,7 +35,7 @@ export default function PowerPlatform() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
           className="section-heading text-left"
-          style={{ marginBottom: "3.75rem" }}
+          style={{ marginBottom: "1.5rem" }}
         >
           <span className="tag tag-blue mb-5 inline-block">Expertise</span>
           <h2
@@ -160,19 +57,20 @@ export default function PowerPlatform() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="mx-auto mb-12 max-w-2xl rounded-2xl p-7 text-center md:p-8"
+          className="mx-auto max-w-2xl rounded-2xl p-8 text-center md:p-9"
           style={{
+            marginBottom: "2.12rem",
             background: "linear-gradient(135deg, var(--power-blue-light), var(--cyan-light))",
             border: "1px solid rgba(0,120,212,0.16)",
           }}
         >
-          <span className="text-[11px] font-semibold text-[var(--power-blue)] tracking-wider block mb-2" style={{ fontFamily: "var(--font-mono)" }}>
+          <span className="text-[11px] font-semibold text-[var(--power-blue)] tracking-wider block" style={{ fontFamily: "var(--font-mono)", marginBottom: "0.51rem" }}>
             CURRENT ROLE
           </span>
-          <h3 className="text-xl font-bold text-[var(--text-primary)] mb-2" style={{ fontFamily: "var(--font-display)" }}>
+          <h3 className="text-xl font-bold text-[var(--text-primary)]" style={{ fontFamily: "var(--font-display)", marginBottom: "0.51rem" }}>
             Power Platform Developer · CMA CGM Group
           </h3>
-          <p className="text-[var(--text-secondary)] text-[15px] leading-relaxed mb-4" style={{ fontFamily: "var(--font-body)" }}>
+          <p className="text-[var(--text-secondary)] text-[15px] leading-relaxed" style={{ fontFamily: "var(--font-body)", marginBottom: "0.51rem" }}>
             One of the world&apos;s largest shipping & logistics companies. Building internal tools and automated workflows at enterprise scale. Since March 2025.
           </p>
           <div className="flex flex-wrap justify-center gap-2">
@@ -182,62 +80,116 @@ export default function PowerPlatform() {
           </div>
         </motion.div>
 
-        {/* Flow diagram */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="mb-16"
-        >
-          <FlowDiagram />
-        </motion.div>
+        {/* Divider */}
+        <div className="mb-10 flex items-center gap-5">
+          <div className="h-px flex-1" style={{ background: "linear-gradient(90deg, rgba(0,120,212,0.4), transparent)" }} />
+          <span className="text-[10px] uppercase tracking-[0.22em] text-[var(--text-muted)]" style={{ fontFamily: "var(--font-mono)" }}>
+            Core Toolset
+          </span>
+          <div className="h-px flex-1" style={{ background: "linear-gradient(270deg, rgba(0,120,212,0.4), transparent)" }} />
+        </div>
 
-        {/* Skills grid */}
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {POWER_PLATFORM_SKILLS.map((skill, i) => {
+        {/* Primary skills — 2 large hero cards */}
+        <div className="mb-6 grid gap-6 md:grid-cols-2">
+          {POWER_PLATFORM_SKILLS.slice(0, 2).map((skill, i) => {
             const Icon = iconMap[skill.icon] ?? Zap;
+            const dots = masteryDots(skill.level);
+            return (
+              <motion.div
+                key={skill.name}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.55, delay: i * 0.1 }}
+                className="group relative overflow-hidden rounded-[1.75rem] transition-all hover:shadow-lg"
+                style={{
+                  padding: "0.79rem",
+                  background: "linear-gradient(150deg, rgba(12,22,38,0.97), rgba(6,12,22,0.99))",
+                  border: `1px solid ${skill.color}22`,
+                }}
+              >
+                <div className="absolute inset-x-0 top-0 h-[1.5px]" style={{ background: `linear-gradient(90deg, ${skill.color}, ${skill.color}30, transparent)` }} />
+                <div className="absolute -right-12 -top-12 h-48 w-48 rounded-full blur-3xl opacity-10 transition-opacity duration-500 group-hover:opacity-18" style={{ background: skill.color }} />
+                <div className="relative">
+                  <div className="mb-6 inline-flex h-12 w-12 items-center justify-center rounded-2xl" style={{ background: skill.color }}>
+                    <Icon size={20} className="text-white" />
+                  </div>
+                  <h3 className="mb-1 text-[1.35rem] font-bold text-[var(--text-primary)]" style={{ fontFamily: "var(--font-display)" }}>
+                    {skill.name}
+                  </h3>
+                  <div className="mb-4 flex items-center gap-1.5">
+                    {[1,2,3,4,5].map((d) => (
+                      <div key={d} className="h-[6px] w-[6px] rounded-full transition-all" style={{ background: d <= dots ? skill.color : `${skill.color}28` }} />
+                    ))}
+                    <span className="ml-1 text-[10px] uppercase tracking-[0.14em] text-[var(--text-muted)]" style={{ fontFamily: "var(--font-mono)" }}>mastery</span>
+                  </div>
+                  <p className="mb-6 text-[15px] leading-relaxed text-[var(--text-secondary)]" style={{ fontFamily: "var(--font-body)" }}>
+                    {skill.description}
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {skill.tags.map((tag) => (
+                      <span key={tag} className="rounded-md px-3 py-1 text-[11px]" style={{ fontFamily: "var(--font-mono)", background: `${skill.color}10`, border: `1px solid ${skill.color}20`, color: skill.color }}>
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
+
+        {/* Secondary skills — 2 compact cards */}
+        <div className="grid gap-6 md:grid-cols-2">
+          {POWER_PLATFORM_SKILLS.slice(2).map((skill, i) => {
+            const Icon = iconMap[skill.icon] ?? Zap;
+            const dots = masteryDots(skill.level);
             return (
               <motion.div
                 key={skill.name}
                 initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.07 }}
-                className="card-elevated rounded-[1.5rem] p-7 group hover:shadow-md transition-all"
+                transition={{ duration: 0.5, delay: i * 0.08 }}
+                className="group relative overflow-hidden rounded-[1.5rem] transition-all hover:shadow-md"
+                style={{
+                  background: "linear-gradient(150deg, rgba(10,20,34,0.96), rgba(6,12,22,0.98))",
+                  border: `1px solid ${skill.color}22`,
+                  padding: "0.61rem",
+                }}
               >
-                <div className="flex items-start gap-4 mb-5">
-                  <div
-                    className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0"
-                    style={{ background: skill.color }}
-                  >
-                    <Icon size={19} className="text-white" />
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex items-center justify-between mb-2">
-                      <h3 className="font-bold text-[var(--text-primary)] text-[16px]" style={{ fontFamily: "var(--font-display)" }}>
+                <div className="absolute inset-x-0 top-0 h-px" style={{ background: `linear-gradient(90deg, ${skill.color}80, ${skill.color}30, transparent)` }} />
+                <div className="absolute inset-y-0 left-0 w-[2px] rounded-full" style={{ background: `linear-gradient(180deg, ${skill.color}60, transparent)` }} />
+                <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full blur-2xl opacity-0 transition-opacity duration-500 group-hover:opacity-20" style={{ background: skill.color }} />
+                <div className="relative flex h-full flex-col gap-5">
+                  {/* Header row */}
+                  <div className="flex items-center gap-4">
+                    <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl" style={{ background: skill.color }}>
+                      <Icon size={17} className="text-white" />
+                    </div>
+                    <div>
+                      <h3 className="text-[1.05rem] font-bold leading-tight text-[var(--text-primary)]" style={{ fontFamily: "var(--font-display)" }}>
                         {skill.name}
                       </h3>
-                      <span className="text-[13px] font-semibold" style={{ fontFamily: "var(--font-mono)", color: skill.color }}>
-                        {skill.level}%
-                      </span>
+                      <div className="mt-1.5 flex items-center gap-1">
+                        {[1,2,3,4,5].map((d) => (
+                          <div key={d} className="h-[5px] w-[5px] rounded-full" style={{ background: d <= dots ? skill.color : `${skill.color}28` }} />
+                        ))}
+                      </div>
                     </div>
-                    <SkillBar level={skill.level} color={skill.color} delay={i * 0.1 + 0.3} />
                   </div>
-                </div>
-                <p className="mb-5 text-[15px] leading-relaxed text-[var(--text-secondary)]" style={{ fontFamily: "var(--font-body)" }}>
-                  {skill.description}
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {skill.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="text-[11px] px-2.5 py-1 rounded-md"
-                      style={{ fontFamily: "var(--font-mono)", background: `${skill.color}10`, border: `1px solid ${skill.color}18`, color: skill.color }}
-                    >
-                      {tag}
-                    </span>
-                  ))}
+                  {/* Description */}
+                  <p className="text-[13.5px] leading-relaxed text-[var(--text-secondary)]" style={{ fontFamily: "var(--font-body)" }}>
+                    {skill.description}
+                  </p>
+                  {/* Tags */}
+                  <div className="mt-auto flex flex-wrap gap-1.5">
+                    {skill.tags.map((tag) => (
+                      <span key={tag} className="rounded-lg px-3 py-1 text-[10px]" style={{ fontFamily: "var(--font-mono)", background: `${skill.color}10`, border: `1px solid ${skill.color}22`, color: skill.color }}>
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </motion.div>
             );

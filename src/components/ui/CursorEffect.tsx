@@ -84,9 +84,9 @@ export default function CursorEffect() {
         <div
           className="w-full h-full rounded-full"
           style={{
-            border: `1px solid rgba(59,130,246,${hovering ? 0.7 : 0.4})`,
-            background: `rgba(59,130,246,${hovering ? 0.06 : 0.03})`,
-            boxShadow: `0 0 ${hovering ? 16 : 10}px rgba(59,130,246,${hovering ? 0.25 : 0.12})`,
+            border: `1px solid rgba(71,164,255,${hovering ? 0.7 : 0.4})`,
+            background: `rgba(71,164,255,${hovering ? 0.06 : 0.03})`,
+            boxShadow: `0 0 ${hovering ? 18 : 10}px rgba(71,164,255,${hovering ? 0.28 : 0.12})`,
           }}
         />
       </motion.div>
@@ -101,8 +101,8 @@ export default function CursorEffect() {
           translateY: "-50%",
           width: 7,
           height: 7,
-          background: "#3B82F6",
-          boxShadow: "0 0 10px rgba(59,130,246,0.7)",
+          background: "#47A4FF",
+          boxShadow: "0 0 10px rgba(71,164,255,0.6)",
         }}
         animate={{
           opacity: visible ? 1 : 0,
