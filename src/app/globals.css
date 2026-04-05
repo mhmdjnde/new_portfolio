@@ -311,7 +311,7 @@ p { text-wrap: pretty; }
   padding-left: clamp(0.4rem, 1vw, 0.95rem);
 }
 .section-heading h2 {
-  font-size: clamp(2.7rem, 5vw, 4.8rem);
+  font-size: clamp(1.95rem, 5vw, 4.8rem);
   margin-top: 1.4rem;
   margin-bottom: 0.15rem;
 }

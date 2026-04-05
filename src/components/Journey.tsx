@@ -155,7 +155,7 @@ export default function Journey() {
         >
           <span className="tag tag-purple mb-5 inline-block">Timeline</span>
           <h2
-            className="text-5xl md:text-6xl font-extrabold text-[var(--text-primary)] mb-4"
+            className="text-[2rem] sm:text-5xl md:text-6xl font-extrabold text-[var(--text-primary)] mb-4"
             style={{ fontFamily: "var(--font-display)" }}
           >
             My <span className="text-gradient-purple">Journey</span>

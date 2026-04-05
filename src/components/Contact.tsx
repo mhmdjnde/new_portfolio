@@ -82,6 +82,15 @@ export default function Contact() {
         @media (max-width: 1024px) {
           .contact-grid { grid-template-columns: 1fr; }
         }
+        .form-name-email {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 2rem;
+          margin-bottom: 2rem;
+        }
+        @media (max-width: 520px) {
+          .form-name-email { grid-template-columns: 1fr; gap: 1.5rem; }
+        }
       `}</style>
 
       <section id="contact" className="relative overflow-hidden" style={{ paddingTop: "7rem", paddingBottom: "7rem" }}>
@@ -116,7 +125,7 @@ export default function Contact() {
             <span className="section-eyebrow">Contact</span>
             <h2 style={{
               fontFamily: "var(--font-display)",
-              fontSize: "clamp(3.5rem, 8vw, 6.5rem)",
+              fontSize: "clamp(2rem, 8vw, 6.5rem)",
               fontWeight: 800,
               lineHeight: 0.9,
               letterSpacing: "-0.04em",
@@ -216,7 +225,7 @@ export default function Contact() {
                     </div>
 
                     {/* Name + Email */}
-                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2rem", marginBottom: "2rem" }}>
+                    <div className="form-name-email">
                       {[
                         { name: "name",  label: "Name",  placeholder: "Jane Doe",           type: "text"  },
                         { name: "email", label: "Email", placeholder: "jane@example.com",    type: "email" },
