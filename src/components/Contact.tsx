@@ -19,7 +19,7 @@ function LiveTime() {
 }
 
 export default function Contact() {
-  const [status, setStatus] = useState<"idle" | "sending" | "sent">("idle");
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [focused, setFocused] = useState<string | null>(null);
 
@@ -29,8 +29,17 @@ export default function Contact() {
   const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     setStatus("sending");
-    await new Promise((r) => setTimeout(r, 1500));
-    setStatus("sent");
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      if (!res.ok) throw new Error("send failed");
+      setStatus("sent");
+    } catch {
+      setStatus("error");
+    }
   };
 
   return (
@@ -183,7 +192,7 @@ export default function Contact() {
                       Signal received.
                     </h3>
                     <p style={{ color: "var(--text-secondary)", fontSize: "15px", lineHeight: 1.75, maxWidth: "28rem" }}>
-                      Thanks for reaching out. The real contact integration can be wired in next.
+                      Your message is on its way. I&apos;ll read it personally and get back to you as soon as possible.
                     </p>
                     <button
                       onClick={() => { setStatus("idle"); setForm({ name: "", email: "", message: "" }); }}
@@ -191,6 +200,40 @@ export default function Contact() {
                       style={{ marginTop: "1.75rem" }}
                     >
                       Send another
+                    </button>
+                  </motion.div>
+
+                ) : status === "error" ? (
+                  <motion.div key="error"
+                    initial={{ opacity: 0, scale: 0.96 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0 }}
+                    style={{
+                      minHeight: "24rem",
+                      display: "flex", flexDirection: "column",
+                      alignItems: "center", justifyContent: "center", textAlign: "center",
+                      background: "linear-gradient(180deg,rgba(19,31,47,.92),rgba(12,21,33,.98))",
+                      border: "1px solid rgba(244,100,100,.18)",
+                      borderRadius: "2rem",
+                      padding: "3rem",
+                    }}
+                  >
+                    <div style={{ width: "60px", height: "60px", borderRadius: "18px", background: "rgba(244,100,100,.1)", border: "1px solid rgba(244,100,100,.22)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "1.4rem" }}>
+                      <span style={{ fontSize: "22px" }}>✕</span>
+                    </div>
+                    <h3 style={{ fontSize: "1.5rem", fontWeight: 700, color: "var(--text-primary)", marginBottom: "0.65rem" }}>
+                      Something went wrong.
+                    </h3>
+                    <p style={{ color: "var(--text-secondary)", fontSize: "15px", lineHeight: 1.75, maxWidth: "28rem" }}>
+                      The message didn&apos;t go through. Try again or reach me directly at{" "}
+                      <a href="mailto:contact@jnde.dev" style={{ color: "var(--power-blue)" }}>contact@jnde.dev</a>.
+                    </p>
+                    <button
+                      onClick={() => setStatus("idle")}
+                      className="btn-ghost"
+                      style={{ marginTop: "1.75rem" }}
+                    >
+                      Try again
                     </button>
                   </motion.div>
 
