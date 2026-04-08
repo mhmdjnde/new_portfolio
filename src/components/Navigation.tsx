@@ -107,7 +107,7 @@ export default function Navigation() {
           position: "fixed", left: 0, top: 0, bottom: 0, width: "var(--nav-w)",
           background: "rgba(7,7,26,0.88)", backdropFilter: "blur(24px)",
           borderRight: "1px solid var(--border)",
-          zIndex: 100, display: "flex", flexDirection: "column",
+          zIndex: 100, flexDirection: "column",
           alignItems: "center", padding: "18px 0", gap: "6px",
         }}
         className="hidden md:flex"
@@ -176,12 +176,12 @@ export default function Navigation() {
 
       {/* ── Mobile top bar ── */}
       <div
-        className="md:hidden"
+        className="flex md:hidden"
         style={{
           position: "fixed", top: 0, left: 0, right: 0, zIndex: 100,
           background: "rgba(7,7,26,0.92)", backdropFilter: "blur(20px)",
           borderBottom: "1px solid var(--border)",
-          display: "flex", alignItems: "center", justifyContent: "space-between",
+          alignItems: "center", justifyContent: "space-between",
           padding: "12px 20px",
         }}
       >

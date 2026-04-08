@@ -73,7 +73,10 @@ export default function About() {
         Get Profile
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 44, alignItems: "start" }}>
+      <div
+        className="about-grid"
+        style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 44, alignItems: "start" }}
+      >
 
         {/* ── Action card ── */}
         <motion.div
@@ -194,7 +197,10 @@ export default function About() {
       <style>{`
         @media (max-width: 900px) {
           #about { padding: 72px 22px !important; }
-          #about > div:last-child { grid-template-columns: 1fr !important; }
+          .about-grid {
+            grid-template-columns: 1fr !important;
+            gap: 28px !important;
+          }
         }
       `}</style>
     </section>
