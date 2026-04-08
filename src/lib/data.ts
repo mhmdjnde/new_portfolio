@@ -4,7 +4,7 @@
 
 export const PERSONAL = {
   name: "Mohamad Joundi",
-  firstName: "Mohammad",
+  firstName: "mohamad",
   lastName: "Joundi",
   handle: "jnde",
   title: "Power Platform Developer",
@@ -14,7 +14,7 @@ With a Computer Science degree from Lebanese University and a systems engineerin
 I bridge the gap between complex business processes and elegant digital solutions.`,
   shortBio: `Power Platform developer with a CS degree from Lebanese University and a systems background from 42 Beirut, building enterprise automation at CMA CGM.`,
   email: "contact@mhmdjnde.dev", // TODO: Replace with your real email
-  linkedin: "https://www.linkedin.com/in/mohammad-joundi/",
+  linkedin: "https://www.linkedin.com/in/mohamad-joundi/",
   github: "https://github.com/mhmdjnde",
   cvUrl: "/cv.pdf", // TODO: Add your CV as public/cv.pdf
   siteTitle: "mhmdjnde.dev",

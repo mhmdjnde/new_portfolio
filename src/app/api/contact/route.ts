@@ -137,7 +137,7 @@ function confirmationEmail(name: string) {
               <table cellpadding="0" cellspacing="0" border="0">
                 <tr>
                   <td style="padding-right:12px;">
-                    <a href="https://www.linkedin.com/in/mohammad-joundi/"
+                    <a href="https://www.linkedin.com/in/mohamad-joundi/"
                        style="display:inline-block;padding:10px 20px;
                               background:rgba(255,255,255,.04);
                               border:1px solid rgba(173,201,255,.1);border-radius:10px;

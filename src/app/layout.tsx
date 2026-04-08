@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   description:
     "Portfolio of Mohamad Joundi — Power Platform Developer at CMA CGM, Lebanese University CS graduate, 42 Beirut graduate. Specializing in Power Apps, Power Automate, and enterprise automation.",
   keywords: [
-    "Mohamad Joundi", "Mohammad Joundi", "mhmdjnde", "mhmdjnde.dev",
+    "Mohamad Joundi", "mohamad Joundi", "mhmdjnde", "mhmdjnde.dev",
     "Power Platform", "Power Apps", "Power Automate",
     "42 Beirut", "Lebanese University", "CMA CGM",
     "Power Platform Developer Lebanon", "Automation Engineer",
@@ -77,7 +77,7 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "Person",
               name: "Mohamad Joundi",
-              alternateName: ["Mohammad Joundi", "mhmdjnde"],
+              alternateName: ["mohamad Joundi", "mhmdjnde"],
               url: "https://mhmdjnde.dev",
               email: "contact@mhmdjnde.dev",
               jobTitle: "Power Platform Developer",
@@ -88,7 +88,7 @@ export default function RootLayout({
               ],
               knowsAbout: ["Power Apps", "Power Automate", "Dataverse", "SharePoint", "Enterprise Automation"],
               sameAs: [
-                "https://www.linkedin.com/in/mohammad-joundi/",
+                "https://www.linkedin.com/in/mohamad-joundi/",
                 "https://github.com/mhmdjnde",
               ],
             }),
