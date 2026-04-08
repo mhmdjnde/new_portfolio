@@ -79,7 +79,7 @@ export default function RootLayout({
               name: "Mohamad Joundi",
               alternateName: ["mohamad Joundi", "mhmdjnde"],
               url: "https://mhmdjnde.dev",
-              email: "contact@mhmdjnde.dev",
+              email: "me@mhmdjnde.dev",
               jobTitle: "Power Platform Developer",
               worksFor: { "@type": "Organization", name: "CMA CGM" },
               alumniOf: [

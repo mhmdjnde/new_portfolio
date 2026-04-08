@@ -36,7 +36,7 @@ const dataRows = [
   { label: "jobTitle",    value: "Power Platform Developer" },
   { label: "company",     value: "CMA CGM Group" },
   { label: "city",        value: "Beirut, Lebanon" },
-  { label: "mail",        value: "contact@mhmdjnde.dev", link: "mailto:contact@mhmdjnde.dev" },
+  { label: "mail",        value: "me@mhmdjnde.dev", link: "mailto:me@mhmdjnde.dev" },
   {
     label: "expertise",
     tags: [

@@ -226,7 +226,7 @@ export default function Contact() {
                     </h3>
                     <p style={{ color: "var(--text-secondary)", fontSize: "15px", lineHeight: 1.75, maxWidth: "28rem" }}>
                       The message didn&apos;t go through. Try again or reach me directly at{" "}
-                      <a href="mailto:contact@mhmdjnde.dev" style={{ color: "var(--power-blue)" }}>contact@mhmdjnde.dev</a>.
+                      <a href="mailto:me@mhmdjnde.dev" style={{ color: "var(--power-blue)" }}>me@mhmdjnde.dev</a>.
                     </p>
                     <button
                       onClick={() => setStatus("idle")}
