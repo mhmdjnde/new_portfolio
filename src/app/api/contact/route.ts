@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
     await Promise.all([
       // 1. Confirmation to the visitor
       transporter.sendMail({
-        from: `"Mohammad Joundi" <${process.env.GMAIL_USER}>`,
+        from: `"Mohamad Joundi" <${process.env.GMAIL_USER}>`,
         to: email,
         subject: "Got your message — I'll be in touch.",
         html: confirmationEmail(name),
@@ -77,7 +77,7 @@ function confirmationEmail(name: string) {
                              border-radius:10px;padding:8px 16px;">
                     <span style="font-family:'Courier New',monospace;font-size:13px;
                                  font-weight:700;letter-spacing:0.14em;color:#47a4ff;">
-                      jnde.dev
+                      mhmdjnde.dev
                     </span>
                   </td>
                 </tr>
@@ -164,7 +164,7 @@ function confirmationEmail(name: string) {
           <tr>
             <td style="padding:36px 44px 44px;">
               <p style="margin:0;font-size:12px;color:#3d526a;line-height:1.6;">
-                You're receiving this because you submitted the contact form at jnde.dev.
+                You're receiving this because you submitted the contact form at mhmdjnde.dev.
                 No mailing list, no spam — just this one confirmation.
               </p>
             </td>
@@ -288,7 +288,7 @@ function notificationEmail(name: string, email: string, message: string) {
             <td style="padding:32px 40px 40px;">
               <div style="height:1px;background:rgba(173,201,255,.06);margin-bottom:20px;"></div>
               <p style="margin:0;font-size:11px;color:#3d526a;line-height:1.6;">
-                Sent from the contact form at jnde.dev
+                Sent from the contact form at mhmdjnde.dev
               </p>
             </td>
           </tr>

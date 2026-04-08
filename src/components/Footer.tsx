@@ -144,7 +144,7 @@ export default function Footer() {
           {/* Bottom bar */}
           <div style={{ borderTop: "1px solid rgba(173,201,255,.05)", marginTop: "2.5rem", paddingTop: "1.25rem", display: "flex", justifyContent: "space-between", alignItems: "center", gap: "1rem", flexWrap: "wrap" }}>
             <p style={{ fontSize: "11.5px", color: "var(--text-muted)" }}>
-              Mohammad Joundi · Beirut · CMA CGM · 42 Beirut · Lebanese University
+              Mohamad Joundi · Beirut · CMA CGM · 42 Beirut · Lebanese University
             </p>
             <p style={{ fontFamily: "var(--font-mono)", fontSize: "10.5px", color: "var(--text-muted)", letterSpacing: "0.06em", whiteSpace: "nowrap" }}>
               © {new Date().getFullYear()} {PERSONAL.siteTitle}

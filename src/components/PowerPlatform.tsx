@@ -1,323 +1,102 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
 import { POWER_PLATFORM_SKILLS } from "@/lib/data";
-import { Zap, GitBranch, Database, FolderOpen, Users, Link2 } from "lucide-react";
 
-const iconMap: Record<string, React.ElementType> = {
-  apps:       GitBranch,
-  automate:   Zap,
-  dataverse:  Database,
-  sharepoint: FolderOpen,
-  teams:      Users,
-  connector:  Link2,
+const connectorEmoji: Record<string, string> = {
+  apps: "📱", automate: "⚡", dataverse: "🗄️", sharepoint: "📋",
 };
+
+const connectorGrad: Record<string, string> = {
+  apps:       "linear-gradient(135deg,#742774,#8B2FC9)",
+  automate:   "linear-gradient(135deg,#0078D4,#0E8EC7)",
+  dataverse:  "linear-gradient(135deg,#0099BC,#00ACCA)",
+  sharepoint: "linear-gradient(135deg,#038387,#00A88F)",
+};
+
+const badgeCls: Record<string, string> = {
+  apps: "ac-badge ac-badge-p", automate: "ac-badge ac-badge-b",
+  dataverse: "ac-badge ac-badge-t", sharepoint: "ac-badge ac-badge-g",
+};
+
+const extraSkills = [
+  { name: "C / C++",      desc: "Low-level systems — memory, processes, sockets, raw performance.", emoji: "⚙️", grad: "linear-gradient(135deg,#3A3A5C,#5A5A8C)", badgeCls: "ac-badge ac-badge-gy", tags: ["Memory Mgmt","Threads","Sockets"] },
+  { name: "TypeScript",   desc: "Full-stack web with type safety and modern JavaScript patterns.",  emoji: "🔷", grad: "linear-gradient(135deg,#2060A0,#3178C6)", badgeCls: "ac-badge ac-badge-b",  tags: ["React","Next.js","Node.js"] },
+  { name: "JavaScript",   desc: "Frontend scripting, DOM manipulation, and rapid prototyping.",    emoji: "⚡", grad: "linear-gradient(135deg,#856A00,#C4960E)", badgeCls: "ac-badge ac-badge-yw", tags: ["ES2024","DOM","Async/Await"] },
+  { name: "Java",         desc: "Object-oriented programming and algorithm fundamentals.",          emoji: "☕", grad: "linear-gradient(135deg,#B04010,#E84135)", badgeCls: "ac-badge ac-badge-yw", tags: ["OOP","Collections","University"] },
+  { name: "Python",       desc: "Scripting, data processing, and automation tools.",               emoji: "🐍", grad: "linear-gradient(135deg,#4A8AB8,#5EA8E8)", badgeCls: "ac-badge ac-badge-b",  tags: ["Scripting","Data"] },
+  { name: "Kotlin",       desc: "Android app development with Material 3 and bilingual support.",  emoji: "📱", grad: "linear-gradient(135deg,#6040A0,#7F52FF)", badgeCls: "ac-badge ac-badge-vi", tags: ["Android","Material 3"] },
+];
+
+function ConnectorCard({ name, desc, emoji, grad, badgeClsVal, tags, delay }:
+  { name: string; desc: string; emoji: string; grad: string; badgeClsVal: string; tags: string[]; delay: number }
+) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-60px" });
+  return (
+    <motion.div ref={ref}
+      initial={{ opacity: 0, y: 14 }} animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.5, delay, ease: [0.16,1,0.3,1] }}
+      className="shimmer-card"
+      style={{ background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: "var(--rl)", padding: 24, transition: "all .3s" }}
+    >
+      <div style={{ display: "flex", alignItems: "center", gap: 13, marginBottom: 16 }}>
+        <div style={{ width: 46, height: 46, borderRadius: 10, background: grad, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, flexShrink: 0 }}>
+          {emoji}
+        </div>
+        <div style={{ flex: 1 }}>
+          <div style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 15 }}>{name}</div>
+          <div style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--text3)" }}>Connector</div>
+        </div>
+      </div>
+      <div style={{ fontSize: 13, color: "var(--text2)", lineHeight: 1.6, marginBottom: 18 }}>{desc}</div>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 5, paddingTop: 14, borderTop: "1px solid var(--border)" }}>
+        {tags.map((t, i) => <span key={i} className={badgeClsVal} style={{ padding: "3px 9px", borderRadius: 5, fontSize: 10 }}>{t}</span>)}
+      </div>
+    </motion.div>
+  );
+}
 
 export default function PowerPlatform() {
   return (
-    <section id="power-platform" className="relative py-32">
-      <div className="absolute inset-0 grid-bg opacity-50" />
-      <div className="absolute inset-x-0 top-0 section-line" />
-
-      <div className="relative section-container">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="section-heading text-left"
-          style={{ marginBottom: "1.5rem" }}
-        >
-          <span className="tag tag-blue mb-5 inline-block">Expertise</span>
-          <h2
-            className="text-[2rem] sm:text-5xl md:text-6xl font-extrabold text-[var(--text-primary)] mb-4"
-            style={{ fontFamily: "var(--font-display)" }}
-          >
-            Power Platform
-            <span className="text-gradient-blue"> Ecosystem</span>
-          </h2>
-          <p
-            className="max-w-2xl text-lg leading-relaxed text-[var(--text-secondary)]"
-            style={{ fontFamily: "var(--font-body)" }}
-          >
-            Deep expertise across the full Microsoft Power Platform stack —
-            from canvas apps to complex cloud flows and enterprise data architecture.
-          </p>
-        </motion.div>
-
-        {/* Current role card */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="shimmer-card mx-auto max-w-2xl rounded-2xl p-8 text-center md:p-9"
-          style={{
-            marginBottom: "2.12rem",
-            background: "linear-gradient(135deg, var(--power-blue-light), var(--cyan-light))",
-            border: "1px solid rgba(0,120,212,0.18)",
-          }}
-        >
-          <span
-            className="text-[11px] font-semibold text-[var(--power-blue)] tracking-wider block"
-            style={{ fontFamily: "var(--font-mono)", marginBottom: "0.51rem" }}
-          >
-            CURRENT ROLE
-          </span>
-          <h3
-            className="text-xl font-bold text-[var(--text-primary)]"
-            style={{ fontFamily: "var(--font-display)", marginBottom: "0.51rem" }}
-          >
-            Power Platform Developer · CMA CGM Group
-          </h3>
-          <p
-            className="text-[var(--text-secondary)] text-[15px] leading-relaxed"
-            style={{ fontFamily: "var(--font-body)", marginBottom: "0.51rem" }}
-          >
-            One of the world&apos;s largest shipping &amp; logistics companies. Building internal tools and automated
-            workflows at enterprise scale. Since March 2025.
-          </p>
-          <div className="flex flex-wrap justify-center gap-2">
-            {["Power Apps", "Power Automate", "Dataverse", "SharePoint"].map((tag) => (
-              <span key={tag} className="tag tag-blue">{tag}</span>
-            ))}
-          </div>
-        </motion.div>
-
-        {/* Divider */}
-        <div className="mb-10 flex items-center gap-5">
-          <div
-            className="h-px flex-1"
-            style={{ background: "linear-gradient(90deg, rgba(0,120,212,0.4), transparent)" }}
-          />
-          <span
-            className="text-[10px] uppercase tracking-[0.22em] text-[var(--text-muted)]"
-            style={{ fontFamily: "var(--font-mono)" }}
-          >
-            Core Toolset
-          </span>
-          <div
-            className="h-px flex-1"
-            style={{ background: "linear-gradient(270deg, rgba(0,120,212,0.4), transparent)" }}
-          />
-        </div>
-
-        {/* Primary skills — 2 large hero cards */}
-        <div className="mb-6 grid gap-6 md:grid-cols-2">
-          {POWER_PLATFORM_SKILLS.slice(0, 2).map((skill, i) => {
-            const Icon = iconMap[skill.icon] ?? Zap;
-            return (
-              <motion.div
-                key={skill.name}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.55, delay: i * 0.1 }}
-                className="shimmer-card group relative overflow-hidden rounded-[1.75rem] transition-all hover:shadow-lg"
-                style={{
-                  padding: "0.79rem",
-                  background: "linear-gradient(150deg, rgba(12,22,38,0.97), rgba(6,12,22,0.99))",
-                  border: `1px solid ${skill.color}22`,
-                }}
-              >
-                <div
-                  className="absolute inset-x-0 top-0 h-[1.5px]"
-                  style={{ background: `linear-gradient(90deg, ${skill.color}, ${skill.color}30, transparent)` }}
-                />
-                <div
-                  className="absolute -right-12 -top-12 h-48 w-48 rounded-full blur-3xl opacity-10 transition-opacity duration-500 group-hover:opacity-20"
-                  style={{ background: skill.color }}
-                />
-                <div className="relative">
-                  <div
-                    className="mb-6 inline-flex h-12 w-12 items-center justify-center rounded-2xl transition-all group-hover:scale-110"
-                    style={{
-                      background: skill.color,
-                      boxShadow: `0 8px 24px ${skill.color}50`,
-                    }}
-                  >
-                    <Icon size={20} className="text-white" />
-                  </div>
-                  <h3
-                    className="mb-1 text-[1.35rem] font-bold text-[var(--text-primary)]"
-                    style={{ fontFamily: "var(--font-display)" }}
-                  >
-                    {skill.name}
-                  </h3>
-
-                  {/* ── Animated mastery bar ── */}
-                  <div className="mb-4">
-                    <div className="mastery-track mb-2">
-                      <motion.div
-                        className="mastery-fill"
-                        initial={{ width: "0%" }}
-                        whileInView={{ width: `${skill.level}%` }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1], delay: 0.25 + i * 0.12 }}
-                        style={{
-                          background: `linear-gradient(90deg, ${skill.color}80, ${skill.color})`,
-                          boxShadow: `0 0 12px ${skill.color}60`,
-                        }}
-                      />
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span
-                        className="text-[10px] uppercase tracking-[0.14em] text-[var(--text-muted)]"
-                        style={{ fontFamily: "var(--font-mono)" }}
-                      >
-                        mastery
-                      </span>
-                      <motion.span
-                        className="text-[12px] font-bold"
-                        style={{ fontFamily: "var(--font-mono)", color: skill.color }}
-                        initial={{ opacity: 0 }}
-                        whileInView={{ opacity: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.8 + i * 0.1 }}
-                      >
-                        {skill.level}%
-                      </motion.span>
-                    </div>
-                  </div>
-
-                  <p
-                    className="mb-6 text-[15px] leading-relaxed text-[var(--text-secondary)]"
-                    style={{ fontFamily: "var(--font-body)" }}
-                  >
-                    {skill.description}
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {skill.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="rounded-md px-3 py-1 text-[11px] transition-all hover:scale-105"
-                        style={{
-                          fontFamily: "var(--font-mono)",
-                          background: `${skill.color}10`,
-                          border: `1px solid ${skill.color}20`,
-                          color: skill.color,
-                        }}
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </motion.div>
-            );
-          })}
-        </div>
-
-        {/* Secondary skills — 2 compact cards */}
-        <div className="grid gap-6 md:grid-cols-2">
-          {POWER_PLATFORM_SKILLS.slice(2).map((skill, i) => {
-            const Icon = iconMap[skill.icon] ?? Zap;
-            return (
-              <motion.div
-                key={skill.name}
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.08 }}
-                className="shimmer-card group relative overflow-hidden rounded-[1.5rem] transition-all hover:shadow-md"
-                style={{
-                  background: "linear-gradient(150deg, rgba(10,20,34,0.96), rgba(6,12,22,0.98))",
-                  border: `1px solid ${skill.color}22`,
-                  padding: "0.61rem",
-                }}
-              >
-                <div
-                  className="absolute inset-x-0 top-0 h-px"
-                  style={{ background: `linear-gradient(90deg, ${skill.color}80, ${skill.color}30, transparent)` }}
-                />
-                <div
-                  className="absolute inset-y-0 left-0 w-[2px] rounded-full"
-                  style={{ background: `linear-gradient(180deg, ${skill.color}60, transparent)` }}
-                />
-                <div
-                  className="absolute -right-10 -top-10 h-32 w-32 rounded-full blur-2xl opacity-0 transition-opacity duration-500 group-hover:opacity-20"
-                  style={{ background: skill.color }}
-                />
-                <div className="relative flex h-full flex-col gap-5">
-                  {/* Header row */}
-                  <div className="flex items-center gap-4">
-                    <div
-                      className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl transition-all group-hover:scale-110"
-                      style={{
-                        background: skill.color,
-                        boxShadow: `0 6px 18px ${skill.color}45`,
-                      }}
-                    >
-                      <Icon size={17} className="text-white" />
-                    </div>
-                    <div className="flex-1">
-                      <h3
-                        className="text-[1.05rem] font-bold leading-tight text-[var(--text-primary)]"
-                        style={{ fontFamily: "var(--font-display)" }}
-                      >
-                        {skill.name}
-                      </h3>
-                      {/* ── Compact animated mastery bar ── */}
-                      <div className="mt-2">
-                        <div className="mastery-track">
-                          <motion.div
-                            className="mastery-fill"
-                            initial={{ width: "0%" }}
-                            whileInView={{ width: `${skill.level}%` }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 1.3, ease: [0.16, 1, 0.3, 1], delay: 0.2 + i * 0.08 }}
-                            style={{
-                              background: `linear-gradient(90deg, ${skill.color}70, ${skill.color})`,
-                              boxShadow: `0 0 10px ${skill.color}50`,
-                            }}
-                          />
-                        </div>
-                        <div className="mt-1 flex justify-end">
-                          <motion.span
-                            className="text-[10px] font-semibold"
-                            style={{ fontFamily: "var(--font-mono)", color: `${skill.color}bb` }}
-                            initial={{ opacity: 0 }}
-                            whileInView={{ opacity: 1 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: 0.7 + i * 0.08 }}
-                          >
-                            {skill.level}%
-                          </motion.span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  {/* Description */}
-                  <p
-                    className="text-[13.5px] leading-relaxed text-[var(--text-secondary)]"
-                    style={{ fontFamily: "var(--font-body)" }}
-                  >
-                    {skill.description}
-                  </p>
-                  {/* Tags */}
-                  <div className="mt-auto flex flex-wrap gap-1.5">
-                    {skill.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="rounded-lg px-3 py-1 text-[10px]"
-                        style={{
-                          fontFamily: "var(--font-mono)",
-                          background: `${skill.color}10`,
-                          border: `1px solid ${skill.color}22`,
-                          color: skill.color,
-                        }}
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </motion.div>
-            );
-          })}
-        </div>
+    <section id="power-platform" style={{ padding: "96px 80px", maxWidth: 1240, margin: "0 auto" }}>
+      <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text3)", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 18, display: "flex", alignItems: "center", gap: 8 }}>
+        <span style={{ display: "inline-block", width: 14, height: 1, background: "var(--text3)" }} />
+        Connections Gallery
       </div>
+
+      <motion.h2 initial={{ opacity: 0, y: 22 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}
+        style={{ fontFamily: "var(--font-display)", fontSize: "clamp(30px,4vw,52px)", fontWeight: 800, lineHeight: 1.1, marginBottom: 44 }}>
+        Skills &amp;<br />Connectors
+      </motion.h2>
+
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(268px,1fr))", gap: 18, marginBottom: 18 }}>
+        {POWER_PLATFORM_SKILLS.map((skill, i) => (
+          <ConnectorCard key={skill.name}
+            name={skill.name} desc={skill.description}
+            emoji={connectorEmoji[skill.icon] ?? "🔌"}
+            grad={connectorGrad[skill.icon] ?? "linear-gradient(135deg,var(--pa),var(--paut))"}
+            badgeClsVal={badgeCls[skill.icon] ?? "ac-badge ac-badge-b"}
+            tags={skill.tags} delay={i * 0.07}
+          />
+        ))}
+      </div>
+
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(268px,1fr))", gap: 18 }}>
+        {extraSkills.map((s, i) => (
+          <ConnectorCard key={s.name}
+            name={s.name} desc={s.desc}
+            emoji={s.emoji} grad={s.grad}
+            badgeClsVal={s.badgeCls} tags={s.tags} delay={i * 0.07}
+          />
+        ))}
+      </div>
+
+      <style>{`
+        @media (max-width: 900px) { #power-platform { padding: 72px 22px !important; } }
+        .shimmer-card:hover { border-color: var(--border-a) !important; transform: translateY(-4px); box-shadow: 0 18px 44px rgba(0,0,0,0.32); }
+      `}</style>
     </section>
   );
 }

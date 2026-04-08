@@ -103,7 +103,7 @@ export default function FortyTwo() {
       <div className="relative section-container">
         <div className="flex flex-col" style={{ paddingLeft: "0.35rem" }}>
           {/* Header */}
-          <div className="grid items-end gap-16 lg:grid-cols-[minmax(0,1.1fr)_minmax(18rem,0.9fr)] xl:gap-24">
+          <div className="grid items-end gap-12 lg:grid-cols-[minmax(0,1.1fr)_minmax(18rem,0.9fr)] xl:gap-20">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -112,14 +112,14 @@ export default function FortyTwo() {
             >
               <span className="tag tag-purple mb-5 inline-block">42 Beirut</span>
               <h2
-                className="text-4xl md:text-5xl font-extrabold text-[var(--text-primary)] mb-2"
+                className="text-4xl md:text-5xl font-extrabold text-[var(--text-primary)] mb-5"
                 style={{ fontFamily: "var(--font-display)" }}
               >
                 Original Curriculum
                 <span className="text-gradient-purple block">Completed 2025</span>
               </h2>
               <p
-                className="max-w-2xl text-[17px] leading-relaxed text-[var(--text-secondary)]"
+                className="max-w-2xl text-[17px] leading-loose text-[var(--text-secondary)]"
                 style={{ fontFamily: "var(--font-body)" }}
               >
                 42 Beirut trains through radical peer learning — no teachers, no lectures, only project-based challenges.
@@ -287,7 +287,7 @@ export default function FortyTwo() {
                   className="tilt-perspective"
                 >
                   <TiltCard
-                    className="card-elevated shimmer-card flex h-full flex-col rounded-[1.6rem] p-9 md:p-10 group transition-all"
+                    className="card-elevated shimmer-card flex h-full flex-col rounded-[1.6rem] group transition-all"
                     style={{ position: "relative", overflow: "hidden" }}
                   >
                     {/* Top accent line */}
@@ -296,24 +296,46 @@ export default function FortyTwo() {
                       style={{ background: `linear-gradient(90deg, transparent, ${color}80, transparent)` }}
                     />
 
-                    <div className="mb-9 flex items-start justify-between gap-4">
-                      <div
-                        className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-[1rem] transition-all group-hover:shadow-[0_0_22px_var(--icon-glow)]"
-                        style={{
-                          background: color,
-                          "--icon-glow": `${color}60`,
-                        } as React.CSSProperties}
-                      >
-                        <CatIcon size={18} className="text-white" />
-                      </div>
-                      <div className="flex flex-wrap items-center justify-end gap-2">
-                        <span
-                          className="inline-flex items-center rounded-full px-3 py-1.5 text-[10px] uppercase tracking-[0.12em]"
+                    {/* Card header zone */}
+                    <div
+                      className="flex items-start justify-between gap-4"
+                      style={{ padding: "1.4rem 0.7rem 1.1rem", borderBottom: `1px solid ${color}14` }}
+                    >
+                      <div className="flex items-center gap-3.5">
+                        <div
+                          className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-[0.9rem] transition-all group-hover:shadow-[0_0_22px_var(--icon-glow)]"
                           style={{
+                            background: color,
+                            "--icon-glow": `${color}60`,
+                          } as React.CSSProperties}
+                        >
+                          <CatIcon size={17} className="text-white" />
+                        </div>
+                        <div>
+                          <span
+                            className="text-[9px] uppercase tracking-[0.18em] block mb-0.5"
+                            style={{ fontFamily: "var(--font-mono)", color: `${color}cc` }}
+                          >
+                            {project.category}
+                          </span>
+                          <h3
+                            className="text-[1.1rem] font-bold leading-tight text-[var(--text-primary)]"
+                            style={{ fontFamily: "var(--font-display)" }}
+                          >
+                            {project.name}
+                          </h3>
+                        </div>
+                      </div>
+                      <div className="flex flex-wrap items-center gap-2" style={{ minWidth: 0, flexShrink: 1 }}>
+                        <span
+                          className="inline-flex items-center rounded-full text-[9px] uppercase tracking-[0.12em]"
+                          style={{
+                            padding: "0.25rem 0.5rem",
                             fontFamily: "var(--font-mono)",
                             background: `${color}12`,
-                            border: `1px solid ${color}22`,
+                            border: `1px solid ${color}28`,
                             color,
+                            fontSize: "12px",
                           }}
                         >
                           {project.lang}
@@ -323,51 +345,32 @@ export default function FortyTwo() {
                             href={project.github}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex h-9 w-9 items-center justify-center rounded-xl bg-[var(--surface-2)] text-[var(--text-muted)] transition-all hover:bg-[var(--surface-3)] hover:text-[var(--text-primary)] hover:scale-110"
+                            className="flex h-8 w-8 items-center justify-center rounded-lg bg-[var(--surface-2)] text-[var(--text-muted)] transition-all hover:bg-[var(--surface-3)] hover:text-[var(--text-primary)] hover:scale-110"
                             aria-label={`Open ${project.name} repository`}
                           >
-                            <GithubIcon size={14} />
+                            <GithubIcon size={13} />
                           </a>
                         )}
                       </div>
                     </div>
 
-                    <div className="flex flex-1 flex-col">
-                      <div className="mb-4" style={{ paddingLeft: "0.35rem" }}>
-                        <div className="mb-3 flex items-center gap-2.5">
-                          <span
-                            className="text-[10px] uppercase tracking-[0.16em]"
-                            style={{ fontFamily: "var(--font-mono)", color }}
-                          >
-                            {project.category}
-                          </span>
-                          <div className="h-px flex-1 opacity-35" style={{ background: color }} />
-                        </div>
-
-                        <h3
-                          className="text-[1.15rem] font-bold leading-tight text-[var(--text-primary)]"
-                          style={{ fontFamily: "var(--font-display)" }}
-                        >
-                          {project.name}
-                        </h3>
-                      </div>
-
+                    {/* Card body */}
+                    <div className="flex flex-1 flex-col" style={{ padding: "1.1rem 0.7rem 1.4rem" }}>
                       <p
-                        className="flex-1 pr-1 text-[15px] leading-7 text-[var(--text-secondary)]"
-                        style={{ fontFamily: "var(--font-body)", paddingLeft: "0.35rem" }}
+                        className="flex-1 text-[14px] leading-[1.75] text-[var(--text-secondary)]"
+                        style={{ fontFamily: "var(--font-body)" }}
                       >
                         {project.description}
                       </p>
 
                       <div
-                        className="mt-8 flex items-center justify-between gap-4 pt-6 border-t border-[var(--border-subtle)]"
-                        style={{ paddingLeft: "0.35rem" }}
+                        className="mt-6 flex items-center justify-between gap-4 pt-5 border-t border-[var(--border-subtle)]"
                       >
                         <div className="flex items-center gap-2">
-                          <CheckCircle2 size={12} style={{ color }} />
+                          <CheckCircle2 size={11} style={{ color }} />
                           <span
-                            className="text-[11px]"
-                            style={{ fontFamily: "var(--font-mono)", color: `${color}bb` }}
+                            className="text-[10px]"
+                            style={{ fontFamily: "var(--font-mono)", color: `${color}aa` }}
                           >
                             42 Beirut repo
                           </span>
@@ -382,12 +385,12 @@ export default function FortyTwo() {
                             style={{ fontFamily: "var(--font-mono)", color }}
                           >
                             View repo
-                            <ArrowUpRight size={12} />
+                            <ArrowUpRight size={11} />
                           </a>
                         ) : (
                           <span
                             className="text-[11px]"
-                            style={{ fontFamily: "var(--font-mono)", color: `${color}99` }}
+                            style={{ fontFamily: "var(--font-mono)", color: `${color}88` }}
                           >
                             Archive only
                           </span>

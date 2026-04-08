@@ -3,7 +3,7 @@
 // ─────────────────────────────────────────────────────────────
 
 export const PERSONAL = {
-  name: "Mohammad Joundi",
+  name: "Mohamad Joundi",
   firstName: "Mohammad",
   lastName: "Joundi",
   handle: "jnde",
@@ -13,11 +13,11 @@ export const PERSONAL = {
 With a Computer Science degree from Lebanese University and a systems engineering background from 42 Beirut,
 I bridge the gap between complex business processes and elegant digital solutions.`,
   shortBio: `Power Platform developer with a CS degree from Lebanese University and a systems background from 42 Beirut, building enterprise automation at CMA CGM.`,
-  email: "contact@jnde.dev", // TODO: Replace with your real email
+  email: "contact@mhmdjnde.dev", // TODO: Replace with your real email
   linkedin: "https://www.linkedin.com/in/mohammad-joundi/",
   github: "https://github.com/mhmdjnde",
   cvUrl: "/cv.pdf", // TODO: Add your CV as public/cv.pdf
-  siteTitle: "jnde.dev",
+  siteTitle: "mhmdjnde.dev",
 };
 
 export const METRICS = [
@@ -128,13 +128,6 @@ export const FORTY_TWO_PROJECTS = [
     github: "https://github.com/mhmdjnde/cub3D",
   },
   {
-    name: "Swifty_Companion",
-    description: "42 mobile project centered on API integration, profile retrieval, and a cleaner iOS experience around the 42 ecosystem.",
-    lang: "Swift",
-    category: "Mobile",
-    github: null,
-  },
-  {
     name: "ft_hangouts",
     description: "Android contacts and SMS app built with Kotlin, Material 3, localization, per-contact threads, and custom theming.",
     lang: "Kotlin",
@@ -222,6 +215,16 @@ export const PROJECTS = [
     tags: ["Kotlin", "Android", "Material 3", "42 Project"],
     color: "purple",
     github: "https://github.com/mhmdjnde/ft_hangouts",
+  },
+  {
+    title: "ft_transcendence",
+    subtitle: "42 Beirut — Final Project · Full-Stack Web",
+    description:
+      "Final 42 web project rebuilt as a full-stack multiplayer platform with auth, game logic, real-time chat, and live interactions — delivering the complete 42 final evaluation experience.",
+    impact: ["Real-time multiplayer game", "Auth system & JWT", "Live chat & WebSockets", "42 final evaluation"],
+    tags: ["TypeScript", "42 Project"],
+    color: "cyan",
+    github: "https://github.com/mhmdjnde/ft_transcendence",
   },
   {
     title: "MiniShell",

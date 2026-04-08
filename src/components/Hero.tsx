@@ -1,332 +1,307 @@
 "use client";
 
 import { motion } from "framer-motion";
-import {
-  ArrowDown,
-  CheckCircle2,
-  FileDown,
-  GitBranch,
-  Layers,
-  Sparkles,
-  Zap,
-} from "lucide-react";
-import { GithubIcon, LinkedinIcon } from "@/components/ui/SocialIcons";
+import { ArrowDown, FileDown, Layers, Send } from "lucide-react";
 import { PERSONAL } from "@/lib/data";
 
-function PAActionCard({
-  icon: Icon,
-  iconBg,
-  actionName,
-  connectorLabel,
-  status = "idle",
-  delay = 0,
-  isLast = false,
-}: {
-  icon: React.ElementType;
-  iconBg: string;
-  actionName: string;
-  connectorLabel: string;
-  status?: "idle" | "running" | "success";
-  delay?: number;
-  isLast?: boolean;
-}) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 16, scale: 0.98 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ delay, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-      className="flex w-full flex-col items-center"
-    >
-      <div className="pa-card flex w-full items-center gap-4 px-6 py-4">
-        <div
-          className="flex h-10 w-10 items-center justify-center rounded-2xl flex-shrink-0"
-          style={{ background: iconBg }}
-        >
-          <Icon size={17} className="text-white" />
-        </div>
-
-        <div className="min-w-0 flex-1 content-inset-sm">
-          <div className="truncate text-sm font-semibold text-[var(--text-primary)]">
-            {actionName}
-          </div>
-          <div
-            className="mt-0.5 text-[11px] text-[var(--text-muted)]"
-            style={{ fontFamily: "var(--font-mono)" }}
-          >
-            {connectorLabel}
-          </div>
-        </div>
-
-        {status === "success" && (
-          <CheckCircle2 size={15} className="text-[var(--green-success)] flex-shrink-0" />
-        )}
-        {status === "running" && (
-          <span className="h-3.5 w-3.5 rounded-full border-2 border-[var(--power-blue)] border-t-transparent animate-spin flex-shrink-0" />
-        )}
-      </div>
-
-      {!isLast && (
-        <div className="pa-connector py-1">
-          <div className="pa-connector-line" />
-          <div className="pa-connector-dot animate-node-pulse" />
-          <div className="pa-connector-line" />
-          <div className="pa-connector-arrow" />
-        </div>
-      )}
-    </motion.div>
-  );
-}
+const fadeUp = (delay = 0) => ({
+  initial: { opacity: 0, y: 24 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.75, delay, ease: [0.16, 1, 0.3, 1] },
+});
 
 export default function Hero() {
   return (
     <section
       id="hero"
-      className="hero-mesh relative flex min-h-screen flex-col justify-center overflow-hidden"
+      style={{
+        minHeight: "100vh", display: "flex", alignItems: "center",
+        padding: "0 80px", position: "relative", overflow: "hidden",
+      }}
     >
-      <div className="grid-bg absolute inset-0 opacity-45" />
-      <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[rgba(7,17,28,0.88)] to-transparent" />
-      <div className="absolute bottom-0 left-0 right-0 h-56 bg-gradient-to-t from-[var(--void)] to-transparent" />
+      {/* Ambient blobs */}
+      <div className="animate-float-slow" style={{
+        position: "absolute", left: -80, top: 120,
+        width: 360, height: 360, borderRadius: "50%",
+        background: "rgba(139,47,201,0.12)", filter: "blur(80px)", pointerEvents: "none",
+      }} />
+      <div className="animate-float" style={{
+        position: "absolute", right: -60, top: 80,
+        width: 300, height: 300, borderRadius: "50%",
+        background: "rgba(14,142,199,0.1)", filter: "blur(80px)", pointerEvents: "none",
+      }} />
 
-      <div
-        className="animate-float-slow absolute -left-24 top-28 h-[22rem] w-[22rem] rounded-full blur-3xl"
-        style={{ background: "rgba(71, 164, 255, 0.12)" }}
-      />
-      <div
-        className="animate-float absolute right-[-4rem] top-20 h-[18rem] w-[18rem] rounded-full blur-3xl"
-        style={{ background: "rgba(126, 124, 255, 0.1)" }}
-      />
-
-      {/* ── Particle field ── */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {Array.from({ length: 24 }).map((_, i) => {
-          const colors = ["#47A4FF", "#7E7CFF", "#43D6C9", "#4FD29F"];
-          const glows  = ["rgba(71,164,255,0.9)", "rgba(126,124,255,0.9)", "rgba(67,214,201,0.9)", "rgba(79,210,159,0.9)"];
-          const ci = i % 4;
+      {/* Particle field */}
+      <div style={{ position: "absolute", inset: 0, pointerEvents: "none", overflow: "hidden" }}>
+        {Array.from({ length: 20 }).map((_, i) => {
+          const colors = ["#8B2FC9","#0E8EC7","#00E5FF","#14CC80"];
           return (
-            <div
-              key={i}
-              className="particle"
-              style={{
-                left:   `${((i * 47 + 11) % 100).toFixed(0)}%`,
-                top:    `${((i * 31 + 7)  % 80 + 5).toFixed(0)}%`,
-                width:  i % 4 === 0 ? "3px" : "2px",
-                height: i % 4 === 0 ? "3px" : "2px",
-                background: colors[ci],
-                boxShadow:  `0 0 7px ${glows[ci]}`,
-                "--dur":   `${(5 + ((i * 1.3) % 7)).toFixed(1)}s`,
-                "--delay": `${((i * 0.73) % 5).toFixed(1)}s`,
-                "--drift": `${(i % 2 === 0 ? 1 : -1) * (6 + (i * 3) % 22)}px`,
-              } as React.CSSProperties}
-            />
+            <div key={i} className="particle" style={{
+              left: `${((i * 47 + 11) % 100).toFixed(0)}%`,
+              top:  `${((i * 31 + 7)  % 80 + 5).toFixed(0)}%`,
+              width: i % 3 === 0 ? 3 : 2, height: i % 3 === 0 ? 3 : 2,
+              background: colors[i % 4],
+              boxShadow: `0 0 7px ${colors[i % 4]}`,
+              ["--dur"  as string]: `${(5 + ((i * 1.3) % 7)).toFixed(1)}s`,
+              ["--delay" as string]: `${((i * 0.73) % 5).toFixed(1)}s`,
+              ["--drift" as string]: `${(i % 2 === 0 ? 1 : -1) * (6 + (i * 3) % 22)}px`,
+            } as React.CSSProperties} />
           );
         })}
       </div>
 
-      <div className="section-container relative z-10 w-full pt-32 pb-20 md:pt-40 md:pb-28">
-        <div className="grid items-center gap-16 lg:grid-cols-[minmax(0,1fr)_28rem] lg:gap-20 xl:grid-cols-[minmax(0,1fr)_30rem]">
-          <div className="max-w-3xl">
-            <motion.div
-              initial={{ opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-              className="mb-9 flex flex-wrap items-center gap-3"
-            >
-              <span className="tag tag-blue">Available for selected work</span>
-              <span className="tag tag-cyan">Enterprise automation</span>
-            </motion.div>
+      {/* Two-column grid: text left, photo right */}
+      <div className="hero-grid" style={{ position: "relative", zIndex: 2, width: "100%", display: "grid", gridTemplateColumns: "1fr 340px", alignItems: "center", gap: 72 }}>
 
-            <motion.div
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.12, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <p className="section-eyebrow">Mohammad Joundi · Power Platform Developer</p>
-              <h1 className="mt-7 max-w-3xl text-[2.6rem] font-extrabold leading-[1.08] sm:text-5xl lg:text-[3rem] xl:text-[3.6rem]">
-                Turning chaos into
-                <br />
-                <span className="text-gradient-full">enterprise-grade systems</span>
-                <br />
-                people actually enjoy using.
-              </h1>
-            </motion.div>
-
-            <motion.p
-              initial={{ opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.26 }}
-              className="mt-9 max-w-2xl text-lg leading-9 text-[var(--text-secondary)] md:text-[1.18rem]"
-            >
-              CS graduate from <span className="font-semibold text-[var(--text-primary)]">Lebanese University</span> and
-              <span className="font-semibold text-[var(--text-primary)]"> 42 Beirut</span>, currently designing internal
-              tools, flows, and process architecture at <span className="font-semibold text-[var(--power-blue-bright)]">CMA CGM</span>.
-            </motion.p>
-
-            <div className="mt-12 flex flex-col" style={{ gap: "1rem" }}>
-              <motion.div
-                initial={{ opacity: 0, y: 18 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.65, delay: 0.36 }}
-                className="flex flex-wrap gap-3"
-              >
-                <a href="#projects" className="btn-primary relative overflow-hidden group/btn">
-                  <span className="absolute inset-0 rounded-[14px] animate-ping opacity-[0.15]" style={{ background: "rgba(71,164,255,0.5)", animationDuration: "1.8s" }} />
-                  <Layers size={15} className="relative z-10" />
-                  <span className="relative z-10">View projects</span>
-                </a>
-                <a href="#contact" className="btn-ghost">
-                  <Sparkles size={15} />
-                  Let&apos;s work together
-                </a>
-                <a href={PERSONAL.cvUrl} download className="btn-ghost">
-                  <FileDown size={15} />
-                  Download CV
-                </a>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 18 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.65, delay: 0.48 }}
-                className="grid gap-4 sm:grid-cols-3"
-                style={{ paddingLeft: "0.35rem" }}
-              >
-                {[
-                  ["Focus", "Power Apps, cloud flows, practical automation", "#47A4FF"],
-                  ["Style", "Systems thinking with clean user-facing execution", "#9A7AFF"],
-                  ["Base", "Beirut, shipping tech, enterprise constraints", "#43D6C9"],
-                ].map(([label, value, accent]) => (
-                  <div key={label} className="card rounded-2xl px-6 py-5 relative overflow-hidden">
-                    <div
-                      className="absolute left-0 top-4 bottom-4 w-[2.5px] rounded-full"
-                      style={{ background: `linear-gradient(180deg, ${accent}, ${accent}55)` }}
-                    />
-                    <div className="content-inset-sm">
-                      <p className="text-[11px] uppercase tracking-[0.16em] text-[var(--text-muted)]" style={{ fontFamily: "var(--font-mono)" }}>
-                        {label}
-                      </p>
-                      <p className="mt-2.5 text-[14px] leading-6 text-[var(--text-secondary)]">{value}</p>
-                    </div>
-                  </div>
-                ))}
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.6 }}
-                className="flex flex-wrap items-center gap-4"
-              >
-                <span className="text-[10px] uppercase tracking-[0.2em] text-[var(--text-muted)]" style={{ fontFamily: "var(--font-mono)" }}>
-                  Find me on
-                </span>
-                <div className="h-px w-10 bg-[var(--border-mid)]" />
-                <div className="flex gap-2">
-                  <a
-                    href={PERSONAL.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex h-10 w-10 items-center justify-center rounded-2xl border border-[var(--border-mid)] bg-[rgba(255,255,255,0.03)] text-[var(--text-secondary)] transition-all hover:border-[var(--border-bright)] hover:text-[var(--text-primary)]"
-                  >
-                    <GithubIcon size={16} />
-                  </a>
-                  <a
-                    href={PERSONAL.linkedin}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex h-10 w-10 items-center justify-center rounded-2xl border border-[var(--border-mid)] bg-[rgba(255,255,255,0.03)] text-[var(--text-secondary)] transition-all hover:border-[var(--power-blue)] hover:text-[var(--power-blue-bright)]"
-                  >
-                    <LinkedinIcon size={16} />
-                  </a>
-                </div>
-              </motion.div>
+        {/* Left: text content */}
+        <div style={{ maxWidth: 620 }}>
+          {/* Trigger badge */}
+          <motion.div {...fadeUp(0)}>
+            <div style={{
+              display: "inline-flex", alignItems: "center", gap: 10,
+              background: "var(--pa-dim)", border: "1px solid rgba(139,47,201,0.4)",
+              borderRadius: 100, padding: "7px 16px", marginBottom: 28,
+              fontFamily: "var(--font-mono)", fontSize: 12, color: "rgba(180,100,240,1)",
+            }}>
+              <span style={{
+                width: 20, height: 20, background: "var(--pa)", borderRadius: 4,
+                display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11,
+              }}>⚡</span>
+              Trigger: When a visitor arrives
             </div>
-          </div>
+          </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, x: 24, scale: 0.98 }}
-            animate={{ opacity: 1, x: 0, scale: 1 }}
-            transition={{ duration: 0.9, delay: 0.24, ease: [0.16, 1, 0.3, 1] }}
-            className="relative mx-auto w-full max-w-[30rem]"
-          >
-            <div className="card-elevated noise-overlay scanner-wrap shimmer-card relative overflow-hidden rounded-[2rem] p-8 sm:p-9">
-              {/* Scanner sweep */}
-              <div className="scanner-line" />
-              <div className="absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-[rgba(143,213,255,0.8)] to-transparent" />
+          <motion.p {...fadeUp(0.1)} style={{
+            fontFamily: "var(--font-mono)", fontSize: 14, color: "var(--cyan)", marginBottom: 14,
+          }}>
+            // Power Platform Developer · CMA CGM
+          </motion.p>
 
-              <div className="mb-10 flex items-start justify-between gap-4">
-                <div className="content-inset">
-                  <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--text-muted)]" style={{ fontFamily: "var(--font-mono)" }}>
-                    Current Workflow Snapshot
-                  </p>
-                  <p className="mt-3 text-xl font-semibold text-[var(--text-primary)]">identity.flow</p>
-                </div>
-                <span className="tag tag-green flex-shrink-0">
-                  <span className="inline-block h-1.5 w-1.5 rounded-full bg-[var(--green-success)] animate-pulse" />
-                  Shipping
-                </span>
-              </div>
+          <motion.h1 {...fadeUp(0.2)} style={{
+            fontFamily: "var(--font-display)",
+            fontSize: "clamp(48px, 7vw, 100px)",
+            fontWeight: 800, lineHeight: 0.92,
+            letterSpacing: "-0.03em", marginBottom: 22,
+          }}>
+            {PERSONAL.firstName}<br />
+            <span style={{
+              background: "linear-gradient(135deg, var(--pa) 0%, var(--cyan) 50%, var(--paut) 100%)",
+              WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text",
+              display: "inline-block",
+            }}>
+              {PERSONAL.lastName}
+            </span>
+          </motion.h1>
 
-              <div className="mb-10 flex flex-col items-center">
-                <PAActionCard
-                  icon={Zap}
-                  iconBg="linear-gradient(135deg, #47A4FF, #43D6C9)"
-                  actionName="Trigger business request"
-                  connectorLabel="Intake · Forms · Teams"
-                  status="success"
-                  delay={0.35}
-                />
-                <PAActionCard
-                  icon={GitBranch}
-                  iconBg="linear-gradient(135deg, #7E7CFF, #A49EFF)"
-                  actionName="Apply approval logic"
-                  connectorLabel="Rules · Routing · Ownership"
-                  status="success"
-                  delay={0.48}
-                />
-                <PAActionCard
-                  icon={Layers}
-                  iconBg="linear-gradient(135deg, #2CB4A6, #43D6C9)"
-                  actionName="Deliver app + flow experience"
-                  connectorLabel="Power Apps · Dataverse · SharePoint"
-                  status="running"
-                  delay={0.6}
-                  isLast
-                />
-              </div>
+          <motion.p {...fadeUp(0.3)} style={{
+            fontFamily: "var(--font-display)", fontSize: "clamp(16px,2.2vw,22px)",
+            fontWeight: 400, color: "var(--text2)", marginBottom: 28,
+          }}>
+            Turning Chaos Into Enterprise-Grade Systems
+          </motion.p>
 
-              <div className="grid gap-3 sm:grid-cols-2">
-                {[
-                  ["Role", "Power Platform Developer"],
-                  ["Company", "CMA CGM Group"],
-                  ["Background", "CS + 42 systems training"],
-                  ["Priority", "Automation that feels simple"],
-                ].map(([label, value]) => (
-                  <div key={label} className="rounded-2xl border border-[var(--border-subtle)] bg-[rgba(255,255,255,0.025)] px-6 py-4">
-                    <div className="content-inset-sm">
-                      <p className="text-[10px] uppercase tracking-[0.18em] text-[var(--text-muted)]" style={{ fontFamily: "var(--font-mono)" }}>
-                        {label}
-                      </p>
-                      <p className="mt-2 text-[14px] text-[var(--text-secondary)]">{value}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+          <motion.p {...fadeUp(0.4)} style={{
+            fontSize: 16, lineHeight: 1.75, color: "var(--text2)",
+            maxWidth: 520, marginBottom: 44,
+          }}>
+            CS graduate from <strong style={{ color: "var(--text)" }}>Lebanese University</strong> and{" "}
+            <strong style={{ color: "var(--text)" }}>42 Beirut</strong>, currently designing internal tools,
+            flows, and process architecture at{" "}
+            <strong style={{ color: "var(--paut)" }}>CMA CGM</strong>.
+          </motion.p>
+
+          <motion.div {...fadeUp(0.5)} style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+            <a href="#projects" className="btn-primary">
+              <Layers size={15} />
+              View projects
+            </a>
+            <a href="#contact" className="btn-ghost">
+              <Send size={15} />
+              Let&apos;s work together
+            </a>
+            <a href={PERSONAL.cvUrl} download className="btn-ghost">
+              <FileDown size={15} />
+              Download CV
+            </a>
+          </motion.div>
+
+          {/* Social links */}
+          <motion.div {...fadeUp(0.62)} style={{
+            display: "flex", alignItems: "center", gap: 14, marginTop: 32, flexWrap: "wrap",
+          }}>
+            <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, textTransform: "uppercase", letterSpacing: "0.2em", color: "var(--text3)" }}>
+              Find me on
+            </span>
+            <div style={{ height: 1, width: 40, background: "var(--border-lg)" }} />
+            <a href={PERSONAL.github} target="_blank" rel="noopener noreferrer"
+              style={{
+                width: 38, height: 38, borderRadius: 10,
+                border: "1px solid var(--border-lg)", background: "rgba(255,255,255,0.03)",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                color: "var(--text2)", textDecoration: "none", transition: "all .2s",
+              }}
+            >
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+              </svg>
+            </a>
+            <a href={PERSONAL.linkedin} target="_blank" rel="noopener noreferrer"
+              style={{
+                width: 38, height: 38, borderRadius: 10,
+                border: "1px solid var(--border-lg)", background: "rgba(255,255,255,0.03)",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                color: "var(--text2)", textDecoration: "none", transition: "all .2s",
+              }}
+            >
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+              </svg>
+            </a>
           </motion.div>
         </div>
 
-        <motion.a
-          href="#about"
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8, duration: 0.5 }}
-          className="mt-14 inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-[var(--text-muted)] transition-colors hover:text-[var(--text-primary)]"
-          style={{ fontFamily: "var(--font-mono)" }}
+        {/* Right: Photo */}
+        <motion.div
+          className="hero-photo"
+          initial={{ opacity: 0, x: 48, scale: 0.94 }}
+          animate={{ opacity: 1, x: 0, scale: 1 }}
+          transition={{ duration: 0.95, delay: 0.32, ease: [0.16, 1, 0.3, 1] }}
+          style={{ position: "relative", display: "flex", justifyContent: "center", flexShrink: 0 }}
         >
-          Scroll to explore
-          <ArrowDown size={13} />
-        </motion.a>
+          {/* Ambient glow behind photo */}
+          <div style={{
+            position: "absolute", inset: -48,
+            background: "radial-gradient(ellipse at 50% 55%, rgba(139,47,201,0.24) 0%, rgba(14,142,199,0.14) 42%, transparent 72%)",
+            filter: "blur(36px)", pointerEvents: "none",
+          }} />
+
+          {/* Tech UI corner brackets */}
+          <div style={{ position: "absolute", top: -8, left: -8, width: 24, height: 24, borderTop: "2px solid rgba(139,47,201,0.75)", borderLeft: "2px solid rgba(139,47,201,0.75)", borderRadius: "5px 0 0 0", zIndex: 10 }} />
+          <div style={{ position: "absolute", top: -8, right: -8, width: 24, height: 24, borderTop: "2px solid rgba(0,229,255,0.65)", borderRight: "2px solid rgba(0,229,255,0.65)", borderRadius: "0 5px 0 0", zIndex: 10 }} />
+          <div style={{ position: "absolute", bottom: -8, left: -8, width: 24, height: 24, borderBottom: "2px solid rgba(14,142,199,0.65)", borderLeft: "2px solid rgba(14,142,199,0.65)", borderRadius: "0 0 0 5px", zIndex: 10 }} />
+          <div style={{ position: "absolute", bottom: -8, right: -8, width: 24, height: 24, borderBottom: "2px solid rgba(139,47,201,0.55)", borderRight: "2px solid rgba(139,47,201,0.55)", borderRadius: "0 0 5px 0", zIndex: 10 }} />
+
+          {/* Gradient border frame */}
+          <div style={{
+            padding: "1.5px",
+            borderRadius: 26,
+            background: "linear-gradient(145deg, rgba(139,47,201,0.7) 0%, rgba(14,142,199,0.55) 50%, rgba(0,229,255,0.6) 100%)",
+            boxShadow: "0 0 90px rgba(139,47,201,0.22), 0 36px 90px rgba(0,0,0,0.6)",
+          }}>
+            <div style={{
+              position: "relative", borderRadius: 25, overflow: "hidden",
+              background: "#07071C", width: 320, height: 435,
+            }}>
+              {/* Scanner sweep */}
+              <div className="scanner-line" style={{ zIndex: 5 }} />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/profile.png"
+                alt="Mohamad Joundi"
+                style={{
+                  width: "100%", height: "100%",
+                  objectFit: "cover", objectPosition: "50% 6%",
+                  display: "block",
+                }}
+              />
+              {/* Bottom dissolve into dark */}
+              <div style={{
+                position: "absolute", bottom: 0, left: 0, right: 0, height: "48%",
+                background: "linear-gradient(to top, #07071C 0%, rgba(7,7,28,0.72) 48%, transparent 100%)",
+                pointerEvents: "none",
+              }} />
+              {/* Side vignettes */}
+              <div style={{
+                position: "absolute", inset: 0,
+                background: "linear-gradient(to right, rgba(7,7,28,0.52) 0%, transparent 24%, transparent 76%, rgba(7,7,28,0.52) 100%)",
+                pointerEvents: "none",
+              }} />
+            </div>
+          </div>
+
+          {/* Available badge — bottom-left */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.88, duration: 0.5 }}
+            style={{
+              position: "absolute", bottom: 22, left: -32,
+              background: "rgba(7,7,28,0.88)", border: "1px solid rgba(0,229,255,0.24)",
+              borderRadius: 12, padding: "9px 15px",
+              fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--cyan)",
+              display: "flex", alignItems: "center", gap: 8,
+              backdropFilter: "blur(18px)",
+              boxShadow: "0 8px 28px rgba(0,0,0,0.45), 0 0 0 1px rgba(0,229,255,0.07)",
+            }}
+          >
+            <span style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--green)", animation: "statusPulse 2s infinite", flexShrink: 0 }} />
+            Available for selected work
+          </motion.div>
+
+          {/* Role badge — top-right */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.75 }} animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 1.02, duration: 0.45, type: "spring", stiffness: 280 }}
+            style={{
+              position: "absolute", top: 18, right: -30,
+              background: "rgba(7,7,28,0.88)", border: "1px solid rgba(139,47,201,0.3)",
+              borderRadius: 10, padding: "7px 13px",
+              fontFamily: "var(--font-mono)", fontSize: 10, color: "rgba(180,100,240,1)",
+              backdropFilter: "blur(14px)",
+              boxShadow: "0 6px 20px rgba(0,0,0,0.4)",
+            }}
+          >
+            CMA CGM · Dev
+          </motion.div>
+
+          {/* Floating accent dots */}
+          {(
+            [
+              { offset: { left: "-22px" }, top: "32%", color: "#8B2FC9", size: 4 },
+              { offset: { left: "-16px" }, top: "62%", color: "#0E8EC7", size: 3 },
+              { offset: { right: "-20px" }, top: "48%", color: "#00E5FF", size: 3.5 },
+              { offset: { right: "-14px" }, top: "72%", color: "#14CC80", size: 2.5 },
+            ] as { offset: React.CSSProperties; top: string; color: string; size: number }[]
+          ).map((p, i) => (
+            <div key={i} className="animate-float" style={{
+              position: "absolute", top: p.top, ...p.offset,
+              width: p.size, height: p.size,
+              borderRadius: "50%",
+              background: p.color,
+              boxShadow: `0 0 10px ${p.color}`,
+              animationDelay: `${i * 0.7}s`,
+              animationDuration: `${4 + i * 0.8}s`,
+              pointerEvents: "none",
+            }} />
+          ))}
+        </motion.div>
+
       </div>
+
+      {/* Scroll cue */}
+      <motion.a
+        href="#about"
+        initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.9, duration: 0.5 }}
+        style={{
+          position: "absolute", bottom: 40, left: 80,
+          display: "inline-flex", alignItems: "center", gap: 8,
+          fontFamily: "var(--font-mono)", fontSize: 11,
+          textTransform: "uppercase", letterSpacing: "0.18em",
+          color: "var(--text3)", textDecoration: "none", transition: "color .2s",
+        }}
+      >
+        Scroll to explore <ArrowDown size={13} />
+      </motion.a>
+
+      <style>{`
+        @media (max-width: 1100px) {
+          .hero-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
+          .hero-photo { display: none !important; }
+        }
+        @media (max-width: 900px) {
+          #hero { padding: 80px 24px 60px !important; }
+        }
+      `}</style>
     </section>
   );
 }

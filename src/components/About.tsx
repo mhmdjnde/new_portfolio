@@ -1,292 +1,202 @@
 "use client";
 
-import { motion, type Variants } from "framer-motion";
-import { Briefcase, GraduationCap, Code2 } from "lucide-react";
+import { motion } from "framer-motion";
+import { useRef } from "react";
+import { useInView } from "framer-motion";
 
-const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 24 },
-  visible: (i: number) => ({
-    opacity: 1, y: 0,
-    transition: { delay: i * 0.08, duration: 0.6, ease: [0.16, 1, 0.3, 1] },
-  }),
-};
+function CountUp({ target, suffix = "+" }: { target: number; suffix?: string }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true });
+  const [count, setCount] = useCountState(0, inView ? target : 0);
+  return <span ref={ref}>{count}{suffix}</span>;
+}
 
-const highlights = [
+function useCountState(initial: number, target: number): [number, React.Dispatch<React.SetStateAction<number>>] {
+  const [val, setVal] = [useRef(initial), useRef<ReturnType<typeof setInterval> | null>(null)];
+  const [display, setDisplay] = require("react").useState(initial);
+
+  require("react").useEffect(() => {
+    if (target === 0) return;
+    let cur = 0;
+    const step = Math.ceil(target / 22);
+    const id = setInterval(() => {
+      cur = Math.min(cur + step, target);
+      setDisplay(cur);
+      if (cur >= target) clearInterval(id);
+    }, 55);
+    return () => clearInterval(id);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [target]);
+
+  return [display, setDisplay];
+}
+
+const dataRows = [
+  { label: "displayName", value: "Mohamad Joundi", bold: true },
+  { label: "jobTitle",    value: "Power Platform Developer" },
+  { label: "company",     value: "CMA CGM Group" },
+  { label: "city",        value: "Beirut, Lebanon" },
+  { label: "mail",        value: "contact@mhmdjnde.dev", link: "mailto:contact@mhmdjnde.dev" },
   {
-    kicker: "42 Beirut",
-    detail: "Original curriculum",
-    color: "var(--power-blue)",
-    glow: "rgba(71, 164, 255, 0.18)",
+    label: "expertise",
+    tags: [
+      { label: "Power Apps",    cls: "ac-badge ac-badge-p" },
+      { label: "Power Automate",cls: "ac-badge ac-badge-b" },
+      { label: "Dataverse",     cls: "ac-badge ac-badge-t" },
+    ],
   },
   {
-    kicker: "Lebanese University",
-    detail: "CS degree",
-    color: "var(--automate-purple-bright)",
-    glow: "rgba(126, 124, 255, 0.16)",
+    label: "education",
+    tags: [
+      { label: "Lebanese University", cls: "ac-badge ac-badge-gy" },
+      { label: "42 Beirut",           cls: "ac-badge ac-badge-gy" },
+    ],
   },
   {
-    kicker: "12+",
-    detail: "Projects done",
-    color: "var(--cyan-arc)",
-    glow: "rgba(67, 214, 201, 0.16)",
-  },
-  {
-    kicker: "CMA CGM",
-    detail: "Power Platform",
-    color: "var(--power-blue-bright)",
-    glow: "rgba(143, 213, 255, 0.16)",
+    label: "availability",
+    tags: [{ label: "● Available for selected work", cls: "ac-badge ac-badge-g" }],
   },
 ];
 
 export default function About() {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-60px" });
+
   return (
     <section
       id="about"
-      className="relative py-32"
-      style={{ paddingBottom: "clamp(1rem, 1vw, 1rem)" }}
+      ref={ref}
+      style={{ padding: "96px 80px", maxWidth: 1240, margin: "0 auto" }}
     >
-      <div className="absolute inset-0 dot-bg opacity-60" />
-      <div className="absolute inset-x-0 top-0 section-line" />
+      <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text3)", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 18, display: "flex", alignItems: "center", gap: 8 }}>
+        <span style={{ display: "inline-block", width: 14, height: 1, background: "var(--text3)" }} />
+        Get Profile
+      </div>
 
-      <div className="relative section-container">
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 44, alignItems: "start" }}>
+
+        {/* ── Action card ── */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="section-heading"
+          initial={{ opacity: 0, x: -22 }} animate={inView ? { opacity: 1, x: 0 } : {}}
+          transition={{ duration: 0.6, ease: [0.16,1,0.3,1] }}
+          style={{
+            background: "var(--bg-card)", border: "1px solid var(--border)",
+            borderRadius: "var(--rl)", overflow: "hidden",
+            transition: "border-color .3s",
+          }}
         >
-          <span className="section-eyebrow">About</span>
-          <h2>
-            The Engineer
-            <span className="text-gradient-blue"> Behind the Flows</span>
-          </h2>
-          <p>Where rigorous CS thinking meets enterprise automation craft.</p>
-        </motion.div>
-
-        <div className="grid gap-16 lg:grid-cols-2 lg:items-start xl:gap-20">
-          {/* ── Left: narrative + quick facts ── */}
-          <div className="flex h-full flex-col gap-5">
-            <motion.div
-              custom={0}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={fadeUp}
-              className="card-elevated rounded-2xl p-8 md:p-9"
-            >
-              <p className="text-[17px] leading-relaxed text-[var(--text-secondary)] mb-7">
-                I&apos;m a Computer Science graduate from{" "}
-                <span className="font-semibold text-[var(--automate-purple-bright)]">Lebanese University</span>{" "}
-                and{" "}
-                <span className="font-semibold text-[var(--cyan-arc)]">42 Beirut</span> —
-                one of the most demanding peer-learning environments in the world. No teachers, no lectures:
-                only project-based challenges that demand precision and persistence.
-              </p>
-              <p className="text-[17px] leading-relaxed text-[var(--text-secondary)]">
-                Today I apply that discipline at{" "}
-                <span className="font-semibold text-[var(--power-blue)]">CMA CGM</span>, one of
-                the world&apos;s largest shipping groups, building intelligent automation with the full{" "}
-                <span className="font-semibold text-[var(--automate-purple-bright)]">Power Platform</span> ecosystem.
-              </p>
-            </motion.div>
-
-            {/* Quick facts */}
-            <div className="grid gap-4 content-start">
-              {[
-                { icon: Briefcase, label: "Current Role", value: "Power Platform Developer · CMA CGM", color: "var(--power-blue)" },
-                { icon: GraduationCap, label: "Education", value: "Lebanese University — CS · 42 Beirut (Original Curriculum)", color: "var(--automate-purple-bright)" },
-                { icon: Code2, label: "Core Focus", value: "Power Apps · Power Automate · Dataverse · SharePoint", color: "var(--cyan-arc)" },
-              ].map((fact, i) => (
-                <motion.div
-                  key={fact.label}
-                  custom={i + 1}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true }}
-                  variants={fadeUp}
-                  className="flex items-center gap-4 rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-1)] p-6 transition-all hover:border-[var(--border-mid)]"
-                >
-                  <div
-                    className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl"
-                    style={{
-                      background: "rgba(255,255,255,0.04)",
-                      border: "1px solid var(--border-mid)",
-                    }}
-                  >
-                    <fact.icon size={16} style={{ color: fact.color }} />
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <span className="mb-1 block text-[11px] uppercase tracking-[0.12em] text-[var(--text-muted)]" style={{ fontFamily: "var(--font-mono)" }}>
-                      {fact.label}
-                    </span>
-                    <span className="block text-[15px] font-medium text-[var(--text-primary)] leading-snug">
-                      {fact.value}
-                    </span>
-                  </div>
-                </motion.div>
-              ))}
+          {/* Header */}
+          <div style={{
+            display: "flex", alignItems: "center", gap: 12,
+            padding: "14px 18px", borderBottom: "1px solid var(--border)",
+            background: "var(--bg-surface)",
+          }}>
+            <div style={{
+              width: 34, height: 34, borderRadius: 8, background: "var(--pa-dim)",
+              display: "flex", alignItems: "center", justifyContent: "center", fontSize: 17,
+            }}>👤</div>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--text3)", textTransform: "uppercase", letterSpacing: "0.15em" }}>Power Apps · Profile</div>
+              <div style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 14 }}>Get User Profile</div>
+            </div>
+            <div style={{ display: "flex", alignItems: "center", gap: 5, fontFamily: "var(--font-mono)", fontSize: 11 }}>
+              <span style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--green)", animation: "statusPulse 2s infinite" }} />
+              <span style={{ color: "var(--green)" }}>Succeeded</span>
             </div>
           </div>
 
-          {/* ── Right: summary + philosophy + approach ── */}
-          <div
-            className="flex flex-col"
-            style={{ gap: "1.25rem" }}
-          >
-            <motion.div
-              custom={2}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={fadeUp}
-              className="relative w-full overflow-hidden rounded-[2rem] border border-[var(--border-mid)] bg-[linear-gradient(160deg,rgba(16,28,43,0.96),rgba(8,15,24,0.98))] p-8 md:p-9 shadow-[0_24px_60px_rgba(0,0,0,0.26)]"
-            >
-              <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[rgba(143,213,255,0.7)] to-transparent" />
-              <div className="absolute -right-16 top-8 h-36 w-36 rounded-full blur-3xl bg-[rgba(71,164,255,0.12)]" />
-              <div className="absolute -left-10 bottom-0 h-28 w-28 rounded-full blur-3xl bg-[rgba(126,124,255,0.1)]" />
-
-              <div className="relative">
-                <div className="content-inset">
-                  <span
-                    className="mb-10 inline-flex items-center gap-3 text-[11px] uppercase tracking-[0.16em] text-[var(--text-muted)]"
-                    style={{ fontFamily: "var(--font-mono)" }}
-                  >
-                    <span className="h-px w-10 bg-gradient-to-r from-[var(--power-blue)] to-transparent" />
-                    Snapshot
-                  </span>
-                </div>
-
-                <div
-                  className="flex flex-col"
-                  style={{ gap: "clamp(0.3rem, 1vw, 0.55rem)" }}
-                >
-                  {highlights.map((item, i) => (
-                    <motion.div
-                      key={item.kicker}
-                      custom={i + 3}
-                      initial="hidden"
-                      whileInView="visible"
-                      viewport={{ once: true }}
-                      variants={fadeUp}
-                      className="group relative overflow-hidden rounded-[1.45rem] border border-[var(--border-subtle)] bg-[rgba(255,255,255,0.025)] px-7 py-7 transition-all hover:border-[var(--border-mid)]"
-                    >
-                      <div
-                        className="absolute inset-y-3.5 left-0 w-[3px] rounded-full"
-                        style={{ background: `linear-gradient(180deg, ${item.color}, transparent)` }}
-                      />
-                      <div
-                        className="absolute right-0 top-0 h-full w-24 opacity-0 blur-2xl transition-opacity duration-300 group-hover:opacity-100"
-                        style={{ background: item.glow }}
-                      />
-
-                      <div className="relative flex items-center justify-between gap-4">
-                        <div className="content-inset-sm">
-                          <div
-                            className="text-[1.1rem] font-semibold leading-tight"
-                            style={{ fontFamily: "var(--font-display)", color: item.color }}
-                          >
-                            {item.kicker}
-                          </div>
-                          <div
-                            className="mt-1 text-[12px] uppercase tracking-[0.12em] text-[var(--text-secondary)]"
-                            style={{ fontFamily: "var(--font-mono)" }}
-                          >
-                            {item.detail}
-                          </div>
-                        </div>
-
-                        <span
-                          className="flex h-8 min-w-8 items-center justify-center rounded-full px-2 text-[10px] font-semibold"
-                          style={{
-                            fontFamily: "var(--font-mono)",
-                            color: item.color,
-                            border: `1px solid ${item.color}33`,
-                            background: `${item.color}14`,
-                          }}
-                        >
-                          {String(i + 1).padStart(2, "0")}
-                        </span>
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-
-            <div
-              className="flex flex-col"
-              style={{ gap: "1.25rem" }}
-            >
-              {/* Philosophy */}
-              <motion.div
-                custom={6}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                variants={fadeUp}
-                className="relative overflow-hidden rounded-2xl p-8 md:p-9"
-                style={{
-                  background: "linear-gradient(135deg, var(--power-blue-light), var(--cyan-light))",
-                  border: "1px solid rgba(71,164,255,0.16)",
-                }}
-              >
-                <div className="content-inset">
-                  <span
-                    className="mb-4 block text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--power-blue)]"
-                    style={{ fontFamily: "var(--font-mono)" }}
-                  >
-                    Philosophy
-                  </span>
-                  <blockquote className="text-lg font-semibold leading-snug text-[var(--text-primary)]" style={{ fontFamily: "var(--font-display)" }}>
-                    &ldquo;The best automation is the one users don&apos;t notice — because it just works.&rdquo;
-                  </blockquote>
-                  <p className="mt-4 text-[14px] leading-relaxed text-[var(--text-secondary)]">
-                    I build invisible infrastructure that lets people focus on what they do best.
-                  </p>
-                </div>
-              </motion.div>
-
-              {/* Work approach */}
-              <motion.div
-                custom={7}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                variants={fadeUp}
-                className="card rounded-2xl p-8 md:p-9"
-              >
-                <div className="content-inset">
-                  <span
-                    className="mb-5 block text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--text-muted)]"
-                    style={{ fontFamily: "var(--font-mono)" }}
-                  >
-                    Approach
-                  </span>
-                  <div className="space-y-5">
-                    {[
-                      "Map the human process before touching any tool",
-                      "Choose the right automation level for the problem",
-                      "Design for the user who will live with the result",
-                      "Measure impact — automate, validate, iterate",
-                    ].map((item, i) => (
-                      <div key={i} className="flex items-start gap-4">
-                        <span
-                          className="mt-0.5 flex-shrink-0 font-bold text-[var(--power-blue)]"
-                          style={{ fontFamily: "var(--font-mono)", fontSize: "12px" }}
-                        >
-                          {String(i + 1).padStart(2, "0")}
-                        </span>
-                        <span className="text-[15px] leading-relaxed text-[var(--text-secondary)]">{item}</span>
-                      </div>
+          {/* Body rows */}
+          <div style={{ padding: "0 18px" }}>
+            {dataRows.map((row, i) => (
+              <div key={i} style={{
+                display: "flex", alignItems: "flex-start", gap: 12,
+                padding: "10px 0", borderBottom: i < dataRows.length - 1 ? "1px solid var(--border)" : "none",
+              }}>
+                <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--text3)", minWidth: 95, paddingTop: 3 }}>
+                  {row.label}
+                </span>
+                {"tags" in row ? (
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
+                    {row.tags.map((t, j) => (
+                      <span key={j} className={t.cls} style={{ padding: "2px 7px", borderRadius: 4, fontSize: 10 }}>{t.label}</span>
                     ))}
                   </div>
+                ) : "link" in row ? (
+                  <a href={row.link} style={{ fontSize: 13, color: "var(--cyan)", textDecoration: "none" }}>{row.value}</a>
+                ) : (
+                  <span style={{ fontSize: 13, color: "var(--text)", fontWeight: row.bold ? 700 : 400 }}>{row.value}</span>
+                )}
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* ── Text side ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 22 }} animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.1, ease: [0.16,1,0.3,1] }}
+        >
+          <h3 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(22px,2.5vw,32px)", fontWeight: 800, marginBottom: 16, lineHeight: 1.2 }}>
+            I build automation<br />people actually enjoy.
+          </h3>
+          <p style={{ color: "var(--text2)", lineHeight: 1.8, marginBottom: 14, fontSize: 15 }}>
+            With a Computer Science degree from Lebanese University and a systems engineering
+            background from 42 Beirut, I bridge the gap between complex business processes
+            and elegant digital solutions.
+          </p>
+          <p style={{ color: "var(--text2)", lineHeight: 1.8, marginBottom: 14, fontSize: 15 }}>
+            At CMA CGM — one of the world&apos;s largest shipping groups — I architect and ship
+            enterprise-grade Power Platform solutions that automate critical workflows across departments.
+          </p>
+          <blockquote style={{
+            fontStyle: "italic", color: "rgba(180,100,240,1)",
+            fontFamily: "var(--font-mono)", fontSize: 13,
+            marginTop: 22, paddingLeft: 16,
+            borderLeft: "2px solid var(--pa)", lineHeight: 1.6,
+          }}>
+            &ldquo;The best automation is the one users don&apos;t notice — because it just works.&rdquo;
+          </blockquote>
+
+          {/* Stats */}
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 14, marginTop: 28 }}>
+            {[
+              { target: 12, label: "42 Projects" },
+              { target: 5,  label: "Enterprise Apps" },
+              { target: 2,  label: "Degrees", suffix: "" },
+            ].map((s, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 14 }} animate={inView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.5, delay: 0.2 + i * 0.07 }}
+                style={{
+                  background: "var(--bg-card)", border: "1px solid var(--border)",
+                  borderRadius: "var(--rm)", padding: 18, textAlign: "center",
+                  transition: "border-color .3s, transform .3s",
+                }}
+              >
+                <div style={{
+                  fontFamily: "var(--font-display)", fontSize: 34, fontWeight: 800,
+                  background: "linear-gradient(135deg, var(--pa), var(--cyan))",
+                  WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text",
+                }}>
+                  {inView ? `${s.target}${s.suffix ?? "+"}` : "0"}
+                </div>
+                <div style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--text3)", textTransform: "uppercase", letterSpacing: "0.1em", marginTop: 4 }}>
+                  {s.label}
                 </div>
               </motion.div>
-            </div>
+            ))}
           </div>
-        </div>
+        </motion.div>
+
       </div>
+
+      <style>{`
+        @media (max-width: 900px) {
+          #about { padding: 72px 22px !important; }
+          #about > div:last-child { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
     </section>
   );
 }
