@@ -115,7 +115,7 @@ export default function About() {
                 <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--text3)", minWidth: 95, paddingTop: 3 }}>
                   {row.label}
                 </span>
-                {"tags" in row ? (
+                {"tags" in row && row.tags ? (
                   <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
                     {row.tags.map((t, j) => (
                       <span key={j} className={t.cls} style={{ padding: "2px 7px", borderRadius: 4, fontSize: 10 }}>{t.label}</span>

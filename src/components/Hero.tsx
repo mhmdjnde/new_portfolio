@@ -1,13 +1,13 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, type Transition } from "framer-motion";
 import { ArrowDown, FileDown, Layers, Send } from "lucide-react";
 import { PERSONAL } from "@/lib/data";
 
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 24 },
   animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.75, delay, ease: [0.16, 1, 0.3, 1] },
+  transition: { duration: 0.75, delay, ease: [0.16, 1, 0.3, 1] } as Transition,
 });
 
 export default function Hero() {
