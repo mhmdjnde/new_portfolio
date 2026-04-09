@@ -31,7 +31,7 @@ coverage/
 *.tsbuildinfo
 next-env.d.ts
 
-# Vercel
+# Vercelo
 .vercel/
 
 # Editor and OS files

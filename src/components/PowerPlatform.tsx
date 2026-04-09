@@ -1,18 +1,15 @@
 "use client";
 
 import { motion, useInView } from "framer-motion";
+import Image from "next/image";
 import { useRef } from "react";
 import { POWER_PLATFORM_SKILLS } from "@/lib/data";
 
-const connectorEmoji: Record<string, string> = {
-  apps: "📱", automate: "⚡", dataverse: "🗄️", sharepoint: "📋",
-};
-
-const connectorGrad: Record<string, string> = {
-  apps:       "linear-gradient(135deg,#742774,#8B2FC9)",
-  automate:   "linear-gradient(135deg,#0078D4,#0E8EC7)",
-  dataverse:  "linear-gradient(135deg,#0099BC,#00ACCA)",
-  sharepoint: "linear-gradient(135deg,#038387,#00A88F)",
+const connectorIcons: Record<string, string> = {
+  apps: "/icons/brands/power-apps.svg",
+  automate: "/icons/brands/power-automate.svg",
+  dataverse: "/icons/brands/dataverse.svg",
+  sharepoint: "/icons/brands/sharepoint.svg",
 };
 
 const badgeCls: Record<string, string> = {
@@ -21,16 +18,16 @@ const badgeCls: Record<string, string> = {
 };
 
 const extraSkills = [
-  { name: "C / C++",      desc: "Low-level systems — memory, processes, sockets, raw performance.", emoji: "⚙️", grad: "linear-gradient(135deg,#3A3A5C,#5A5A8C)", badgeCls: "ac-badge ac-badge-gy", tags: ["Memory Mgmt","Threads","Sockets"] },
-  { name: "TypeScript",   desc: "Full-stack web with type safety and modern JavaScript patterns.",  emoji: "🔷", grad: "linear-gradient(135deg,#2060A0,#3178C6)", badgeCls: "ac-badge ac-badge-b",  tags: ["React","Next.js","Node.js"] },
-  { name: "JavaScript",   desc: "Frontend scripting, DOM manipulation, and rapid prototyping.",    emoji: "⚡", grad: "linear-gradient(135deg,#856A00,#C4960E)", badgeCls: "ac-badge ac-badge-yw", tags: ["ES2024","DOM","Async/Await"] },
-  { name: "Java",         desc: "Object-oriented programming and algorithm fundamentals.",          emoji: "☕", grad: "linear-gradient(135deg,#B04010,#E84135)", badgeCls: "ac-badge ac-badge-yw", tags: ["OOP","Collections","University"] },
-  { name: "Python",       desc: "Scripting, data processing, and automation tools.",               emoji: "🐍", grad: "linear-gradient(135deg,#4A8AB8,#5EA8E8)", badgeCls: "ac-badge ac-badge-b",  tags: ["Scripting","Data"] },
-  { name: "Kotlin",       desc: "Android app development with Material 3 and bilingual support.",  emoji: "📱", grad: "linear-gradient(135deg,#6040A0,#7F52FF)", badgeCls: "ac-badge ac-badge-vi", tags: ["Android","Material 3"] },
+  { name: "C / C++",      desc: "Low-level systems — memory, processes, sockets, raw performance.", iconSrc: "/icons/brands/cplusplus.svg", badgeCls: "ac-badge ac-badge-gy", tags: ["Memory Mgmt","Threads","Sockets"], kind: "Languages" },
+  { name: "TypeScript",   desc: "Full-stack web with type safety and modern JavaScript patterns.",  iconSrc: "/icons/brands/typescript.svg", badgeCls: "ac-badge ac-badge-b",  tags: ["React","Next.js","Node.js"], kind: "Languages" },
+  { name: "JavaScript",   desc: "Frontend scripting, DOM manipulation, and rapid prototyping.",    iconSrc: "/icons/brands/javascript.svg", badgeCls: "ac-badge ac-badge-yw", tags: ["ES2024","DOM","Async/Await"], kind: "Languages" },
+  { name: "Java",         desc: "Object-oriented programming and algorithm fundamentals.",          iconSrc: "/icons/brands/openjdk.svg", badgeCls: "ac-badge ac-badge-yw", tags: ["OOP","Collections","University"], kind: "Languages" },
+  { name: "Python",       desc: "Scripting, data processing, and automation tools.",               iconSrc: "/icons/brands/python.svg", badgeCls: "ac-badge ac-badge-b",  tags: ["Scripting","Data"], kind: "Languages" },
+  { name: "Kotlin",       desc: "Android app development with Material 3 and bilingual support.",  iconSrc: "/icons/brands/kotlin.svg", badgeCls: "ac-badge ac-badge-vi", tags: ["Android","Material 3"], kind: "Languages" },
 ];
 
-function ConnectorCard({ name, desc, emoji, grad, badgeClsVal, tags, delay }:
-  { name: string; desc: string; emoji: string; grad: string; badgeClsVal: string; tags: string[]; delay: number }
+function ConnectorCard({ name, desc, iconSrc, badgeClsVal, tags, delay, kind = "Connector" }:
+  { name: string; desc: string; iconSrc: string; badgeClsVal: string; tags: string[]; delay: number; kind?: string }
 ) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
@@ -42,12 +39,32 @@ function ConnectorCard({ name, desc, emoji, grad, badgeClsVal, tags, delay }:
       style={{ background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: "var(--rl)", padding: 24, transition: "all .3s" }}
     >
       <div style={{ display: "flex", alignItems: "center", gap: 13, marginBottom: 16 }}>
-        <div style={{ width: 46, height: 46, borderRadius: 10, background: grad, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, flexShrink: 0 }}>
-          {emoji}
+        <div
+          style={{
+            width: 46,
+            height: 46,
+            borderRadius: 12,
+            background: "rgba(255,255,255,0.025)",
+            border: "1px solid var(--border)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            flexShrink: 0,
+            overflow: "hidden",
+          }}
+        >
+          <Image
+            src={iconSrc}
+            alt={`${name} logo`}
+            width={28}
+            height={28}
+            unoptimized
+            style={{ width: 28, height: 28, objectFit: "contain", display: "block" }}
+          />
         </div>
         <div style={{ flex: 1 }}>
           <div style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 15 }}>{name}</div>
-          <div style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--text3)" }}>Connector</div>
+          <div style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--text3)" }}>{kind}</div>
         </div>
       </div>
       <div style={{ fontSize: 13, color: "var(--text2)", lineHeight: 1.6, marginBottom: 18 }}>{desc}</div>
@@ -75,8 +92,7 @@ export default function PowerPlatform() {
         {POWER_PLATFORM_SKILLS.map((skill, i) => (
           <ConnectorCard key={skill.name}
             name={skill.name} desc={skill.description}
-            emoji={connectorEmoji[skill.icon] ?? "🔌"}
-            grad={connectorGrad[skill.icon] ?? "linear-gradient(135deg,var(--pa),var(--paut))"}
+            iconSrc={connectorIcons[skill.icon] ?? "/icons/brands/power-apps.svg"}
             badgeClsVal={badgeCls[skill.icon] ?? "ac-badge ac-badge-b"}
             tags={skill.tags} delay={i * 0.07}
           />
@@ -87,8 +103,8 @@ export default function PowerPlatform() {
         {extraSkills.map((s, i) => (
           <ConnectorCard key={s.name}
             name={s.name} desc={s.desc}
-            emoji={s.emoji} grad={s.grad}
-            badgeClsVal={s.badgeCls} tags={s.tags} delay={i * 0.07}
+            iconSrc={s.iconSrc}
+            badgeClsVal={s.badgeCls} tags={s.tags} delay={i * 0.07} kind={s.kind}
           />
         ))}
       </div>

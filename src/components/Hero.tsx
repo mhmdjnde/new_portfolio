@@ -10,6 +10,20 @@ const fadeUp = (delay = 0) => ({
   transition: { duration: 0.75, delay, ease: [0.16, 1, 0.3, 1] } as Transition,
 });
 
+// Three rings = three layers of expertise, orbiting the developer at the center
+// Outer: Language Foundations — the skills learned before the enterprise world
+// Middle: Enterprise Platform — daily tools at CMA CGM, counter-rotating (opposing force)
+// Inner: Data Infrastructure — the backbone of every system built (fastest, most essential)
+const orbitSkills = [
+  { label: "C++",  color: "#8AADCE", r: 280, speed: 22, angle:   0, dir:  1 as const },
+  { label: "TS",   color: "#4B8EF5", r: 280, speed: 22, angle: 120, dir:  1 as const },
+  { label: "PY",   color: "#FFD27A", r: 280, speed: 22, angle: 240, dir:  1 as const },
+  { label: "APPS", color: "#BE4BDB", r: 195, speed: 15, angle:  30, dir: -1 as const },
+  { label: "AUTO", color: "#0EA5E9", r: 195, speed: 15, angle: 210, dir: -1 as const },
+  { label: "DVS",  color: "#00C8B4", r: 122, speed:  9, angle:  60, dir:  1 as const },
+  { label: "SQL",  color: "#F97316", r: 122, speed:  9, angle: 240, dir:  1 as const },
+];
+
 export default function Hero() {
   return (
     <section
@@ -51,7 +65,7 @@ export default function Hero() {
       </div>
 
       {/* Two-column grid: text left, photo right */}
-      <div className="hero-grid" style={{ position: "relative", zIndex: 2, width: "100%", display: "grid", gridTemplateColumns: "1fr 560px", alignItems: "center", gap: 56 }}>
+      <div className="hero-grid" style={{ position: "relative", zIndex: 2, width: "100%", display: "grid", gridTemplateColumns: "1fr 760px", alignItems: "center", gap: 40 }}>
 
         {/* Left: text content */}
         <div style={{ maxWidth: 620 }}>
@@ -160,77 +174,161 @@ export default function Hero() {
           </motion.div>
         </div>
 
-        {/* Right: Photo */}
+        {/* Right: Photo — portrait with dual-spectrum creative frame */}
         <motion.div
           className="hero-photo"
           initial={{ opacity: 0, x: 48, scale: 0.94 }}
           animate={{ opacity: 1, x: 0, scale: 1 }}
           transition={{ duration: 0.95, delay: 0.32, ease: [0.16, 1, 0.3, 1] }}
-          style={{ position: "relative", display: "flex", justifyContent: "center", flexShrink: 0 }}
+          style={{ position: "relative", display: "flex", justifyContent: "center", alignItems: "center", flexShrink: 0, width: 420, height: 520 }}
         >
-          {/* Wide cinematic glow — blue/teal to match holographic screens in photo */}
+          {/* Dual ambient glows — echoing the photo's own studio lighting */}
+          {/* Teal: left-bottom (cool light side) */}
           <div style={{
-            position: "absolute", inset: -80,
-            background: "radial-gradient(ellipse at 50% 60%, rgba(14,142,199,0.30) 0%, rgba(0,229,255,0.10) 45%, transparent 72%)",
-            filter: "blur(56px)", pointerEvents: "none",
+            position: "absolute", bottom: -50, left: -20, width: 280, height: 280,
+            borderRadius: "50%", filter: "blur(52px)", pointerEvents: "none",
+            background: "radial-gradient(circle, rgba(0,200,210,0.26) 0%, transparent 68%)",
           }} />
+          {/* Amber: top-right (warm light side) */}
           <div style={{
-            position: "absolute", inset: -40,
-            background: "radial-gradient(ellipse at 20% 50%, rgba(139,47,201,0.12) 0%, transparent 55%)",
-            filter: "blur(36px)", pointerEvents: "none",
+            position: "absolute", top: -30, right: -30, width: 220, height: 220,
+            borderRadius: "50%", filter: "blur(44px)", pointerEvents: "none",
+            background: "radial-gradient(circle, rgba(255,128,48,0.18) 0%, transparent 68%)",
           }} />
 
-          {/* Photo — landscape, clean, no frame */}
+          {/* Outer rotating arc — teal → purple → amber gradient, clockwise */}
+          <motion.div
+            style={{ position: "absolute", width: 430, height: 530, pointerEvents: "none", zIndex: 1 }}
+            animate={{ rotate: 360 }}
+            transition={{ duration: 11, repeat: Infinity, ease: "linear" }}
+          >
+            <svg width="430" height="530" viewBox="0 0 430 530" fill="none" style={{ position: "absolute", inset: 0 }}>
+              <defs>
+                <linearGradient id="arc1" x1="0%" y1="0%" x2="100%" y2="100%" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%"   stopColor="#00C8D2" stopOpacity="0.95" />
+                  <stop offset="55%"  stopColor="#7B4FE0" stopOpacity="0.55" />
+                  <stop offset="100%" stopColor="#FF8830" stopOpacity="0.90" />
+                </linearGradient>
+              </defs>
+              <rect x="1" y="1" width="428" height="528" rx="26"
+                stroke="url(#arc1)" strokeWidth="1.5"
+                strokeDasharray="210 1000" strokeLinecap="round" fill="none"
+              />
+            </svg>
+          </motion.div>
+
+          {/* Inner counter-rotating arc — purple, slower */}
+          <motion.div
+            style={{ position: "absolute", width: 408, height: 508, pointerEvents: "none", zIndex: 1 }}
+            animate={{ rotate: -360 }}
+            transition={{ duration: 19, repeat: Infinity, ease: "linear" }}
+          >
+            <svg width="408" height="508" viewBox="0 0 408 508" fill="none" style={{ position: "absolute", inset: 0 }}>
+              <rect x="1" y="1" width="406" height="506" rx="22"
+                stroke="rgba(139,47,201,0.38)" strokeWidth="1"
+                strokeDasharray="85 960" strokeLinecap="round" fill="none"
+              />
+            </svg>
+          </motion.div>
+
+          {/* Third arc — very thin amber, mid-speed */}
+          <motion.div
+            style={{ position: "absolute", width: 446, height: 546, pointerEvents: "none", zIndex: 1 }}
+            animate={{ rotate: 360 }}
+            transition={{ duration: 27, repeat: Infinity, ease: "linear" }}
+          >
+            <svg width="446" height="546" viewBox="0 0 446 546" fill="none" style={{ position: "absolute", inset: 0 }}>
+              <rect x="1" y="1" width="444" height="544" rx="30"
+                stroke="rgba(255,128,48,0.22)" strokeWidth="0.75"
+                strokeDasharray="50 1100" strokeLinecap="round" fill="none"
+              />
+            </svg>
+          </motion.div>
+
+          {/* Corner ornaments — L-brackets in dual accent colors */}
+          {/* Top-left — teal */}
+          <div style={{ position: "absolute", top: -2, left: -2, zIndex: 10, pointerEvents: "none" }}>
+            <div style={{ width: 34, height: 2, background: "linear-gradient(to right, #00C8D2, transparent)", borderRadius: 1 }} />
+            <div style={{ width: 2, height: 34, background: "linear-gradient(to bottom, #00C8D2, transparent)", borderRadius: 1, marginTop: -2 }} />
+          </div>
+          {/* Top-right — amber */}
+          <div style={{ position: "absolute", top: -2, right: -2, zIndex: 10, pointerEvents: "none", display: "flex", flexDirection: "column", alignItems: "flex-end" }}>
+            <div style={{ width: 34, height: 2, background: "linear-gradient(to left, #FF8830, transparent)", borderRadius: 1 }} />
+            <div style={{ width: 2, height: 34, background: "linear-gradient(to bottom, #FF8830, transparent)", borderRadius: 1, marginTop: -2 }} />
+          </div>
+          {/* Bottom-left — purple */}
+          <div style={{ position: "absolute", bottom: -2, left: -2, zIndex: 10, pointerEvents: "none", display: "flex", flexDirection: "column", justifyContent: "flex-end" }}>
+            <div style={{ width: 2, height: 34, background: "linear-gradient(to top, #8B2FC9, transparent)", borderRadius: 1 }} />
+            <div style={{ width: 34, height: 2, background: "linear-gradient(to right, #8B2FC9, transparent)", borderRadius: 1, marginTop: -2 }} />
+          </div>
+          {/* Bottom-right — teal dim */}
+          <div style={{ position: "absolute", bottom: -2, right: -2, zIndex: 10, pointerEvents: "none", display: "flex", flexDirection: "column", alignItems: "flex-end", justifyContent: "flex-end" }}>
+            <div style={{ width: 2, height: 34, background: "linear-gradient(to top, rgba(0,200,210,0.48), transparent)", borderRadius: 1 }} />
+            <div style={{ width: 34, height: 2, background: "linear-gradient(to left, rgba(0,200,210,0.48), transparent)", borderRadius: 1, marginTop: -2 }} />
+          </div>
+
+          {/* Ruler ticks — left edge */}
+          <div style={{ position: "absolute", left: -18, top: 90, zIndex: 10, pointerEvents: "none", display: "flex", flexDirection: "column", gap: 13 }}>
+            {[10, 6, 6, 10, 6, 6, 10, 6, 6, 10, 6, 6].map((w, i) => (
+              <div key={i} style={{ width: w, height: 1, background: `rgba(0,200,210,${w === 10 ? 0.55 : 0.22})` }} />
+            ))}
+          </div>
+
+          {/* Photo */}
           <div style={{
-            position: "relative", borderRadius: 16, overflow: "hidden",
-            width: 760, height: 515,
-            boxShadow: "0 24px 80px rgba(0,0,0,0.80), 0 0 0 1px rgba(14,142,199,0.10), 0 0 70px rgba(14,142,199,0.14)",
+            position: "relative", zIndex: 2,
+            borderRadius: "4px 22px 4px 22px",
+            overflow: "hidden",
+            width: 375, height: 490,
+            boxShadow: "0 32px 80px rgba(0,0,0,0.82), 0 0 0 1px rgba(0,200,210,0.10), 0 0 55px rgba(0,200,210,0.09)",
           }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/profile.png"
               alt="Mohamad Joundi"
-              style={{
-                width: "100%", height: "100%",
-                objectFit: "cover", objectPosition: "50% 30%",
-                display: "block",
-              }}
+              style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "50% 18%", display: "block" }}
             />
-            {/* Subtle bottom fade */}
+            {/* Bottom fade */}
             <div style={{
-              position: "absolute", bottom: 0, left: 0, right: 0, height: "30%",
-              background: "linear-gradient(to top, rgba(7,7,28,0.60) 0%, transparent 100%)",
+              position: "absolute", bottom: 0, left: 0, right: 0, height: "28%",
+              background: "linear-gradient(to top, rgba(7,7,28,0.72) 0%, transparent 100%)",
+              pointerEvents: "none",
+            }} />
+            {/* Subtle left teal wash — mirrors the photo's cool side lighting */}
+            <div style={{
+              position: "absolute", inset: 0,
+              background: "linear-gradient(to right, rgba(0,200,210,0.06) 0%, transparent 38%)",
               pointerEvents: "none",
             }} />
           </div>
 
-          {/* Available badge — bottom-left, sits below the image */}
+          {/* Available badge */}
           <motion.div
             initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.88, duration: 0.5 }}
             style={{
-              position: "absolute", bottom: -18, left: 16,
-              background: "rgba(7,7,28,0.88)", border: "1px solid rgba(0,229,255,0.24)",
+              position: "absolute", bottom: 14, left: -28, zIndex: 12,
+              background: "rgba(7,7,28,0.90)", border: "1px solid rgba(0,200,210,0.28)",
               borderRadius: 12, padding: "9px 15px",
-              fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--cyan)",
+              fontFamily: "var(--font-mono)", fontSize: 11, color: "#00C8D2",
               display: "flex", alignItems: "center", gap: 8,
               backdropFilter: "blur(18px)",
-              boxShadow: "0 8px 28px rgba(0,0,0,0.45), 0 0 0 1px rgba(0,229,255,0.07)",
+              boxShadow: "0 8px 28px rgba(0,0,0,0.5), 0 0 0 1px rgba(0,200,210,0.07)",
             }}
           >
             <span style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--green)", animation: "statusPulse 2s infinite", flexShrink: 0 }} />
             Available for selected work
           </motion.div>
 
-          {/* Role badge — top-right, floats above image */}
+          {/* Role badge — amber accent to match the photo's warm side */}
           <motion.div
             initial={{ opacity: 0, scale: 0.75 }} animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 1.02, duration: 0.45, type: "spring", stiffness: 280 }}
             style={{
-              position: "absolute", top: -16, right: 16,
-              background: "rgba(7,7,28,0.88)", border: "1px solid rgba(139,47,201,0.3)",
+              position: "absolute", top: 14, right: -28, zIndex: 12,
+              background: "rgba(7,7,28,0.90)", border: "1px solid rgba(255,128,48,0.30)",
               borderRadius: 10, padding: "7px 13px",
-              fontFamily: "var(--font-mono)", fontSize: 10, color: "rgba(180,100,240,1)",
+              fontFamily: "var(--font-mono)", fontSize: 10, color: "rgba(255,160,80,1)",
               backdropFilter: "blur(14px)",
               boxShadow: "0 6px 20px rgba(0,0,0,0.4)",
             }}
@@ -258,7 +356,7 @@ export default function Hero() {
       </motion.a>
 
       <style>{`
-        @media (max-width: 1360px) {
+        @media (max-width: 1180px) {
           .hero-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
           .hero-photo { display: none !important; }
         }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { PERSONAL } from "@/lib/data";
@@ -71,6 +71,40 @@ const navItems = [
   },
 ];
 
+function BrandMark() {
+  const gradientId = useId();
+
+  return (
+    <div className="relative flex h-12 w-12 items-center justify-center overflow-hidden rounded-2xl border border-cyan-400/20 bg-[#070b1a]/85 backdrop-blur-md">
+      <div className="absolute inset-0 bg-gradient-to-br from-cyan-400/10 via-blue-500/10 to-purple-500/10" />
+      <div className="absolute inset-0 shadow-[0_0_25px_rgba(34,211,238,0.10)]" />
+
+      <svg
+        viewBox="0 0 64 64"
+        className="relative z-10 h-7 w-7"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <defs>
+          <linearGradient id={gradientId} x1="8" y1="10" x2="56" y2="54" gradientUnits="userSpaceOnUse">
+            <stop stopColor="#67E8F9" />
+            <stop offset="0.5" stopColor="#3B82F6" />
+            <stop offset="1" stopColor="#A855F7" />
+          </linearGradient>
+        </defs>
+
+        <path
+          d="M12 50V14L24 31L32 20L40 31L52 14V50"
+          stroke={`url(#${gradientId})`}
+          strokeWidth="4.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    </div>
+  );
+}
+
 export default function Navigation() {
   const [active, setActive] = useState("hero");
   const [scrollPct, setScrollPct] = useState(0);
@@ -116,16 +150,12 @@ export default function Navigation() {
         <a
           href="#hero"
           style={{
-            width: 42, height: 42, borderRadius: 10,
-            background: "linear-gradient(135deg,var(--pa),var(--paut))",
             display: "flex", alignItems: "center", justifyContent: "center",
-            fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 15, color: "#fff",
             textDecoration: "none", marginBottom: 16,
-            boxShadow: "0 4px 20px rgba(139,47,201,0.25)",
             transition: "all .3s",
           }}
         >
-          MJ
+          <BrandMark />
         </a>
 
         <div style={{ width: 28, height: 1, background: "var(--border)", margin: "6px 0" }} />
@@ -188,12 +218,7 @@ export default function Navigation() {
         <a href="#hero" style={{
           display: "flex", alignItems: "center", gap: 10, textDecoration: "none",
         }}>
-          <div style={{
-            width: 36, height: 36, borderRadius: 8,
-            background: "linear-gradient(135deg,var(--pa),var(--paut))",
-            display: "flex", alignItems: "center", justifyContent: "center",
-            fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 13, color: "#fff",
-          }}>MJ</div>
+          <BrandMark />
           <span style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 15, color: "var(--text)" }}>
             {PERSONAL.handle}<span style={{ color: "var(--cyan)" }}>.dev</span>
           </span>
