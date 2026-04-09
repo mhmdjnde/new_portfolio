@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, type Transition } from "framer-motion";
-import { ArrowDown, FileDown, Layers, Send } from "lucide-react";
+import { ArrowDown, Layers, Send } from "lucide-react";
 import { PERSONAL } from "@/lib/data";
 
 const fadeUp = (delay = 0) => ({
@@ -118,10 +118,6 @@ export default function Hero() {
             <a href="#contact" className="btn-ghost">
               <Send size={15} />
               Let&apos;s work together
-            </a>
-            <a href={PERSONAL.cvUrl} download className="btn-ghost">
-              <FileDown size={15} />
-              Download CV
             </a>
           </motion.div>
 
