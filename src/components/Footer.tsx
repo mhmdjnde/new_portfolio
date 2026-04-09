@@ -1,7 +1,8 @@
 "use client";
 
-import { ArrowUp, Mail, Zap } from "lucide-react";
+import { ArrowUp, Mail } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/components/ui/SocialIcons";
+import { BrandMark } from "@/components/Navigation";
 import { PERSONAL } from "@/lib/data";
 
 const TAPE_ITEMS = [
@@ -103,9 +104,7 @@ export default function Footer() {
             {/* Brand */}
             <div style={{ maxWidth: "26rem" }}>
               <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "1.25rem" }}>
-                <div style={{ width: "40px", height: "40px", borderRadius: "13px", background: "linear-gradient(135deg,var(--power-blue),var(--automate-purple))", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 8px 22px rgba(71,164,255,.2)" }}>
-                  <Zap size={16} style={{ color: "white" }} strokeWidth={2.4} />
-                </div>
+                <BrandMark />
                 <div>
                   <p style={{ fontFamily: "var(--font-display)", fontSize: "17px", fontWeight: 600, color: "var(--text-primary)" }}>
                     {PERSONAL.siteTitle}

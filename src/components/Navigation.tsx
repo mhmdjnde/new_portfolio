@@ -71,7 +71,7 @@ const navItems = [
   },
 ];
 
-function BrandMark() {
+export function BrandMark() {
   const gradientId = useId();
 
   return (

@@ -10,27 +10,13 @@ const fadeUp = (delay = 0) => ({
   transition: { duration: 0.75, delay, ease: [0.16, 1, 0.3, 1] } as Transition,
 });
 
-// Three rings = three layers of expertise, orbiting the developer at the center
-// Outer: Language Foundations — the skills learned before the enterprise world
-// Middle: Enterprise Platform — daily tools at CMA CGM, counter-rotating (opposing force)
-// Inner: Data Infrastructure — the backbone of every system built (fastest, most essential)
-const orbitSkills = [
-  { label: "C++",  color: "#8AADCE", r: 280, speed: 22, angle:   0, dir:  1 as const },
-  { label: "TS",   color: "#4B8EF5", r: 280, speed: 22, angle: 120, dir:  1 as const },
-  { label: "PY",   color: "#FFD27A", r: 280, speed: 22, angle: 240, dir:  1 as const },
-  { label: "APPS", color: "#BE4BDB", r: 195, speed: 15, angle:  30, dir: -1 as const },
-  { label: "AUTO", color: "#0EA5E9", r: 195, speed: 15, angle: 210, dir: -1 as const },
-  { label: "DVS",  color: "#00C8B4", r: 122, speed:  9, angle:  60, dir:  1 as const },
-  { label: "SQL",  color: "#F97316", r: 122, speed:  9, angle: 240, dir:  1 as const },
-];
-
 export default function Hero() {
   return (
     <section
       id="hero"
       style={{
         minHeight: "100vh", display: "flex", alignItems: "center",
-        padding: "0 80px", position: "relative", overflow: "hidden",
+        padding: "0 clamp(32px, 6vw, 80px)", position: "relative", overflow: "hidden",
       }}
     >
       {/* Ambient blobs */}
@@ -47,7 +33,7 @@ export default function Hero() {
 
       {/* Particle field */}
       <div style={{ position: "absolute", inset: 0, pointerEvents: "none", overflow: "hidden" }}>
-        {Array.from({ length: 20 }).map((_, i) => {
+        {Array.from({ length: 17 }).map((_, i) => {
           const colors = ["#8B2FC9","#0E8EC7","#00E5FF","#14CC80"];
           return (
             <div key={i} className="particle" style={{
@@ -65,10 +51,10 @@ export default function Hero() {
       </div>
 
       {/* Two-column grid: text left, photo right */}
-      <div className="hero-grid" style={{ position: "relative", zIndex: 2, width: "100%", display: "grid", gridTemplateColumns: "1fr 760px", alignItems: "center", gap: 40 }}>
+      <div className="hero-grid" style={{ position: "relative", zIndex: 2, width: "100%", display: "grid", gridTemplateColumns: "minmax(0, 1fr) minmax(420px, 520px)", alignItems: "center", justifyContent: "space-between", gap: "clamp(48px, 6vw, 88px)" }}>
 
         {/* Left: text content */}
-        <div style={{ maxWidth: 620 }}>
+        <div className="hero-copy" style={{ maxWidth: 620, minWidth: 0 }}>
           {/* Trigger badge */}
           <motion.div {...fadeUp(0)}>
             <div style={{
@@ -88,7 +74,7 @@ export default function Hero() {
           <motion.p {...fadeUp(0.1)} style={{
             fontFamily: "var(--font-mono)", fontSize: 14, color: "var(--cyan)", marginBottom: 14,
           }}>
-            // Power Platform Developer · CMA CGM
+            {"// Power Platform Developer · CMA CGM"}
           </motion.p>
 
           <motion.h1 {...fadeUp(0.2)} style={{
@@ -180,7 +166,7 @@ export default function Hero() {
           initial={{ opacity: 0, x: 48, scale: 0.94 }}
           animate={{ opacity: 1, x: 0, scale: 1 }}
           transition={{ duration: 0.95, delay: 0.32, ease: [0.16, 1, 0.3, 1] }}
-          style={{ position: "relative", display: "flex", justifyContent: "center", alignItems: "center", flexShrink: 0, width: 420, height: 520 }}
+          style={{ position: "relative", display: "flex", justifyContent: "center", alignItems: "center", justifySelf: "end", flexShrink: 0, width: 420, maxWidth: "100%", height: 520 }}
         >
           {/* Dual ambient glows — echoing the photo's own studio lighting */}
           {/* Teal: left-bottom (cool light side) */}
@@ -345,7 +331,7 @@ export default function Hero() {
         initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.9, duration: 0.5 }}
         style={{
-          position: "absolute", bottom: 40, left: 80,
+          position: "absolute", bottom: 40, left: "clamp(32px, 6vw, 80px)",
           display: "inline-flex", alignItems: "center", gap: 8,
           fontFamily: "var(--font-mono)", fontSize: 11,
           textTransform: "uppercase", letterSpacing: "0.18em",
@@ -356,6 +342,12 @@ export default function Hero() {
       </motion.a>
 
       <style>{`
+        @media (max-width: 1320px) {
+          .hero-grid {
+            grid-template-columns: minmax(0, 1fr) 420px !important;
+            gap: 40px !important;
+          }
+        }
         @media (max-width: 1180px) {
           .hero-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
           .hero-photo { display: none !important; }

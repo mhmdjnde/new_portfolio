@@ -31,7 +31,7 @@ export default function BgCanvas() {
     for (let i = 0; i < 14; i++) litNodes.add(`${Math.floor(Math.random()*40)},${Math.floor(Math.random()*30)}`);
 
     // Particles
-    const pts = Array.from({ length: 20 }, () => {
+    const pts = Array.from({ length: 17 }, () => {
       const d = DIRS[Math.floor(Math.random() * 4)];
       return {
         x: Math.floor(Math.random() * 36) * G,

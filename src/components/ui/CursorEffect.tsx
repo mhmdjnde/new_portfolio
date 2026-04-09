@@ -7,21 +7,26 @@ export default function CursorEffect() {
   const [visible,  setVisible]  = useState(false);
   const [clicking, setClicking] = useState(false);
   const [hovering, setHovering] = useState(false);
-  const [isTouch,  setIsTouch]  = useState(false);
+  const [scrolling, setScrolling] = useState(false);
+  const [isTouch] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return window.matchMedia("(pointer: coarse)").matches;
+  });
 
   // Refs so event handlers never hold stale closures, and never re-register
   const visibleRef     = useRef(false);
   const lastTargetRef  = useRef<Element | null>(null);
+  const lastXRef       = useRef(-200);
+  const lastYRef       = useRef(-200);
+  const scrollingRef   = useRef(false);
 
   const mouseX = useMotionValue(-200);
   const mouseY = useMotionValue(-200);
 
-  // Ring — fast but still has a little personality
-  const ringX = useSpring(mouseX, { stiffness: 420, damping: 30, mass: 0.35 });
-  const ringY = useSpring(mouseY, { stiffness: 420, damping: 30, mass: 0.35 });
-
-  // Dot uses mouseX/mouseY directly — zero lag, 1:1 with the real cursor
-  // (no useSpring wrapper needed)
+  // Ring and dot both use the exact same live pointer coordinates.
+  // This avoids the visible split where the center dot moves but the larger ring lags behind.
+  const ringX = mouseX;
+  const ringY = mouseY;
 
   // Comet trail — faster cascade, still shows motion
   const t1x = useSpring(mouseX, { stiffness: 580, damping: 30, mass: 0.55 });
@@ -50,18 +55,29 @@ export default function CursorEffect() {
   ];
 
   useEffect(() => {
-    const touch = window.matchMedia("(pointer: coarse)").matches;
-    setIsTouch(touch);
-    if (touch) return;
+    if (isTouch) return;
+
+    const syncHoverTarget = () => {
+      const el = document.elementFromPoint(lastXRef.current, lastYRef.current);
+      lastTargetRef.current = el;
+      setHovering(!!el?.closest("a, button, [role='button'], input, textarea, select, label"));
+    };
 
     const onMove = (e: MouseEvent) => {
+      lastXRef.current = e.clientX;
+      lastYRef.current = e.clientY;
       mouseX.set(e.clientX);
       mouseY.set(e.clientY);
+      if (scrollingRef.current) {
+        scrollingRef.current = false;
+        setScrolling(false);
+      }
       // Use ref — no stale closure, no re-render-triggered re-registration
       if (!visibleRef.current) {
         visibleRef.current = true;
         setVisible(true);
       }
+      syncHoverTarget();
     };
 
     const onDown  = () => setClicking(true);
@@ -78,10 +94,20 @@ export default function CursorEffect() {
       setHovering(!!el.closest("a, button, [role='button'], input, textarea, select, label"));
     };
 
+    const onViewportChange = () => {
+      scrollingRef.current = true;
+      setScrolling(true);
+      setHovering(false);
+      lastTargetRef.current = null;
+      syncHoverTarget();
+    };
+
     window.addEventListener("mousemove",  onMove,  { passive: true });
     window.addEventListener("mousedown",  onDown,  { passive: true });
     window.addEventListener("mouseup",    onUp,    { passive: true });
     window.addEventListener("mouseover",  onOver,  { passive: true });
+    window.addEventListener("scroll",     onViewportChange, { passive: true });
+    window.addEventListener("hashchange", onViewportChange);
     document.documentElement.addEventListener("mouseleave", onLeave);
     document.documentElement.addEventListener("mouseenter", onEnter);
 
@@ -90,10 +116,12 @@ export default function CursorEffect() {
       window.removeEventListener("mousedown",  onDown);
       window.removeEventListener("mouseup",    onUp);
       window.removeEventListener("mouseover",  onOver);
+      window.removeEventListener("scroll",     onViewportChange);
+      window.removeEventListener("hashchange", onViewportChange);
       document.documentElement.removeEventListener("mouseleave", onLeave);
       document.documentElement.removeEventListener("mouseenter", onEnter);
     };
-  }, []); // ← empty: listeners register once, never re-register
+  }, [isTouch, mouseX, mouseY]);
 
   if (isTouch) return null;
 
@@ -115,7 +143,7 @@ export default function CursorEffect() {
             boxShadow: `0 0 ${t.size * 2.8}px ${t.color}`,
           }}
           animate={{
-            opacity: visible ? t.opacity : 0,
+            opacity: visible && !scrolling ? t.opacity : 0,
             scale:   clicking ? 0.35 : 1,
           }}
           transition={{ opacity: { duration: 0.18 } }}
@@ -126,7 +154,7 @@ export default function CursorEffect() {
       <motion.div
         className="fixed top-0 left-0 pointer-events-none z-[9997]"
         style={{ x: ringX, y: ringY, translateX: "-50%", translateY: "-50%", width: 64, height: 64 }}
-        animate={{ opacity: visible ? (hovering ? 0.7 : 0.22) : 0 }}
+        animate={{ opacity: visible && !scrolling ? (hovering ? 0.7 : 0.22) : 0 }}
         transition={{ opacity: { duration: 0.15 } }}
       >
         <div
@@ -141,9 +169,9 @@ export default function CursorEffect() {
       {/* Outer glow ring + hover label */}
       <motion.div
         className="fixed top-0 left-0 pointer-events-none z-[9998] rounded-full"
-        style={{ x: ringX, y: ringY, translateX: "-50%", translateY: "-50%", position: "relative" }}
+        style={{ x: ringX, y: ringY, translateX: "-50%", translateY: "-50%" }}
         animate={{
-          opacity: visible ? 1 : 0,
+          opacity: visible && !scrolling ? 1 : 0,
           scale:   clicking ? 0.65 : hovering ? 1.9 : 1,
           width:   40,
           height:  40,
@@ -196,7 +224,7 @@ export default function CursorEffect() {
           transition: "background 0.08s, box-shadow 0.08s",
         }}
         animate={{
-          opacity: visible ? 1 : 0,
+          opacity: visible && !scrolling ? 1 : 0,
           scale:   clicking ? 0.5 : hovering ? 0 : 1,
         }}
         transition={{
