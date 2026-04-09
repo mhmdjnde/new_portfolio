@@ -51,7 +51,7 @@ export default function Hero() {
       </div>
 
       {/* Two-column grid: text left, photo right */}
-      <div className="hero-grid" style={{ position: "relative", zIndex: 2, width: "100%", display: "grid", gridTemplateColumns: "1fr 340px", alignItems: "center", gap: 72 }}>
+      <div className="hero-grid" style={{ position: "relative", zIndex: 2, width: "100%", display: "grid", gridTemplateColumns: "1fr 560px", alignItems: "center", gap: 56 }}>
 
         {/* Left: text content */}
         <div style={{ maxWidth: 620 }}>
@@ -168,63 +168,48 @@ export default function Hero() {
           transition={{ duration: 0.95, delay: 0.32, ease: [0.16, 1, 0.3, 1] }}
           style={{ position: "relative", display: "flex", justifyContent: "center", flexShrink: 0 }}
         >
-          {/* Ambient glow behind photo */}
+          {/* Wide cinematic glow — blue/teal to match holographic screens in photo */}
           <div style={{
-            position: "absolute", inset: -48,
-            background: "radial-gradient(ellipse at 50% 55%, rgba(139,47,201,0.24) 0%, rgba(14,142,199,0.14) 42%, transparent 72%)",
+            position: "absolute", inset: -80,
+            background: "radial-gradient(ellipse at 50% 60%, rgba(14,142,199,0.30) 0%, rgba(0,229,255,0.10) 45%, transparent 72%)",
+            filter: "blur(56px)", pointerEvents: "none",
+          }} />
+          <div style={{
+            position: "absolute", inset: -40,
+            background: "radial-gradient(ellipse at 20% 50%, rgba(139,47,201,0.12) 0%, transparent 55%)",
             filter: "blur(36px)", pointerEvents: "none",
           }} />
 
-          {/* Tech UI corner brackets */}
-          <div style={{ position: "absolute", top: -8, left: -8, width: 24, height: 24, borderTop: "2px solid rgba(139,47,201,0.75)", borderLeft: "2px solid rgba(139,47,201,0.75)", borderRadius: "5px 0 0 0", zIndex: 10 }} />
-          <div style={{ position: "absolute", top: -8, right: -8, width: 24, height: 24, borderTop: "2px solid rgba(0,229,255,0.65)", borderRight: "2px solid rgba(0,229,255,0.65)", borderRadius: "0 5px 0 0", zIndex: 10 }} />
-          <div style={{ position: "absolute", bottom: -8, left: -8, width: 24, height: 24, borderBottom: "2px solid rgba(14,142,199,0.65)", borderLeft: "2px solid rgba(14,142,199,0.65)", borderRadius: "0 0 0 5px", zIndex: 10 }} />
-          <div style={{ position: "absolute", bottom: -8, right: -8, width: 24, height: 24, borderBottom: "2px solid rgba(139,47,201,0.55)", borderRight: "2px solid rgba(139,47,201,0.55)", borderRadius: "0 0 5px 0", zIndex: 10 }} />
-
-          {/* Gradient border frame */}
+          {/* Photo — landscape, clean, no frame */}
           <div style={{
-            padding: "1.5px",
-            borderRadius: 26,
-            background: "linear-gradient(145deg, rgba(139,47,201,0.7) 0%, rgba(14,142,199,0.55) 50%, rgba(0,229,255,0.6) 100%)",
-            boxShadow: "0 0 90px rgba(139,47,201,0.22), 0 36px 90px rgba(0,0,0,0.6)",
+            position: "relative", borderRadius: 16, overflow: "hidden",
+            width: 760, height: 515,
+            boxShadow: "0 24px 80px rgba(0,0,0,0.80), 0 0 0 1px rgba(14,142,199,0.10), 0 0 70px rgba(14,142,199,0.14)",
           }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/profile.png"
+              alt="Mohamad Joundi"
+              style={{
+                width: "100%", height: "100%",
+                objectFit: "cover", objectPosition: "50% 30%",
+                display: "block",
+              }}
+            />
+            {/* Subtle bottom fade */}
             <div style={{
-              position: "relative", borderRadius: 25, overflow: "hidden",
-              background: "#07071C", width: 320, height: 435,
-            }}>
-              {/* Scanner sweep */}
-              <div className="scanner-line" style={{ zIndex: 5 }} />
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/profile.png"
-                alt="Mohamad Joundi"
-                style={{
-                  width: "100%", height: "100%",
-                  objectFit: "cover", objectPosition: "50% 6%",
-                  display: "block",
-                }}
-              />
-              {/* Bottom dissolve into dark */}
-              <div style={{
-                position: "absolute", bottom: 0, left: 0, right: 0, height: "48%",
-                background: "linear-gradient(to top, #07071C 0%, rgba(7,7,28,0.72) 48%, transparent 100%)",
-                pointerEvents: "none",
-              }} />
-              {/* Side vignettes */}
-              <div style={{
-                position: "absolute", inset: 0,
-                background: "linear-gradient(to right, rgba(7,7,28,0.52) 0%, transparent 24%, transparent 76%, rgba(7,7,28,0.52) 100%)",
-                pointerEvents: "none",
-              }} />
-            </div>
+              position: "absolute", bottom: 0, left: 0, right: 0, height: "30%",
+              background: "linear-gradient(to top, rgba(7,7,28,0.60) 0%, transparent 100%)",
+              pointerEvents: "none",
+            }} />
           </div>
 
-          {/* Available badge — bottom-left */}
+          {/* Available badge — bottom-left, sits below the image */}
           <motion.div
             initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.88, duration: 0.5 }}
             style={{
-              position: "absolute", bottom: 22, left: -32,
+              position: "absolute", bottom: -18, left: 16,
               background: "rgba(7,7,28,0.88)", border: "1px solid rgba(0,229,255,0.24)",
               borderRadius: 12, padding: "9px 15px",
               fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--cyan)",
@@ -237,12 +222,12 @@ export default function Hero() {
             Available for selected work
           </motion.div>
 
-          {/* Role badge — top-right */}
+          {/* Role badge — top-right, floats above image */}
           <motion.div
             initial={{ opacity: 0, scale: 0.75 }} animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 1.02, duration: 0.45, type: "spring", stiffness: 280 }}
             style={{
-              position: "absolute", top: 18, right: -30,
+              position: "absolute", top: -16, right: 16,
               background: "rgba(7,7,28,0.88)", border: "1px solid rgba(139,47,201,0.3)",
               borderRadius: 10, padding: "7px 13px",
               fontFamily: "var(--font-mono)", fontSize: 10, color: "rgba(180,100,240,1)",
@@ -252,27 +237,6 @@ export default function Hero() {
           >
             CMA CGM · Dev
           </motion.div>
-
-          {/* Floating accent dots */}
-          {(
-            [
-              { offset: { left: "-22px" }, top: "32%", color: "#8B2FC9", size: 4 },
-              { offset: { left: "-16px" }, top: "62%", color: "#0E8EC7", size: 3 },
-              { offset: { right: "-20px" }, top: "48%", color: "#00E5FF", size: 3.5 },
-              { offset: { right: "-14px" }, top: "72%", color: "#14CC80", size: 2.5 },
-            ] as { offset: React.CSSProperties; top: string; color: string; size: number }[]
-          ).map((p, i) => (
-            <div key={i} className="animate-float" style={{
-              position: "absolute", top: p.top, ...p.offset,
-              width: p.size, height: p.size,
-              borderRadius: "50%",
-              background: p.color,
-              boxShadow: `0 0 10px ${p.color}`,
-              animationDelay: `${i * 0.7}s`,
-              animationDuration: `${4 + i * 0.8}s`,
-              pointerEvents: "none",
-            }} />
-          ))}
         </motion.div>
 
       </div>
@@ -294,7 +258,7 @@ export default function Hero() {
       </motion.a>
 
       <style>{`
-        @media (max-width: 1100px) {
+        @media (max-width: 1360px) {
           .hero-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
           .hero-photo { display: none !important; }
         }
