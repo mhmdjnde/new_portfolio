@@ -12,10 +12,6 @@
   A cinematic developer portfolio for Mohamad Joundi, built as a digital control room for enterprise-minded engineering, Power Platform work, and 42 Beirut projects.
 </p>
 
-<p align="center">
-  <img src="./hero-fixed.png" alt="Hero preview of the portfolio homepage" width="100%" />
-</p>
-
 ## What This Is
 
 This is not a plain portfolio template with a photo, a few links, and a dark background.
@@ -38,10 +34,6 @@ The site combines personal branding with a strong product-like presentation:
 - a dedicated Power Platform section focused on real-world automation and internal tooling
 - a projects area that balances NDA-bound enterprise work with public technical projects
 - a contact flow backed by a custom email route for real inquiries
-
-<p align="center">
-  <img src="./sections-mid.png" alt="Mid-page preview of the portfolio sections" width="100%" />
-</p>
 
 ## Stack
 
@@ -157,4 +149,3 @@ It is meant to feel confident, modern, and unmistakably personal.
 - Live: https://mhmdjnde.dev
 - Repo: https://github.com/mhmdjnde/new_portfolio
 - LinkedIn: https://www.linkedin.com/in/mohamad-joundi/
-
